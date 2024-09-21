@@ -6,7 +6,7 @@ from rewlis.entity import *
 
 class Model:
 
-    def __init__(self, controller, target):
+    def __init__(self, controller=None, target=None):
         self.controller = controller
         self.app = None if self.controller is None else controller.app
         self.target = target
