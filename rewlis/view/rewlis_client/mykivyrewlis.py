@@ -28,7 +28,7 @@ class MyKivyRewlis(KivyApp):
 
     def build(self):
         self.icon = self.model.conf.ICON_ICO
-        self.title = f"{self.model.conf.NAME} v{VERSION}"
+        self.title = f"{self.model.conf.NAME}"
         self.controller.container.size_hint = (1, 1)
         self.controller.container.do_default_tab = False
         self.controller.container.add_widget(self.controller.catalog)

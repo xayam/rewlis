@@ -18,7 +18,7 @@ class MyKivyCreator(KivyApp):
 
     def build(self):
         self.icon = self.model.conf.ICON_ICO
-        self.title = "Rewlis Creator v" + VERSION
+        self.title = "Rewlis Creator"
 
         return self.controller.container
 
