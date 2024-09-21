@@ -10,7 +10,7 @@ class Panel(AnchorLayout):
 
     def __init__(self, controller, **kwargs):
         AnchorLayout.__init__(self,
-                              size_hint=(0.25, 1),
+                              size_hint=(0.33, 1),
                               **kwargs)
         self.gridlayout = None
         self.scrollview = None
@@ -24,10 +24,10 @@ class Panel(AnchorLayout):
                                      size_hint=(1, None),
                                      padding=[10, 5],
                                      spacing=[5])
-        for i in range(200):
-            btn = Button(text=str(i))
+        for book in self.controller.creator.folder_of_books:
+            btn = Button(text=book)
             self.gridlayout.add_widget(btn)
-        self.gridlayout.size = 1, 30 * 200
+        self.gridlayout.size = 1, 30 * len(self.controller.creator.folder_of_books)
         self.scrollview.add_widget(self.gridlayout)
         self.add_widget(self.scrollview)
         return self
