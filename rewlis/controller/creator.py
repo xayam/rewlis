@@ -15,8 +15,8 @@ from rewlis.utils import *
 
 class Creator:
 
-    def __init__(self):
-        self.model = Model()
+    def __init__(self, model):
+        self.model = model
         self.config = self.model.conf
 
     def create(self):
@@ -252,4 +252,4 @@ class Creator:
 
 
 if __name__ == "__main__":
-    Creator().create()
+    Creator(Model()).create()
