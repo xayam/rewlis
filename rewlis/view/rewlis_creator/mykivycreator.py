@@ -1,8 +1,6 @@
 from kivy.config import Config
 from kivy.app import App as KivyApp
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 
 from rewlis.view.rewlis_creator.menu import Menu
 from rewlis.view.rewlis_creator.panel import Panel
