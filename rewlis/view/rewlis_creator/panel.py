@@ -8,12 +8,14 @@ from kivy.uix.widget import Widget
 
 class Panel(AnchorLayout):
 
-    def __init__(self, **kwargs):
+    def __init__(self, controller, **kwargs):
         AnchorLayout.__init__(self,
                               size_hint=(0.25, 1),
                               **kwargs)
         self.gridlayout = None
         self.scrollview = None
+        self.controller = controller
+        self.model = self.controller.model
 
     def init(self):
         self.scrollview = ScrollView(do_scroll_y=True,

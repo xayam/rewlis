@@ -20,10 +20,9 @@ class Creator:
         self.config = self.model.conf
 
     def create(self):
-
-        data = "../../datacreate"
+        data = self.model.conf.FOLDER_CREATE
         if not os.path.exists(data):
-            data = "datacreate"
+            data = "../../" + self.model.conf.FOLDER_CREATE
             if not os.path.exists(data):
                 os.mkdir(data)
 

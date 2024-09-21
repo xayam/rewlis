@@ -10,7 +10,8 @@ class Conf:
 
     OPTIONS = "options.json"
     CONFIG = "config.sh"
-
+    FOLDER_CREATE = "datacreate"
+    FOLDER_PUBLIC = "data"
     LICENSE = "LICENSE"
     CASES_HTML = os.getcwd() + "/cases.html"
     README_MD = os.getcwd() + "/README.md"

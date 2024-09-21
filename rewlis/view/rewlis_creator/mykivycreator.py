@@ -13,8 +13,6 @@ class MyKivyCreator(KivyApp):
         super().__init__()
         self.project = None
         self.menu = None
-        self.panel2 = None
-        self.panel1 = None
         self.panel = None
         self.layout = None
         self.model = model
@@ -26,7 +24,7 @@ class MyKivyCreator(KivyApp):
     def build(self):
         self.icon = self.model.conf.ICON_ICO
         self.title = "Rewlis Creator"
-        self.panel = Panel().init()
+        self.panel = Panel(controller=self.controller).init()
         self.menu = Menu().init()
         self.project = Project().init()
         self.layout = BoxLayout()
