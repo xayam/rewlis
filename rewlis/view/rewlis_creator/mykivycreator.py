@@ -25,7 +25,7 @@ class MyKivyCreator(KivyApp):
     def build(self):
         self.icon = self.model.conf.ICON_ICO
         self.title = "Rewlis Creator"
-        self.panel1 = Panel(anchor_x="left", anchor_y="center").init()
+        self.panel1 = Panel().init()
         self.panel2 = Project().init()
         self.layout = BoxLayout()
         self.layout.add_widget(self.panel1)
