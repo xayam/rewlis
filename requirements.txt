@@ -1,0 +1,16 @@
+kivy
+ffpyplayer
+requests
+pyinstaller==5.6.2
+pyinstaller-hooks-contrib==2022.13
+chardet
+numpy
+Pillow
+scikit-learn
+sox
+vosk
+gensim
+pandas
+regex
+mutagen
+tensorflow_text==2.10.0
