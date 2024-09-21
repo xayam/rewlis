@@ -10,7 +10,8 @@ class Menu(AnchorLayout):
 
     def __init__(self, **kwargs):
         AnchorLayout.__init__(self,
-                              size_hint=(0.1, 1),
+                              size_hint=(None, 1),
+                              size=(100, 1),
                               **kwargs)
         self.gridlayout = None
         self.scrollview = None
@@ -18,11 +19,15 @@ class Menu(AnchorLayout):
     def init(self):
         self.gridlayout = GridLayout(cols=1,
                                      size_hint=(1, None),
-                                     padding=[0, 0],
-                                     spacing=[0])
-        btn = Button(text="Add...")
+                                     padding=[5, 5],
+                                     spacing=[5])
+        btn = Button(text="REFRESH", size_hint=(1, None), size=(1, 100))
         self.gridlayout.add_widget(btn)
-        btn = Button(text="Refresh")
+        btn = Button(text="ADD", size_hint=(1, None), size=(1, 100))
+        self.gridlayout.add_widget(btn)
+        btn = Button(text="PROCESS", size_hint=(1, None), size=(1, 100))
+        self.gridlayout.add_widget(btn)
+        btn = Button(text="PUBLIC", size_hint=(1, None), size=(1, 100))
         self.gridlayout.add_widget(btn)
         self.add_widget(self.gridlayout)
         return self

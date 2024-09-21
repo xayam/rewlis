@@ -22,12 +22,10 @@ class Panel(AnchorLayout):
                                      size_hint=(1, None),
                                      padding=[10, 5],
                                      spacing=[5])
-        for i in range(199):
+        for i in range(200):
             btn = Button(text=str(i))
             self.gridlayout.add_widget(btn)
         self.gridlayout.size = 1, 30 * 200
         self.scrollview.add_widget(self.gridlayout)
-        # self.button = Button(text="+")
-        # self.add_widget(self.button)
         self.add_widget(self.scrollview)
         return self
