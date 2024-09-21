@@ -13,3 +13,6 @@ class Project(AnchorLayout):
 
     def init(self):
         return self
+
+    def load_project(self, book):
+        print(book)

@@ -1,3 +1,4 @@
+import os.path
 import sys
 
 from kivy.uix.anchorlayout import AnchorLayout
@@ -27,13 +28,22 @@ class Panel(AnchorLayout):
                                      padding=[10, 5],
                                      spacing=[5])
         for book in self.controller.creator.folder_of_books:
+            if os.path.exists(
+                self.controller.creator.data + "/" + book + "/" + \
+                self.model.conf.VALID
+            ):
+                bgc = (0., 1., 0., 1.)
+            else:
+                bgc = (1., 0., 0., 1.)
             btn = Button(text=book,
-                         on_release=lambda e: sys.exit())
+                         on_release=self.load,
+                         background_color=bgc,
+                         )
             self.gridlayout.add_widget(btn)
-        self.gridlayout.size = 1, 30 * len(self.controller.creator.folder_of_books)
+        self.gridlayout.size = 1, 50 * len(self.controller.creator.folder_of_books)
         self.scrollview.add_widget(self.gridlayout)
         self.add_widget(self.scrollview)
         return self
 
-    def load(self):
-        self.controller
+    def load(self, button):
+        self.controller.project.load_project(button.text)

@@ -11,7 +11,8 @@ class Menu(AnchorLayout):
     def __init__(self, controller, **kwargs):
         AnchorLayout.__init__(self,
                               size_hint=(None, 1),
-                              size=(100, 1),
+                              size=(95, 1),
+                              anchor_y="top",
                               **kwargs)
         self.gridlayout = None
         self.scrollview = None
@@ -22,14 +23,18 @@ class Menu(AnchorLayout):
         self.gridlayout = GridLayout(cols=1,
                                      size_hint=(1, None),
                                      padding=[5, 5],
-                                     spacing=[5])
-        btn = Button(text="REFRESH", size_hint=(1, None), size=(1, 100))
+                                     spacing=[1])
+        btn = Button(text="REFRESH", size_hint=(1, None), size=(1, 95))
         self.gridlayout.add_widget(btn)
-        btn = Button(text="ADD", size_hint=(1, None), size=(1, 100))
+        btn = Button(text="ADD", size_hint=(1, None), size=(1, 95))
         self.gridlayout.add_widget(btn)
-        btn = Button(text="PROCESS", size_hint=(1, None), size=(1, 100))
+        btn = Button(text="PROCESS", size_hint=(1, None), size=(1, 95))
         self.gridlayout.add_widget(btn)
-        btn = Button(text="PUBLIC", size_hint=(1, None), size=(1, 100))
+        btn = Button(text="PREVIEW", size_hint=(1, None), size=(1, 95))
+        self.gridlayout.add_widget(btn)
+        btn = Button(text="ZIPPED", size_hint=(1, None), size=(1, 95))
+        self.gridlayout.add_widget(btn)
+        btn = Button(text="SHARE", size_hint=(1, None), size=(1, 95))
         self.gridlayout.add_widget(btn)
         self.add_widget(self.gridlayout)
         return self
