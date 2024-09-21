@@ -27,13 +27,13 @@ class MyKivyCreator(KivyApp):
     def build(self):
         self.icon = self.model.conf.ICON_ICO
         self.title = "Rewlis Creator"
-        self.panel = Panel(controller=self.controller).init()
-        self.menu = Menu().init()
-        self.project = Project().init()
+        self.controller.menu = Menu(controller=self.controller).init()
+        self.controller.project = Project(controller=self.controller).init()
+        self.controller.panel = Panel(controller=self.controller).init()
         self.layout = BoxLayout()
-        self.layout.add_widget(self.panel)
-        self.layout.add_widget(self.menu)
-        self.layout.add_widget(self.project)
+        self.layout.add_widget(self.controller.panel)
+        self.layout.add_widget(self.controller.menu)
+        self.layout.add_widget(self.controller.project)
         self.controller.container = self.layout
         return self.controller.container
 

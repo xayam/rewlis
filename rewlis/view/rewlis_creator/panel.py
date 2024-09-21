@@ -1,3 +1,5 @@
+import sys
+
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -25,9 +27,13 @@ class Panel(AnchorLayout):
                                      padding=[10, 5],
                                      spacing=[5])
         for book in self.controller.creator.folder_of_books:
-            btn = Button(text=book)
+            btn = Button(text=book,
+                         on_release=lambda e: sys.exit())
             self.gridlayout.add_widget(btn)
         self.gridlayout.size = 1, 30 * len(self.controller.creator.folder_of_books)
         self.scrollview.add_widget(self.gridlayout)
         self.add_widget(self.scrollview)
         return self
+
+    def load(self):
+        self.controller

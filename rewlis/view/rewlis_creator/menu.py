@@ -8,13 +8,15 @@ from kivy.uix.widget import Widget
 
 class Menu(AnchorLayout):
 
-    def __init__(self, **kwargs):
+    def __init__(self, controller, **kwargs):
         AnchorLayout.__init__(self,
                               size_hint=(None, 1),
                               size=(100, 1),
                               **kwargs)
         self.gridlayout = None
         self.scrollview = None
+        self.controller = controller
+        self.model = self.controller.model
 
     def init(self):
         self.gridlayout = GridLayout(cols=1,

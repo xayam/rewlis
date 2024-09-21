@@ -32,7 +32,7 @@ class Catalog(TabbedPanelItem):
         self.controller.catalog_input = TextInput(size_hint_y=None,
                                                   font_size='16sp',
                                                   multiline=False,
-                                                  hint_text=f"v{VERSION}_{self.model.target}",
+                                                  hint_text=f"{self.model.target}",
                                                   text="")
         self.controller.catalog_input.size = ('32sp', '32sp')
         self.catalog_buttons = GridLayout(rows=1,
