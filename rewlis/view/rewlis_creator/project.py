@@ -6,11 +6,13 @@ from kivy.uix.boxlayout import BoxLayout
 from rewlis.view.rewlis_creator.mycheckbox import MyCheckBox
 
 
-class Project(AnchorLayout):
+class Project(BoxLayout):
 
     def __init__(self, controller, **kwargs):
-        AnchorLayout.__init__(self,
-                              **kwargs)
+        BoxLayout.__init__(self,
+                           orientation="vertical",
+                           size_hint=(1, None),
+                           **kwargs)
         self.layout = None
         self.controller = controller
         self.model = self.controller.model
@@ -28,10 +30,12 @@ class Project(AnchorLayout):
 
 
     def init(self):
-        self.layout = BoxLayout(orientation="vertical")
+        self.layout = BoxLayout(orientation="vertical",
+                                size_hint=(1, 1))
         for w in self.cbs:
             self.layout.add_widget(self.cbs[w])
         self.add_widget(self.layout)
+        self.size = 1, 30 * len(self.cbs)
         return self
 
     def load_project(self, book, current):

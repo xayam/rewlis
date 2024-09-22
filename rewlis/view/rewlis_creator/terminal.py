@@ -11,8 +11,7 @@ class Terminal(TextInput):
         self.model = model
         self.controller = self.model.controller
         super().__init__(
-            size_hint=(1, None),
-            size=(1, 550),
+            size_hint=(1, 1),
             padding=(10, 10),
             focus=False,
             use_bubble=False,
@@ -23,10 +22,13 @@ class Terminal(TextInput):
             foreground_color=self.model.opt[FG],
             **kwargs
         )
+        self.stdout = sys.stdout
         self.is_focusable = True
 
     def write(self, message):
         self.text = self.text + message
+        self.stdout.write(message)
+        self.stdout.flush()
 
     def flush(self):
         pass

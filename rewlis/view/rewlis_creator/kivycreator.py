@@ -2,6 +2,7 @@ import sys
 
 from kivy.config import Config
 from kivy.app import App as KivyApp
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 
 from rewlis.controller.creator import Creator
@@ -19,6 +20,7 @@ class KivyCreator(KivyApp):
         self.menu = None
         self.panel = None
         self.layout = None
+        self.layout2 = None
         self.model = model
         self.app = self.model.app
         self.controller = self.model.controller
@@ -35,7 +37,8 @@ class KivyCreator(KivyApp):
         self.controller.project = Project(controller=self.controller).init()
         self.controller.panel = Panel(controller=self.controller).init()
         self.layout = BoxLayout()
-        self.layout2 = BoxLayout(orientation="vertical")
+        self.layout2 = BoxLayout(orientation="vertical",
+                                 size_hint=(1, 1))
         self.layout.add_widget(self.controller.panel)
         self.layout.add_widget(self.controller.menu)
         self.layout2.add_widget(self.controller.project)
