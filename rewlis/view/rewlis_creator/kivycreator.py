@@ -2,7 +2,6 @@ import sys
 
 from kivy.config import Config
 from kivy.app import App as KivyApp
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 
 from rewlis.controller.creator import Creator
@@ -24,10 +23,11 @@ class KivyCreator(KivyApp):
         self.model = model
         self.app = self.model.app
         self.controller = self.model.controller
+        self.controller.app = self
         self.controller.creator = Creator(model=self.model)
         self.controller.creator.init()
         sys.stdout = Terminal(model=self.model)
-
+        self.controller.terminal = sys.stdout
         Config.set('kivy', 'window_icon', self.model.conf.ICON_PNG)
 
     def build(self):

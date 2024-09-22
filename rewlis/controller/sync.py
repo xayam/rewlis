@@ -9,7 +9,8 @@ from rewlis.utils import *
 
 
 class Sync:
-    def __init__(self, output, language):
+    def __init__(self, controller, output, language):
+        self.controller = controller
         self.output = output
         np.set_printoptions(threshold=int(np.inf))
         self.MAPJSON = f"{self.output}/{language}.map.json"
@@ -30,7 +31,7 @@ class Sync:
         R_window = int(L_window * (len(R_word) / len(L_word)))
         maxtime = {"max_time": 0, "L": L, "R": R}
         if not os.path.exists(self.SYNCJSON):
-            print("Not find file self.SYNCJSON, creating...")
+            self.controller.cprint("Not find file self.SYNCJSON, creating...")
             while (L < len(L_word)) and (R < len(R_word)):
                 # scores = process.cdist(L_chunk, R_chunk, scorer=fuzz.ratio,
                 #                        dtype=np.uint8, score_cutoff=100)
@@ -54,31 +55,30 @@ class Sync:
                                  L_start[L + a],
                                  L_end[L + a],
                                  L + a])
-                    print(L_word[L + a], R_word[R + b], sep="|||")
+                    self.controller.cprint(L_word[L + a], R_word[R + b], sep="|||")
                 if (a == -1) or (b == -1):
                     break
                 L = L + a + 1
                 R = R + b + 1
-                print(f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, TIME_START={sync[-1][TIME_START]}")
-                print(maxtime)
+                self.controller.cprint(
+                    f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, TIME_START={sync[-1][TIME_START]}")
+                self.controller.cprint(maxtime)
                 # break
             json_string = json.dumps(sync)
             with open(self.SYNCJSON, mode="w") as fsync:
                 fsync.write(json_string)
 
-        print("Find file self.SYNCJSON")
+        self.controller.cprint("Find file self.SYNCJSON")
         with open(self.SYNCJSON, mode="r") as fsync:
             sync = json.load(fsync)
-
-        print(f"len(L_word)={len(L_word)}")
-        print(f"len(R_word)={len(R_word)}")
-        print(f"len(sync)={len(sync)}")
-
+        self.controller.cprint(f"len(L_word)={len(L_word)}")
+        self.controller.cprint(f"len(R_word)={len(R_word)}")
+        self.controller.cprint(f"len(sync)={len(sync)}")
         return sync
 
-    @staticmethod
-    def create_sync_v2(synchronize, L_word, R_word, L_end, R_end, L_len, R_len,
-                       append=True, L_window=50):
+
+    def create_sync_v2(self, synchronize, L_word, R_word, L_end, R_end, L_len,
+                       R_len, append=True, L_window=50):
         sync1 = []
         L = 0
         R = 0
@@ -103,15 +103,15 @@ class Sync:
                               R_word[R + b],
                               L + a,
                               R + b])
-                print(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
-                print(sync1[-1][L_WORDS])
-                print(sync1[-1][R_WORDS])
+                self.controller.cprint(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
+                self.controller.cprint(sync1[-1][L_WORDS])
+                self.controller.cprint(sync1[-1][R_WORDS])
             if (a == -1) or (b == -1):
                 break
             L = L + a + 1
             R = R + b + 1
-            print(f"L={L}, R={R}")
-            print(maxtime)
+            self.controller.cprint(f"L={L}, R={R}")
+            self.controller.cprint(maxtime)
         if append:
             sync1.append([L_len,
                           R_len,
@@ -119,14 +119,12 @@ class Sync:
                           "",
                           L - 1,
                           R - 1])
-            print(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
-            print(sync1[-1][L_WORDS])
-            print(sync1[-1][R_WORDS])
-
-        print(f"len(L_word)={len(L_word)}")
-        print(f"len(R_word)={len(R_word)}")
-        print(f"len(sync)={len(sync1)}")
-
+            self.controller.cprint(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
+            self.controller.cprint(sync1[-1][L_WORDS])
+            self.controller.cprint(sync1[-1][R_WORDS])
+        self.controller.cprint(f"len(L_word)={len(L_word)}")
+        self.controller.cprint(f"len(R_word)={len(R_word)}")
+        self.controller.cprint(f"len(sync)={len(sync1)}")
         return sync1
 
     @staticmethod

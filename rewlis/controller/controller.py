@@ -1,5 +1,7 @@
 import os
 
+from kivy.clock import Clock
+
 from rewlis.entity import *
 from rewlis.model.model import Model
 
@@ -8,8 +10,10 @@ class Controller:
 
     def __init__(self, app):
 
+        self.message = None
         self.app = app
         self.current_book = None
+        self.terminal = None
         self.creator = None
         self.model = Model(controller=self, target=self.app[TARGET])
         os.environ["TARGET_PLATFORM"] = self.model.target
@@ -24,3 +28,10 @@ class Controller:
             self.view = CLIRewlisServer(model=self.model)
         else:
             self.model.log.error(f"APP_NAME некорректен | {self.app[APP_NAME]}")
+
+    def cprint(self, message):
+        self.message = message
+        Clock.schedule_once(self._clock, 0)
+
+    def _clock(self):
+        self.terminal.write(self.message)

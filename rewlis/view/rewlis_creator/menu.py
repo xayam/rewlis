@@ -1,3 +1,5 @@
+import threading
+
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -41,4 +43,5 @@ class Menu(AnchorLayout):
         return self
 
     def run(self, _):
-        self.controller.creator.process()
+        t = threading.Thread(target=self.controller.creator.process)
+        t.start()

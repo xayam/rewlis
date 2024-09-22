@@ -1,6 +1,7 @@
 import sys
 from datetime import datetime
 import winsound
+from kivy.clock import Clock
 
 from rewlis.entity import *
 

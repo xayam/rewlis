@@ -39,6 +39,7 @@ class Project(BoxLayout):
         return self
 
     def load_project(self, book, current):
+        self.controller.current_book = book
         for w in self.cbs:
             curr = current + "/" + w
             self.cbs[w].label.text = curr

@@ -3,7 +3,8 @@ import os
 
 
 class AudioClass:
-    def __init__(self, audio_list, output, language):
+    def __init__(self, controller, audio_list, output, language):
+        self.controller = controller
         self.MP3 = f"{output}/{language}.mp3"
         self.WAV = f"{output}/{language}.wav"
         self.FLAC = f"{output}/{language}.flac"
@@ -15,6 +16,7 @@ class AudioClass:
     def create_mp3(self):
         if os.path.exists(self.MP3):
             return
+        self.controller.cprint("Create mp3...")
         cbn = sox.Combiner()
         cbn.convert(samplerate=16000, n_channels=1)
         cbn.build(self.audio_list, self.MP3, 'concatenate')
@@ -22,7 +24,7 @@ class AudioClass:
     def create_wav(self):
         if os.path.exists(self.WAV):
             return
-        print("Converting mp3 to wav...")
+        self.controller.cprint("Converting mp3 to wav...")
         cbn = sox.Transformer()
         cbn.convert(samplerate=16000, n_channels=1)
         cbn.build(self.MP3, self.WAV)
@@ -30,7 +32,7 @@ class AudioClass:
     def create_flac(self):
         if os.path.exists(self.FLAC):
             return
-        print("Converting mp3 to flac...")
+        self.controller.cprint("Converting mp3 to flac...")
         cbn = sox.Transformer()
         cbn.convert(samplerate=16000, n_channels=1)
         cbn.build(self.MP3, self.FLAC)

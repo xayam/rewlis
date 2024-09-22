@@ -2,15 +2,14 @@ import sys
 
 from kivy.uix.textinput import TextInput
 
-from rewlis.entity import *
-
 
 class Terminal(TextInput):
 
     def __init__(self, model, **kwargs):
         self.model = model
         self.controller = self.model.controller
-        super().__init__(
+        TextInput.__init__(
+            self,
             size_hint=(1, 1),
             padding=(10, 10),
             focus=False,
@@ -24,6 +23,7 @@ class Terminal(TextInput):
         )
         self.stdout = sys.stdout
         self.is_focusable = True
+
 
     def write(self, message):
         self.text = self.text + message
