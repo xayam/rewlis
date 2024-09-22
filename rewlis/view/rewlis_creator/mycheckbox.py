@@ -16,7 +16,7 @@ class MyCheckBox(BoxLayout):
             active=False, disabled=True
         )
         self.label = Label(
-            text="<select book on left panel or click " +
+            text="<Select book on left panel or Click " +
                  "ADD-button for create new sync-book>",
         )
         self.add_widget(self.checkbox)
