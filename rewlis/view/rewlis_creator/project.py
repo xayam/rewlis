@@ -1,6 +1,4 @@
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.button import Button
-from kivy.uix.widget import Widget
 
 
 class Project(AnchorLayout):
