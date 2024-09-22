@@ -30,6 +30,9 @@ class Conf:
     SYNCBOOKER_TELEGRAM = "@syncbooker_chat"
     EMAIL = "xayam@yandex.ru"
 
+    MP3RUS = "mp3rus"
+    MP3ENG = "mp3eng"
+
     RUS_ANNOT = "rus.annot.txt"
     ENG_ANNOT = "eng.annot.txt"
     RUS_SYNC = "rus.sync.json"

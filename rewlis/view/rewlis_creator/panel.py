@@ -44,4 +44,7 @@ class Panel(AnchorLayout):
         return self
 
     def load(self, button):
-        self.controller.project.load_project(button.text)
+        self.controller.project.load_project(
+            book=button.text,
+            current=self.model.conf.FOLDER_CREATE + "/" + button.text
+        )

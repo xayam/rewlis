@@ -1,3 +1,5 @@
+import sys
+
 from kivy.config import Config
 from kivy.app import App as KivyApp
 from kivy.uix.boxlayout import BoxLayout
@@ -6,6 +8,7 @@ from rewlis.controller.creator import Creator
 from rewlis.view.rewlis_creator.menu import Menu
 from rewlis.view.rewlis_creator.panel import Panel
 from rewlis.view.rewlis_creator.project import Project
+from rewlis.view.rewlis_creator.terminal import Terminal
 
 
 class KivyCreator(KivyApp):
@@ -21,6 +24,7 @@ class KivyCreator(KivyApp):
         self.controller = self.model.controller
         self.controller.creator = Creator(model=self.model)
         self.controller.creator.init()
+        sys.stdout = Terminal(model=self.model)
 
         Config.set('kivy', 'window_icon', self.model.conf.ICON_PNG)
 
@@ -31,9 +35,12 @@ class KivyCreator(KivyApp):
         self.controller.project = Project(controller=self.controller).init()
         self.controller.panel = Panel(controller=self.controller).init()
         self.layout = BoxLayout()
+        self.layout2 = BoxLayout(orientation="vertical")
         self.layout.add_widget(self.controller.panel)
         self.layout.add_widget(self.controller.menu)
-        self.layout.add_widget(self.controller.project)
+        self.layout2.add_widget(self.controller.project)
+        self.layout2.add_widget(sys.stdout)
+        self.layout.add_widget(self.layout2)
         self.controller.container = self.layout
         return self.controller.container
 
