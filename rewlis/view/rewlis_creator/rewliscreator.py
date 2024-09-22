@@ -1,7 +1,7 @@
-from rewlis.view.rewlis_creator.mykivycreator import MyKivyCreator
+from rewlis.view.rewlis_creator.kivycreator import KivyCreator
 
 
-class RewlisCreator(MyKivyCreator):
+class RewlisCreator(KivyCreator):
 
     def __init__(self, model):
         self.model = model

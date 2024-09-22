@@ -8,7 +8,7 @@ from rewlis.view.rewlis_creator.panel import Panel
 from rewlis.view.rewlis_creator.project import Project
 
 
-class MyKivyCreator(KivyApp):
+class KivyCreator(KivyApp):
 
     def __init__(self, model):
         super().__init__()

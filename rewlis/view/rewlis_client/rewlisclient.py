@@ -1,9 +1,9 @@
-from .mykivyrewlis import MyKivyRewlis
+from .kivyclient import KivyClient
 from .action import Action
 from .player import Player
 
 
-class ViewRewlisClient(MyKivyRewlis):
+class RewlisClient(KivyClient):
 
     def __init__(self, model):
         self.model = model

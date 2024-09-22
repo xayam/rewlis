@@ -16,8 +16,8 @@ class Controller:
             from rewlis.view.rewlis_creator.rewliscreator import RewlisCreator
             self.view = RewlisCreator(model=self.model)
         elif self.app[APP_NAME] == APP_CLIENT:
-            from rewlis.view.rewlis_client.viewrewlis import ViewRewlisClient
-            self.view = ViewRewlisClient(model=self.model)
+            from rewlis.view.rewlis_client.rewlisclient import RewlisClient
+            self.view = RewlisClient(model=self.model)
         elif self.app[APP_NAME] == APP_SERVER:
             from rewlis.controller.cli import CLIRewlisServer
             self.view = CLIRewlisServer(model=self.model)

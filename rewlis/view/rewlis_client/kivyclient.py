@@ -11,7 +11,7 @@ from .table import Table
 from .options import Options
 
 
-class MyKivyRewlis(KivyApp):
+class KivyClient(KivyApp):
 
     def __init__(self, model):
         super().__init__()
