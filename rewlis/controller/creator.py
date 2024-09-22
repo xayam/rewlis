@@ -2,7 +2,7 @@ import json
 import os
 from PIL import ImageDraw
 
-from kivy.clock import mainthread
+from kivy.clock import mainthread, Clock
 
 from rewlis.model.model import Model
 from rewlis.controller.eps import *
@@ -28,7 +28,6 @@ class Creator:
             os.mkdir(self.data)
         self.folder_of_books = os.listdir(self.data)
 
-    @mainthread
     def process(self):
         book = self.controller.current_book
         if book is None:
