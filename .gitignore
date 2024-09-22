@@ -17,7 +17,10 @@ rewlis/view/__pycache__/
 rewlis/controller/__pycache__/
 rewlis/model/img.py
 data/
-datacreate/
+
+datacreate/*
+!datacreate/Author_Name_-_Book_Name
+
 options.json
 logcat.txt
 latest.txt
