@@ -9,6 +9,7 @@ class MyCheckBox(BoxLayout):
         BoxLayout.__init__(self,
                            size_hint=(1., None),
                            size=(1, 30),
+                           padding=(7, 7),
                            **kwargs)
         self.checkbox = CheckBox(
             size_hint=(None, 1.),
@@ -16,8 +17,8 @@ class MyCheckBox(BoxLayout):
             active=False, disabled=True
         )
         self.label = Label(
-            text="<Select book on left panel or Click " +
-                 "ADD-button for create new sync-book>",
+            text="<Select book on left panel>",
+            halign="left",
         )
         self.add_widget(self.checkbox)
         self.add_widget(self.label)

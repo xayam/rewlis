@@ -9,7 +9,8 @@ class Controller:
     def __init__(self, app):
 
         self.app = app
-        
+        self.current_book = None
+        self.creator = None
         self.model = Model(controller=self, target=self.app[TARGET])
         os.environ["TARGET_PLATFORM"] = self.model.target
         if self.app[APP_NAME] == APP_CREATOR:

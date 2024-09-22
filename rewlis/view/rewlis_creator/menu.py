@@ -21,17 +21,24 @@ class Menu(AnchorLayout):
                                      size_hint=(1, None),
                                      padding=[5, 5],
                                      spacing=[1])
-        btn = Button(text="REFRESH", size_hint=(1, None), size=(1, 95))
+        btn = Button(text="RUN",
+                     size_hint=(1, None),
+                     size=(1, 95),
+                     background_color=(1., 1., 0., 1.),
+                     on_release=self.run)
         self.gridlayout.add_widget(btn)
-        btn = Button(text="ADD", size_hint=(1, None), size=(1, 95))
+        btn = Button(text="PREVIEW",
+                     size_hint=(1, None),
+                     size=(1, 95),
+                     background_color=(1., 1., 0., 1.))
         self.gridlayout.add_widget(btn)
-        btn = Button(text="PROCESS", size_hint=(1, None), size=(1, 95))
-        self.gridlayout.add_widget(btn)
-        btn = Button(text="PREVIEW", size_hint=(1, None), size=(1, 95))
-        self.gridlayout.add_widget(btn)
-        btn = Button(text="ZIPPED", size_hint=(1, None), size=(1, 95))
-        self.gridlayout.add_widget(btn)
-        btn = Button(text="SHARE", size_hint=(1, None), size=(1, 95))
+        btn = Button(text="SHARE",
+                     size_hint=(1, None),
+                     size=(1, 95),
+                     background_color=(1., 1., 0., 1.))
         self.gridlayout.add_widget(btn)
         self.add_widget(self.gridlayout)
         return self
+
+    def run(self, _):
+        self.controller.creator.process()

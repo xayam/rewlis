@@ -17,9 +17,9 @@ class Terminal(TextInput):
             use_bubble=False,
             use_handles=False,
             scroll_from_swipe=False,
-            selection_color=self.model.opt[SEL],
-            background_color=self.model.opt[BG],
-            foreground_color=self.model.opt[FG],
+            selection_color=(1., 0., 0., 0.3),
+            background_color=(0., 0., 0., 1.),
+            foreground_color=(1., 1., 1., 1.),
             **kwargs
         )
         self.stdout = sys.stdout

@@ -41,7 +41,13 @@ class Project(BoxLayout):
     def load_project(self, book, current):
         for w in self.cbs:
             curr = current + "/" + w
+            self.cbs[w].label.text = curr
+            self.cbs[w].label.text_size = self.cbs[w].label.size
             if os.path.exists(curr):
-                self.cbs[w].label.text = curr
                 self.cbs[w].checkbox.active = True
+                self.cbs[w].label.color = 0., 1., 0., 1.
+            else:
+                self.cbs[w].checkbox.active = False
+                self.cbs[w].label.color = 1., 0., 0., 1.
+
         print(book)
