@@ -35,7 +35,7 @@ class Project(BoxLayout):
         for w in self.cbs:
             self.layout.add_widget(self.cbs[w])
         self.add_widget(self.layout)
-        self.size = 1, 30 * len(self.cbs)
+        self.size = 1, self.cbs[self.model.conf.MP3RUS].height * len(self.cbs)
         return self
 
     def load_project(self, book, current):
