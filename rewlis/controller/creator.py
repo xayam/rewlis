@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 from PIL import ImageDraw
 
 from rewlis.model.model import Model
@@ -23,8 +22,6 @@ class Creator:
     def init(self):
         self.data = self.model.conf.FOLDER_CREATE
         if not os.path.exists(self.data):
-            # self.data = "../../" + self.model.conf.FOLDER_CREATE
-            # if not os.path.exists(self.data):
             os.mkdir(self.data)
         self.folder_of_books = os.listdir(self.data)
 
@@ -44,7 +41,7 @@ class Creator:
                     f"Файла {self.data}/{book}/{self.config.RUS_TXT}" +
                     " не существует"
                 )
-                sys.exit()
+                return
             with open(f"{self.data}/{book}/{self.config.RUS_TXT}",
                       mode="r", encoding="UTF-8") as rus:
                 rus_txt = rus.read()
@@ -53,7 +50,7 @@ class Creator:
                     f"Файла {self.data}/{book}/{self.config.ENG_TXT}" +
                     " не существует"
                 )
-                sys.exit()
+                return
             with open(f"{self.data}/{book}/{self.config.ENG_TXT}",
                       mode="r", encoding="UTF-8") as eng:
                 eng_txt = eng.read()
