@@ -39,10 +39,7 @@ class KivyClient(KivyApp):
         return self.controller.container
 
     def on_start(self):
-        if self.model.target == TARGET_WINDOWS:
-            coeff = 2
-        else:
-            coeff = 3
+        coeff = 2 if self.model.target == TARGET_WINDOWS else 3
         self.controller.container.tab_width = \
             coeff * self.controller.container.tab_height
         self.controller.catalog.on_resize()
