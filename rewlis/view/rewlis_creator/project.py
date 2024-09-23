@@ -1,6 +1,5 @@
 import os.path
 
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 
 from rewlis.view.rewlis_creator.mycheckbox import MyCheckBox

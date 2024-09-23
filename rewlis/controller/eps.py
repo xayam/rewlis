@@ -5,7 +5,8 @@ from PIL import Image
 
 def count_of_eps(inp, a, b):
     delta_range = range(-6, 7)
-    delta = [(a + delta_a, b + delta_b) for delta_a in delta_range for delta_b in delta_range]
+    delta = [(a + delta_a, b + delta_b)
+             for delta_a in delta_range for delta_b in delta_range]
     result = 0
     for d in delta:
         try:

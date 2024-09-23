@@ -13,7 +13,8 @@ class Player:
     # def next_chunk(self):
     #     self.model.log.debug("Enter to function 'next_chunk()'")
     #     self.model.chunk_current += 1
-    #     if self.model.chunk_current >= len(self.model.syncs[self.model.current_select].chunks1):
+    #     if self.model.chunk_current >= \
+    #        len(self.model.syncs[self.model.current_select].chunks1):
     #         self.model.chunk_current = 0
     #     Clock.schedule_once(self.delay_run, timeout=0)
     def prev_next(self):
@@ -31,7 +32,9 @@ class Player:
             position += len(chunk[p])
         for i in range(len(sync)):
             if sync[i][POS_START] > position:
-                self.model.log.debug(f"Set sound pos, self.model.set_sound_pos({sync[i][TIME_START]})")
+                self.model.log.debug(
+                    f"Set sound pos, " +
+                    f"self.model.set_sound_pos({sync[i][TIME_START]})")
                 self.model.log.debug(f"Index i={i}, length of sync={len(sync)}")
                 self.model.set_sound_pos(sync[i][TIME_START])
                 break
@@ -41,33 +44,41 @@ class Player:
         self.model.log.debug("Enter to function 'delay_run()'")
         self.model.syncs[self.model.current_select].loads()
         self.controller.table_label_left.text = \
-            self.model.syncs[self.model.current_select].chunks1[self.model.chunk_current]
+            self.model.syncs[
+                self.model.current_select].chunks1[self.model.chunk_current]
         self.controller.table_label_right.text = \
-            self.model.syncs[self.model.current_select].chunks2[self.model.chunk_current]
+            self.model.syncs[
+                self.model.current_select].chunks2[self.model.chunk_current]
 
     def prev_button_click(self, _=None):
         self.model.log.debug("Enter to function 'prev_button_click()'")
         self.model.chunk_current -= 1
         if self.model.chunk_current < 0:
             if self.model.current_select in self.model.syncs:
-                self.model.chunk_current = len(self.model.syncs[self.model.current_select].chunks1) - 1
+                self.model.chunk_current = len(
+                    self.model.syncs[self.model.current_select].chunks1) - 1
             else:
                 self.model.chunk_current = 0
                 return
-        self.model.log.debug(f"Current page chunk_current={self.model.chunk_current}")
+        self.model.log.debug(
+            f"Current page chunk_current={self.model.chunk_current}")
         self.prev_next()
 
     def next_button_click(self, _=None):
         self.model.log.debug("Enter to function 'next_button_click()'")
         self.model.chunk_current += 1
         if self.model.current_select in self.model.syncs:
-            if self.model.chunk_current >= len(self.model.syncs[self.model.current_select].chunks1):
+            if self.model.chunk_current >= len(
+                    self.model.syncs[self.model.current_select].chunks1):
                 self.model.chunk_current = 0
         else:
             self.model.chunk_current = 0
             return
-        self.model.log.debug(f"Current page chunk_current={self.model.chunk_current}")
-        self.model.log.debug(f"Length of chunks1={len(self.model.syncs[self.model.current_select].chunks1)}")
+        self.model.log.debug(
+            f"Current page chunk_current={self.model.chunk_current}")
+        self.model.log.debug(
+            "Length of chunks1=" +
+            str(len(self.model.syncs[self.model.current_select].chunks1)))
         self.prev_next()
 
     def play_button_click(self, _=None):

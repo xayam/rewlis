@@ -21,7 +21,8 @@ class Sync:
         mapjson.close()
         self.language = language
 
-    def create_sync(self, synchronize, L_start, L_end, L_word, R_start, R_end, R_word):
+    def create_sync(
+            self, synchronize, L_start, L_end, L_word, R_start, R_end, R_word):
         img = Image.fromarray(np.uint8(synchronize * 2.55), 'L')
         img.save(f"{self.output}/{self.language}.sync.png")
         sync = []
@@ -61,7 +62,8 @@ class Sync:
                 L = L + a + 1
                 R = R + b + 1
                 self.cprint(
-                    f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, TIME_START={sync[-1][TIME_START]}")
+                    f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, " +
+                    f"TIME_START={sync[-1][TIME_START]}")
                 self.cprint(maxtime)
                 # break
             json_string = json.dumps(sync)

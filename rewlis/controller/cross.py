@@ -21,7 +21,8 @@ def embed_text(inp):
 
 
 def get_sim(html, map_1):
-    labels_1 = re.findall(r"<p>(.*?)</p>", html, flags=re.DOTALL | re.UNICODE)
+    labels_1 = re.findall(r"<p>(.*?)</p>", html,
+                          flags=re.DOTALL | re.UNICODE)
     labels_2 = map_1
     sim = [[0 for _ in range(len(labels_2))] for _ in range(len(labels_1))]
     for i in range(len(labels_1)):
@@ -47,14 +48,15 @@ def get_sim_v2(book, data):
     with open(f"{data}/{book}/eng.orig.html", mode="r", encoding="UTF-8") as f:
         eng_orig = f.read()
 
-    labels_1 = re.findall(r"<p>(.*?)</p>", rus_orig, flags=re.DOTALL | re.UNICODE)
-    labels_2 = re.findall(r"<p>(.*?)</p>", eng_orig, flags=re.DOTALL | re.UNICODE)
+    labels_1 = re.findall(r"<p>(.*?)</p>", rus_orig,
+                          flags=re.DOTALL | re.UNICODE)
+    labels_2 = re.findall(r"<p>(.*?)</p>", eng_orig,
+                          flags=re.DOTALL | re.UNICODE)
     embeddings_1 = embed_text(labels_1)
     embeddings_2 = embed_text(labels_2)
 
     sim = 1 - np.arccos(
-        pairwise.cosine_similarity(embeddings_1,
-                                                   embeddings_2)) / np.pi
+        pairwise.cosine_similarity(embeddings_1, embeddings_2)) / np.pi
     for i in range(len(sim)):
         for j in range(len(sim[i])):
             if sim[i][j] < 0.63:
@@ -80,8 +82,7 @@ def get_sim_v21(labels_1, labels_2):
     embeddings_2 = embed_text(labels_2)
 
     sim = 1 - np.arccos(
-        pairwise.cosine_similarity(embeddings_1,
-                                                   embeddings_2)) / np.pi
+        pairwise.cosine_similarity(embeddings_1, embeddings_2)) / np.pi
     # for i in range(len(sim)):
     #     for j in range(len(sim[i])):
     #         if sim[i][j] < 0.63:
@@ -104,7 +105,8 @@ def get_sim_v21(labels_1, labels_2):
 
 def find_shortest_paths(graph_1, start_point):
     visited = [[True if graph_1[row][col] is None else False
-                for col in range(len(graph_1[row]))] for row in range(len(graph_1))]
+                for col in range(len(graph_1[row]))]
+               for row in range(len(graph_1))]
     distance_1 = [[float('inf') for _ in row] for row in graph_1]
     distance_1[start_point[0]][start_point[1]] = 0
     prev_point_1 = [[None for _ in row] for row in graph_1]
@@ -115,27 +117,36 @@ def find_shortest_paths(graph_1, start_point):
             if visited[row][col]:
                 visited_count += 1
     number_of_points = n * m
-    directions = [(0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9),
-                  (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0), (9, 0),
-                  (1, 1)  # , (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9)
+    directions = [(0, 1), (0, 2), (0, 3), (0, 4), (0, 5),
+                  (0, 6), (0, 7), (0, 8), (0, 9),
+                  (1, 0), (2, 0), (3, 0), (4, 0), (5, 0),
+                  (6, 0), (7, 0), (8, 0), (9, 0),
+                  (1, 1)
+                  # , (2, 2), (3, 3), (4, 4), (5, 5),
+                  # (6, 6), (7, 7), (8, 8), (9, 9)
                   ]
     min_heap = []
 
     # min_heap item format:
     # (pt's dist from start on this path, pt's row, pt's col)
-    heapq.heappush(min_heap, (distance_1[start_point[0]][start_point[1]], start_point[0], start_point[1]))
+    heapq.heappush(
+        min_heap, (distance_1[start_point[0]][
+                       start_point[1]], start_point[0], start_point[1]))
 
     while visited_count < number_of_points:
         current_point = heapq.heappop(min_heap)
         distance_from_start, row, col = current_point
         for direction in directions:
             new_row, new_col = row + direction[0], col + direction[1]
-            if -1 < new_row < n and -1 < new_col < m and not visited[new_row][new_col]:
-                dist_to_new_point = distance_from_start + graph_1[new_row][new_col]
+            if -1 < new_row < n and -1 < new_col < m and \
+                    not visited[new_row][new_col]:
+                dist_to_new_point = distance_from_start + \
+                                    graph_1[new_row][new_col]
                 if dist_to_new_point < distance_1[new_row][new_col]:
                     distance_1[new_row][new_col] = dist_to_new_point
                     prev_point_1[new_row][new_col] = (row, col)
-                    heapq.heappush(min_heap, (dist_to_new_point, new_row, new_col))
+                    heapq.heappush(
+                        min_heap, (dist_to_new_point, new_row, new_col))
         visited[row][col] = True
         visited_count += 1
 
@@ -168,10 +179,11 @@ def main():
     distance, prev_point = find_shortest_paths(graph, (0, 0))
     print(find_shortest_path(prev_point, (9, 9)))
 
+
 if __name__ == "__main__":
     # main()
     result = get_sim_v21(
-        ["Я иду тебя искать","Я пришел к тебе"],
+        ["Я иду тебя искать", "Я пришел к тебе"],
         ["москва слезам не верит", "учиться в школе"]
     )
     print(result)

@@ -27,9 +27,10 @@ class Table(TabbedPanelItem):
                                  background_down=self.model.conf.ICON_PLAY_PRESSED,
                                  on_release=self.controller.player.play_button_click)
         self.controller.table_navigator.add_widget(self.table_play)
-        self.table_pause = Button(background_normal=self.model.conf.ICON_PAUSE,
-                                  background_down=self.model.conf.ICON_PAUSE_PRESSED,
-                                  on_release=self.controller.player.pause_button_click)
+        self.table_pause = Button(
+            background_normal=self.model.conf.ICON_PAUSE,
+            background_down=self.model.conf.ICON_PAUSE_PRESSED,
+            on_release=self.controller.player.pause_button_click)
         self.controller.table_navigator.add_widget(self.table_pause)
         self.table_stop = Button(background_normal=self.model.conf.ICON_STOP,
                                  background_down=self.model.conf.ICON_STOP_PRESSED,
@@ -43,10 +44,13 @@ class Table(TabbedPanelItem):
         self.controller.table_book_left = ScrollView(do_scroll_x=False,
                                                      do_scroll_y=True,
                                                      bar_width=15)
-        self.controller.table_label_left = MyTextInput(model=self.model,
-                                                       text="Select a book in the 'Catalog' section")
-        self.controller.table_label_left.bind(on_touch_down=self.controller.action.touch_down_click)
-        self.controller.table_label_left.bind(on_double_tap=self.controller.action.double_tap)
+        self.controller.table_label_left = MyTextInput(
+            model=self.model,
+            text="Select a book in the 'Catalog' section")
+        self.controller.table_label_left.bind(
+            on_touch_down=self.controller.action.touch_down_click)
+        self.controller.table_label_left.bind(
+            on_double_tap=self.controller.action.double_tap)
         self.controller.table_label_left.height = \
             max([self.controller.table_label_left.minimum_height,
                  self.controller.table_book_left.height])
@@ -55,13 +59,17 @@ class Table(TabbedPanelItem):
         self.controller.table_book_right = ScrollView(do_scroll_x=False,
                                                       do_scroll_y=True,
                                                       bar_width=15)
-        self.controller.table_label_right = MyTextInput(model=self.model,
-                                                        text="Выберите книгу в разделе 'Catalog'")
-        self.controller.table_label_right.bind(on_touch_down=self.controller.action.touch_down_click)
-        self.controller.table_label_right.bind(on_double_tap=self.controller.action.double_tap)
+        self.controller.table_label_right = MyTextInput(
+            model=self.model,
+            text="Выберите книгу в разделе 'Catalog'")
+        self.controller.table_label_right.bind(
+            on_touch_down=self.controller.action.touch_down_click)
+        self.controller.table_label_right.bind(
+            on_double_tap=self.controller.action.double_tap)
         self.controller.table_label_right.height = \
             max([self.controller.table_label_right.minimum_height,
                 self.controller.table_book_right.height])
-        self.controller.table_book_right.add_widget(self.controller.table_label_right)
+        self.controller.table_book_right.add_widget(
+            self.controller.table_label_right)
         self.table_gridlayout.add_widget(self.controller.table_book_right)
         self.add_widget(self.table_gridlayout)

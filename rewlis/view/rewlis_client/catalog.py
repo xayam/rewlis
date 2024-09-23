@@ -25,32 +25,36 @@ class Catalog(TabbedPanelItem):
         self.zip = None
         self.valid = None
 
-        TabbedPanelItem.__init__(self,
-                                 background_normal=self.model.conf.ICON_CATALOG,
-                                 background_down=self.model.conf.ICON_CATALOG_PRESSED)
+        TabbedPanelItem.__init__(
+            self,
+            background_normal=self.model.conf.ICON_CATALOG,
+            background_down=self.model.conf.ICON_CATALOG_PRESSED)
 
-        self.controller.catalog_input = TextInput(size_hint_y=None,
-                                                  font_size='16sp',
-                                                  multiline=False,
-                                                  hint_text=f"{self.model.target}",
-                                                  text="")
+        self.controller.catalog_input = TextInput(
+            size_hint_y=None,
+            font_size='16sp',
+            multiline=False,
+            hint_text=f"{self.model.target}", text="")
         self.controller.catalog_input.size = ('32sp', '32sp')
         self.catalog_buttons = GridLayout(rows=1,
                                           size_hint=(None, 1),
                                           padding=[140, 15],
                                           spacing=[140])
-        self.catalog_buttons.bind(minimum_width=self.catalog_buttons.setter('width'))
-        self.catalog_scrollview = ScrollView(do_scroll_x=True, do_scroll_y=False)
+        self.catalog_buttons.bind(
+            minimum_width=self.catalog_buttons.setter('width'))
+        self.catalog_scrollview = ScrollView(
+            do_scroll_x=True, do_scroll_y=False)
 
         for cover in self.model.stor.storage_books:
             c = cover[5:-4]
             title = c.split("_-_")
             author = title[0].replace("_", " ")
             book = title[1].replace("_", " ")
-            button_box_layout = BoxLayout(size_hint=(None, 1),
-                                          padding=(0, 0),
-                                          width=(Window.size[0] - 3 * 140) // 2,
-                                          orientation="vertical")
+            button_box_layout = BoxLayout(
+                size_hint=(None, 1),
+                padding=(0, 0),
+                width=(Window.size[0] - 3 * 140) // 2,
+                orientation="vertical")
             button_up = Label(text=author,
                               font_size='32px',
                               bold=True,
@@ -95,13 +99,19 @@ class Catalog(TabbedPanelItem):
         self.controller.table.table_gridlayout.canvas.before.clear()
         with self.controller.table.table_gridlayout.canvas.before:
             Color(0, 0, 0, 1)
-            Rectangle(size=(Window.width, Window.height - self.controller.container.tab_height - 6),
-                      pos=(0, 0))
+            Rectangle(
+                size=(
+                    Window.width, Window.height -
+                    self.controller.container.tab_height - 6),
+                pos=(0, 0))
         self.controller.options.options_fontsize_layout.canvas.before.clear()
         with self.controller.options.options_fontsize_layout.canvas.before:
             Color(0, 0, 0, 1)
-            Rectangle(size=(Window.width, Window.height - self.controller.container.tab_height - 6),
-                      pos=(0, 0))
+            Rectangle(
+                size=(
+                    Window.width, Window.height -
+                    self.controller.container.tab_height - 6),
+                pos=(0, 0))
 
     def resize_catalog(self, _=None):
         self.model.log.debug("Enter to function 'resize_catalog()'")
@@ -123,7 +133,8 @@ class Catalog(TabbedPanelItem):
         for layout in self.catalog_buttons.children:
             layout.width = min([
                 Window.width - 40,
-                int(0.5 * (Window.height - self.controller.container.tab_height - 6))])
+                int(0.5 * (Window.height -
+                           self.controller.container.tab_height - 6))])
             layout.children[0].size_hint = (1, None)
             layout.children[1].size_hint = (1, None)
             layout.children[2].size_hint = (1, None)
@@ -164,7 +175,8 @@ class Catalog(TabbedPanelItem):
             self.model.sound.stop()
         self.model.current_select = current
         if self.model.current_select in self.model.opt[POSITIONS]:
-            self.model.set_sound_pos(float(self.model.opt[POSITIONS][self.model.current_select][POSI]))
+            self.model.set_sound_pos(float(
+                self.model.opt[POSITIONS][self.model.current_select][POSI]))
             self.model.chunk_current = \
                 self.model.opt[POSITIONS][self.model.current_select][CHUNK]
         else:
@@ -184,11 +196,14 @@ class Catalog(TabbedPanelItem):
         thread_download = threading.Thread(target=self.download_zip)
         thread_download.start()
         thread_download.join()
-        self.model.log.debug("Create Clock.schedule_once(self.controller.player.delay_run, timeout=0)")
+        self.model.log.debug(
+            "Create Clock.schedule_once(self.controller.player.delay_run, " +
+            "timeout=0)")
         Clock.schedule_once(self.controller.player.delay_run, timeout=0)
 
     def catalog_double_tap(self, _=None, __=None, ___=None):
-        self.model.log.debug("Fired function catalog_double_tap() for Button widget")
+        self.model.log.debug(
+            "Fired function catalog_double_tap() for Button widget")
 
     def show_popup(self):
         self.model.log.debug("Enter to function 'show_popup()'")
@@ -197,7 +212,8 @@ class Catalog(TabbedPanelItem):
         self.controller.popup_content.add_widget(self.controller.popup_label)
         self.controller.popup = Popup(title="Loading...",
                                       size_hint=(0.8, 0.5),
-                                      content=self.controller.popup_content, disabled=True)
+                                      content=self.controller.popup_content,
+                                      disabled=True)
         self.controller.popup.open()
 
     def download_zip(self):

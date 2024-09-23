@@ -48,17 +48,20 @@ if resp.status_code == 200:
         f.write(resp.content)
     with open(f"dist/{APP_CLIENT.lower()}-src.zip", mode="rb") as f:
         print(f"Uploading {version}/{APP_CLIENT.lower()}-src-{version}.zip...")
-        session.storbinary(f"STOR {version}/{APP_CLIENT.lower()}-src-{version}.zip", f)
+        session.storbinary(
+            f"STOR {version}/{APP_CLIENT.lower()}-src-{version}.zip", f)
 else:
     print(f"WARNING: resp.StatusCode={resp.status_code}")
 
 print(f"Uploading {version}/rewlis_client-{version}.exe...")
 with open("dist/rewlis_client.exe", mode="rb") as f:
-    session.storbinary(f"STOR {version}/{APP_CLIENT.lower()}-x64-{version}.exe", f)
+    session.storbinary(
+        f"STOR {version}/{APP_CLIENT.lower()}-x64-{version}.exe", f)
 
 print(f"Uploading {version}/rewlis_creator-{version}.exe...")
 with open("dist/rewlis_creator.exe", mode="rb") as f:
-    session.storbinary(f"STOR {version}/{APP_CREATOR.lower()}-x64-{version}.exe", f)
+    session.storbinary(
+        f"STOR {version}/{APP_CREATOR.lower()}-x64-{version}.exe", f)
 
 print(f"Uploading latest/{latest}...")
 with open(latest, mode="rb") as f:

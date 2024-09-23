@@ -38,26 +38,35 @@ class Action:
                 if sync[i][POS_START] > pos:
                     self.model.log.debug("Stop and reload self.model.sound")
                     self.model.sound.stop()
-                    self.model.opt[POSITIONS][self.model.current_select][POSI] = \
+                    self.model.opt[POSITIONS][
+                        self.model.current_select][POSI] = \
                         sync[i][TIME_START]
                     self.model.set_sound_pos(sync[i][TIME_START])
                     if instance == self.controller.table_label_left:
-                        self.model.opt[POSITIONS][self.model.current_select][AUDIO] = EN
+                        self.model.opt[POSITIONS][
+                            self.model.current_select][AUDIO] = EN
                         self.model.sound = SoundLoader.load(
-                            self.model.current_select + self.model.conf.ENG_MP3). \
+                            self.model.current_select +
+                            self.model.conf.ENG_MP3). \
                             load_seek(position=self.model.get_sound_pos(),
                                       atempo=self.model.opt[SPEED])
                     else:
-                        self.model.opt[POSITIONS][self.model.current_select][AUDIO] = RU
+                        self.model.opt[POSITIONS][
+                            self.model.current_select][AUDIO] = RU
                         self.model.sound = SoundLoader.load(
-                            self.model.current_select + self.model.conf.RUS_MP3). \
+                            self.model.current_select +
+                            self.model.conf.RUS_MP3). \
                             load_seek(position=self.model.get_sound_pos(),
                                       atempo=self.model.opt[SPEED])
                     self.model.conf.save_options()
                     self.model.pts_action = 0
                     self.model.count_action = 0
-                    self.model.log.debug(f"Create Clock.schedule_interval(self.clock_action_time, timeout=0.5)")
-                    self.model.clock_action = Clock.schedule_interval(self.clock_action_time, 0.5)
+                    self.model.log.debug(
+                        f"Create Clock.schedule_interval(" +
+                        "self.clock_action_time, timeout=0.5)")
+                    self.model.clock_action = \
+                        Clock.schedule_interval(
+                            self.clock_action_time, 0.5)
                     return True
         else:
             self.model.touch_pos = 0
@@ -91,8 +100,8 @@ class Action:
             self.model.pts_action = pos
         else:
             pos = self.model.pts_action + \
-                  (self.model.sound.ffplayer.get_pts() - self.model.pts_action) * \
-                  float(self.model.opt[SPEED])
+                  (self.model.sound.ffplayer.get_pts() - self.model.pts_action) \
+                  * float(self.model.opt[SPEED])
         self.model.count_action += 1
         self.model.log.debug(f"Getting self.model.sound.ffplayer.get_pts()={pos}")
         if self.model.sound.ffplayer.get_pts() + 1.0 >= \
@@ -106,18 +115,24 @@ class Action:
 
         try:
             position = 0
-            for current in range(len(self.model.syncs[self.model.current_select].chunks1)):
+            for current in range(len(self.model.syncs[
+                                         self.model.current_select].chunks1)):
                 position += len(chunk[current])
                 if position > sync[str(int(pos))][0]:
                     if current != self.model.chunk_current:
                         self.model.chunk_current = current
-                        self.model.opt[POSITIONS][self.model.current_select][CHUNK] = \
+                        self.model.opt[POSITIONS][
+                            self.model.current_select][CHUNK] = \
                             self.model.chunk_current
                         self.model.conf.save_options()
                         self.controller.table_label_left.text = \
-                            self.model.syncs[self.model.current_select].chunks1[self.model.chunk_current]
+                            self.model.syncs[
+                                self.model.current_select].chunks1[
+                                self.model.chunk_current]
                         self.controller.table_label_right.text = \
-                            self.model.syncs[self.model.current_select].chunks2[self.model.chunk_current]
+                            self.model.syncs[
+                                self.model.current_select].chunks2[
+                                self.model.chunk_current]
                         return
                     else:
                         break
@@ -163,6 +178,7 @@ class Action:
 
         self.model.opt[POSITIONS][self.model.current_select][POSI] = \
             str(pos)
-        self.model.opt[POSITIONS][self.model.current_select][CHUNK] = self.model.chunk_current
+        self.model.opt[POSITIONS][self.model.current_select][CHUNK] = \
+            self.model.chunk_current
         self.model.set_sound_pos(pos)
         self.model.conf.save_options()

@@ -2,8 +2,6 @@ import json
 import os
 from PIL import ImageDraw
 
-from kivy.clock import mainthread, Clock
-
 from rewlis.model.model import Model
 from rewlis.controller.eps import *
 import rewlis.controller.audio as audio
@@ -65,7 +63,7 @@ class Creator:
                       for x in os.listdir(f"{self.data}/{book}/mp3rus")
                       if x[-4:] == ".mp3"]
             cprint(mp3rus)
-            audio.AudioClass(controller=self.controller,
+            audio.AudioClass(cprint=cprint,
                              audio_list=mp3rus,
                              output=os.getcwd() + f"/{self.data}/{book}",
                              language="rus")
@@ -75,7 +73,7 @@ class Creator:
                       for x in os.listdir(f"{self.data}/{book}/mp3eng")
                       if x[-4:] == ".mp3"]
             cprint(mp3eng)
-            audio.AudioClass(controller=self.controller,
+            audio.AudioClass(cprint=cprint,
                              audio_list=mp3eng,
                              output=os.getcwd() + f"/{self.data}/{book}",
                              language="eng")
@@ -86,13 +84,13 @@ class Creator:
             if os.path.exists(d):
                 os.remove(d)
         recognizer_eng = recognizer.RecognizerClass(
-            controller=self.controller,
+            cprint=cprint,
             model_path=f"recognize/eng",
             output=f"{self.data}/{book}",
             language="eng", config=self.config)
         recognizer_eng.create_map()
         recognizer_rus = recognizer.RecognizerClass(
-            controller=self.controller,
+            cprint=cprint,
             model_path=f"recognize/rus",
             output=f"{self.data}/{book}",
             language="rus", config=self.config)
@@ -110,7 +108,7 @@ class Creator:
                     f.write(rus_html)
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(rus_html, R_word)
-            sync_rus = sync.Sync(controller=self.controller,
+            sync_rus = sync.Sync(cprint=cprint,
                                  output=f"{self.data}/{book}",
                                  language="rus")
             two_sync = sync_rus.create_sync(
@@ -141,7 +139,7 @@ class Creator:
                     f.write(eng_html)
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(eng_html, R_word)
-            sync_eng = sync.Sync(controller=self.controller,
+            sync_eng = sync.Sync(cprint=cprint,
                                  output=f"{self.data}/{book}",
                                  language="eng")
             two_sync = sync_eng.create_sync(synchronize, L_start, L_end,
@@ -178,7 +176,9 @@ class Creator:
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html2)
 
-        sync_rus = sync.Sync(output=f"{self.data}/{book}", language="rus")
+        sync_rus = sync.Sync(
+            cprint=cprint,
+            output=f"{self.data}/{book}", language="rus")
         if not os.path.exists(f"{self.data}/{book}/two.json"):
             cprint("Not find file two.json, creating...")
             synchronize, L_word, R_word, L_end, R_end = \
@@ -314,8 +314,12 @@ class Creator:
             f.write("True")
 
 
+def c_print(_):
+    pass
+
+
 if __name__ == "__main__":
     models = Model()
     create = Creator(model=models)
     create.init()
-    create.process()
+    create.process(cprint=c_print)

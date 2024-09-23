@@ -1,7 +1,6 @@
 import sys
 from datetime import datetime
 import winsound
-from kivy.clock import Clock
 
 from rewlis.entity import *
 
@@ -15,7 +14,8 @@ class Logger:
         pass
 
     def progress(
-            self, message: str = "", is_printable: bool = False, is_savelable: bool = True
+            self, message: str = "",
+            is_printable: bool = False, is_savelable: bool = True
     ) -> str:
         sys.stdout.write("\r" + f"{LOG[PINFO]} {message}")
         sys.stdout.flush()
@@ -25,14 +25,16 @@ class Logger:
         )
 
     def info(
-            self, message: str = "", is_printable: bool = True, is_savelable: bool = True
+            self, message: str = "",
+            is_printable: bool = True, is_savelable: bool = True
     ) -> str:
         return self._log(
             LOG[INFO], message, is_printable=is_printable, is_savelable=is_savelable
         )
 
     def warn(
-            self, message: str = "", is_printable: bool = True, is_savelable: bool = True
+            self, message: str = "",
+            is_printable: bool = True, is_savelable: bool = True
     ) -> str:
         # winsound.Beep(5000, 500)
         return self._log(
@@ -40,7 +42,8 @@ class Logger:
         )
 
     def error(
-            self, message: str = "", is_printable: bool = True, is_savelable: bool = True
+            self, message: str = "",
+            is_printable: bool = True, is_savelable: bool = True
     ):
         winsound.Beep(2000, 500)
         raise Exception(
@@ -53,14 +56,16 @@ class Logger:
         )
 
     def debug(
-            self, message: str = "", is_printable: bool = True, is_savelable: bool = True
+            self, message: str = "",
+            is_printable: bool = True, is_savelable: bool = True
     ) -> str:
         return self._log(
             LOG[DEBUG], message, is_printable=is_printable, is_savelable=is_savelable
         )
 
     def boot(
-            self, message: str = "", is_printable: bool = True, is_savelable: bool = True
+            self, message: str = "",
+            is_printable: bool = True, is_savelable: bool = True
     ) -> str:
         return self._log(
             LOG[BOOT], message, is_printable=is_printable, is_savelable=is_savelable
@@ -93,6 +98,7 @@ class Logger:
                     + f"{str(current.hour).rjust(2, '0')}:"
                     + f"{str(current.minute).rjust(2, '0')}:"
                     + f"{str(current.second).rjust(2, '0')}:"
-                    + f"{str(current.microsecond).rjust(6, '0')}]{output_message}\n"
+                    + f"{str(current.microsecond).rjust(6, '0')}]"
+                    + f"{output_message}\n"
                 )
         return str(message)

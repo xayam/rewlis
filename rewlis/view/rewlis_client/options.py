@@ -13,10 +13,10 @@ class Options(TabbedPanelItem):
         self.model = model
         self.controller = self.model.controller
 
-        TabbedPanelItem.__init__(self,
-                                 background_normal=self.model.conf.ICON_OPTIONS,
-                                 background_down=self.model.conf.ICON_OPTIONS_PRESSED)
-        # height1 = self.controller.table_navigator.children[0].height
+        TabbedPanelItem.__init__(
+            self,
+            background_normal=self.model.conf.ICON_OPTIONS,
+            background_down=self.model.conf.ICON_OPTIONS_PRESSED)
         height1 = Window.width // 15
         height2 = str(height1 - 10) + "px"
         width1 = str(2 * height1) + "px"
@@ -25,7 +25,6 @@ class Options(TabbedPanelItem):
             size_hint=(1, None),
             height=height1,
             pos_hint={"top": 0.60, "x": 0},
-            # padding=(10, 20)
         )
         self.options_fontsize_label = Label(text="FontSize scale",
                                             font_size=height2)
@@ -80,7 +79,8 @@ class Options(TabbedPanelItem):
         self.options_fontsize_layout.add_widget(self.options_fontsize_label)
         self.options_fontsize_layout.add_widget(self.options_fontsize_down)
         self.options_fontsize_layout.add_widget(self.options_fontsize_up)
-        self.options_fontsize_layout.add_widget(self.controller.options_fontsize_scale)
+        self.options_fontsize_layout.add_widget(
+            self.controller.options_fontsize_scale)
         self.item_options_layout = RelativeLayout()
         self.item_options_layout.add_widget(self.options_fontsize_layout)
         self.item_options_layout.add_widget(self.options_speed_layout)

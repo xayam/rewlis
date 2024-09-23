@@ -9,6 +9,7 @@ from rewlis import *
 from .catalog import Catalog
 from .table import Table
 from .options import Options
+from ...entity import TARGET_WINDOWS
 
 
 class KivyClient(KivyApp):
@@ -38,5 +39,10 @@ class KivyClient(KivyApp):
         return self.controller.container
 
     def on_start(self):
-        self.controller.container.tab_width = 3 * self.controller.container.tab_height
+        if self.model.target == TARGET_WINDOWS:
+            coeff = 2
+        else:
+            coeff = 3
+        self.controller.container.tab_width = \
+            coeff * self.controller.container.tab_height
         self.controller.catalog.on_resize()

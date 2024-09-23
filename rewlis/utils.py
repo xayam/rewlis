@@ -48,7 +48,8 @@ def find_max_sum(alist, a=0, b=0, sum_path=0, path=None):
             diag_a = a + 1
             diag_b = b + 1
             diag_i = 1
-            while (diag_a + diag_i < len(alist)) and (diag_b + diag_i < len(alist[diag_a])):
+            while (diag_a + diag_i < len(alist)) and \
+                    (diag_b + diag_i < len(alist[diag_a])):
                 if alist[diag_a + diag_i][diag_b + diag_i] > barrier:
                     diag_a = diag_a + diag_i
                     diag_b = diag_b + diag_i
@@ -73,9 +74,11 @@ def find_max_sum(alist, a=0, b=0, sum_path=0, path=None):
             for c in check:
                 path_new = path[:]
                 path_new.append({"a": c["a"], "b": c["b"], "s": c["s"]})
-                path_result.append(find_max_sum(alist, c["a"] + 1, c["b"] + 1, c["s"], path_new))
+                path_result.append(find_max_sum(
+                    alist, c["a"] + 1, c["b"] + 1, c["s"], path_new))
             if diag_i != 1:
-                path_result.append(find_max_sum(alist, diag_a, diag_b, sum_path, path))
+                path_result.append(find_max_sum(
+                    alist, diag_a, diag_b, sum_path, path))
             maximum = 0.0
             max_path = []
             for p in path_result:
@@ -107,7 +110,8 @@ def find_max_path(alist, a=0, b=0, path=None):
             diag_a = a + 1
             diag_b = b + 1
             diag_i = 1
-            while (diag_a + diag_i < len(alist)) and (diag_b + diag_i < len(alist[diag_a])):
+            while (diag_a + diag_i < len(alist)) and \
+                    (diag_b + diag_i < len(alist[diag_a])):
                 if alist[diag_a + diag_i][diag_b + diag_i] == 100:
                     diag_a = diag_a + diag_i
                     diag_b = diag_b + diag_i
@@ -132,7 +136,8 @@ def find_max_path(alist, a=0, b=0, path=None):
             for c in check:
                 path_new = path[:]
                 path_new.append({"a": c["a"], "b": c["b"]})
-                path_result.append(find_max_path(alist, c["a"] + 1, c["b"] + 1, path_new))
+                path_result.append(
+                    find_max_path(alist, c["a"] + 1, c["b"] + 1, path_new))
             if diag_i != 1:
                 path_result.append(find_max_path(alist, diag_a, diag_b, path))
             maximum = 0
@@ -185,7 +190,9 @@ def dijkstra_max_path(alist):
             for i in range(nodes[-1][c]["i"] + 1, len(alist)):
                 for j in range(nodes[-1][c]["j"] + 1, len(alist[i])):
                     if alist[i][j] == 100:
-                        nodes2.append({"a": nodes[-1][c]["i"], "b": nodes[-1][c]["j"], "i": i, "j": j})
+                        nodes2.append(
+                            {"a": nodes[-1][c]["i"],
+                             "b": nodes[-1][c]["j"], "i": i, "j": j})
         if not nodes2:
             break
         nodes.append(nodes2)
@@ -197,9 +204,10 @@ def dijkstra_max_path(alist):
         paths[-1].append(nodes[0][i])
         for j in range(1, len(nodes[0])):
             try:
-                nodes[j][i]["s"] = nodes[0][i]["s"] + \
-                                   ((nodes[j][i]["i"] - nodes[j][i]["a"]) ** 2 +
-                                    (nodes[j][i]["j"] - nodes[j][i]["b"]) ** 2) ** 0.5
+                nodes[j][i]["s"] = \
+                    nodes[0][i]["s"] + \
+                    ((nodes[j][i]["i"] - nodes[j][i]["a"]) ** 2 +
+                     (nodes[j][i]["j"] - nodes[j][i]["b"]) ** 2) ** 0.5
                 paths[-1].append(nodes[j][i])
             except IndexError:
                 pass

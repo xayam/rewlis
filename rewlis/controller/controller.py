@@ -1,7 +1,5 @@
 import os
 
-from kivy.clock import Clock
-
 from rewlis.entity import *
 from rewlis.model.model import Model
 

@@ -21,7 +21,8 @@ class Conf:
     ICON_PNG = "res/img/icon.png"
 
     GITHUB_SYNCBOOKER = "https://github.com/xayam/syncbooker"
-    UPDATE_URL = "https://github.com/xayam/syncbookerkivy/releases/download/SyncBookerKivy_v1.0/"
+    UPDATE_URL = "https://github.com/xayam/syncbookerkivy/" + \
+                 "releases/download/SyncBookerKivy_v1.0/"
     # Copy here
     # UPDATE_URL = "https://cloud.mail.ru/public/rdBB/KHvCjQdaT/Android/"
     LIST_FILE = "list.zip"
