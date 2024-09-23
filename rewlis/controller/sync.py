@@ -9,8 +9,8 @@ from rewlis.utils import *
 
 
 class Sync:
-    def __init__(self, controller, output, language):
-        self.controller = controller
+    def __init__(self, cprint, output, language):
+        self.cprint = cprint
         self.output = output
         np.set_printoptions(threshold=int(np.inf))
         self.MAPJSON = f"{self.output}/{language}.map.json"
@@ -31,7 +31,7 @@ class Sync:
         R_window = int(L_window * (len(R_word) / len(L_word)))
         maxtime = {"max_time": 0, "L": L, "R": R}
         if not os.path.exists(self.SYNCJSON):
-            self.controller.cprint("Not find file self.SYNCJSON, creating...")
+            self.cprint("Not find file self.SYNCJSON, creating...")
             while (L < len(L_word)) and (R < len(R_word)):
                 # scores = process.cdist(L_chunk, R_chunk, scorer=fuzz.ratio,
                 #                        dtype=np.uint8, score_cutoff=100)
@@ -55,25 +55,25 @@ class Sync:
                                  L_start[L + a],
                                  L_end[L + a],
                                  L + a])
-                    self.controller.cprint(L_word[L + a], R_word[R + b], sep="|||")
+                    self.cprint(L_word[L + a], R_word[R + b], sep="|||")
                 if (a == -1) or (b == -1):
                     break
                 L = L + a + 1
                 R = R + b + 1
-                self.controller.cprint(
+                self.cprint(
                     f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, TIME_START={sync[-1][TIME_START]}")
-                self.controller.cprint(maxtime)
+                self.cprint(maxtime)
                 # break
             json_string = json.dumps(sync)
             with open(self.SYNCJSON, mode="w") as fsync:
                 fsync.write(json_string)
 
-        self.controller.cprint("Find file self.SYNCJSON")
+        self.cprint("Find file self.SYNCJSON")
         with open(self.SYNCJSON, mode="r") as fsync:
             sync = json.load(fsync)
-        self.controller.cprint(f"len(L_word)={len(L_word)}")
-        self.controller.cprint(f"len(R_word)={len(R_word)}")
-        self.controller.cprint(f"len(sync)={len(sync)}")
+        self.cprint(f"len(L_word)={len(L_word)}")
+        self.cprint(f"len(R_word)={len(R_word)}")
+        self.cprint(f"len(sync)={len(sync)}")
         return sync
 
 
@@ -103,15 +103,15 @@ class Sync:
                               R_word[R + b],
                               L + a,
                               R + b])
-                self.controller.cprint(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
-                self.controller.cprint(sync1[-1][L_WORDS])
-                self.controller.cprint(sync1[-1][R_WORDS])
+                self.cprint(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
+                self.cprint(sync1[-1][L_WORDS])
+                self.cprint(sync1[-1][R_WORDS])
             if (a == -1) or (b == -1):
                 break
             L = L + a + 1
             R = R + b + 1
-            self.controller.cprint(f"L={L}, R={R}")
-            self.controller.cprint(maxtime)
+            self.cprint(f"L={L}, R={R}")
+            self.cprint(maxtime)
         if append:
             sync1.append([L_len,
                           R_len,
@@ -119,12 +119,12 @@ class Sync:
                           "",
                           L - 1,
                           R - 1])
-            self.controller.cprint(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
-            self.controller.cprint(sync1[-1][L_WORDS])
-            self.controller.cprint(sync1[-1][R_WORDS])
-        self.controller.cprint(f"len(L_word)={len(L_word)}")
-        self.controller.cprint(f"len(R_word)={len(R_word)}")
-        self.controller.cprint(f"len(sync)={len(sync1)}")
+            self.cprint(sync1[-1][L_POS], sync1[-1][R_POS], sep="::")
+            self.cprint(sync1[-1][L_WORDS])
+            self.cprint(sync1[-1][R_WORDS])
+        self.cprint(f"len(L_word)={len(L_word)}")
+        self.cprint(f"len(R_word)={len(R_word)}")
+        self.cprint(f"len(sync)={len(sync1)}")
         return sync1
 
     @staticmethod

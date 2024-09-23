@@ -4,8 +4,8 @@ from vosk import Model, KaldiRecognizer
 
 
 class RecognizerClass:
-    def __init__(self, controller, model_path, output, language, config):
-        self.controller = controller
+    def __init__(self, cprint, model_path, output, language, config):
+        self.cprint = cprint
         self.language = language
         if self.language == "rus":
             self.MAPJSON = f"{output}/{config.RUS_MAP}"
@@ -17,7 +17,7 @@ class RecognizerClass:
 
     def create_map(self):
         if os.path.exists(self.MAPJSON):
-            self.controller.cprint("Find file self.MAPJSON")
+            self.cprint("Find file self.MAPJSON")
             return True
         wf = wave.open(self.WAV, "rb")
         model = Model(self.MODEL_PATH)
@@ -31,9 +31,9 @@ class RecognizerClass:
             if rec.AcceptWaveform(dat):
                 sss = rec.Result()
                 ss += sss + ",\n"
-                self.controller.cprint(sss)
+                self.cprint(sss)
         ss += rec.FinalResult() + "]}"
         with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
             ff.write(ss)
-        self.controller.cprint("Create file self.MAPJSON")
+        self.cprint("Create file self.MAPJSON")
         return True

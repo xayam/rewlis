@@ -1,5 +1,6 @@
 import sys
 
+from kivy.clock import Clock
 from kivy.uix.textinput import TextInput
 
 
@@ -23,6 +24,7 @@ class Terminal(TextInput):
         )
         self.stdout = sys.stdout
         self.is_focusable = True
+        self.message = None
 
 
     def write(self, message):
@@ -32,3 +34,11 @@ class Terminal(TextInput):
 
     def flush(self):
         pass
+
+    def cprint(self, message):
+        self.message = message
+        Clock.schedule_once(self._clock, 0)
+
+    def _clock(self, _):
+        if self.message is not None:
+            self.write(str(self.message) + "\n")
