@@ -3,19 +3,21 @@
 kivy
 ffpyplayer
 requests
-pyinstaller==5.6.2
-pyinstaller-hooks-contrib==2022.13
-chardet
-numpy
+# pyinstaller==5.6.2
+# pyinstaller-hooks-contrib==2022.13
+pyinstaller
+pyinstaller-hooks-contrib
 Pillow
-pandas
 regex
 mutagen
 
 # Creator
 
-# scikit-learn
-# sox
-# vosk
-# gensim
-# tensorflow_text==2.10.0
+numpy
+pandas
+chardet
+scikit-learn
+sox
+vosk
+gensim
+tensorflow_text==2.10.0
