@@ -3,7 +3,8 @@ import base64
 
 
 def encode_image(folder="../../res/img/"):
-    result = "\n\nclass Img:\n\n    def __init__(self):\n        self.images = {\n"
+    result = "\n\nclass Img:\n\n    def __init__(self):\n        " + \
+             "self.images = {\n"
     if os.path.exists(folder):
         files = os.listdir(folder)
         for file in files:
@@ -18,8 +19,10 @@ def encode_image(folder="../../res/img/"):
             chunk_size = 60
             array = list(range(0, length, chunk_size))
             for i in array[:-1]:
-                result += " " * 16 + "b'" + image_base64[i:i + chunk_size] + "' +\n"
-            result += " " * 16 + "b'" + image_base64[array[-1]:array[-1] + chunk_size] + "',\n"
+                result += " " * 16 + "b'" + image_base64[i:i + chunk_size] + \
+                          "' +\n"
+            result += " " * 16 + "b'" + \
+                      image_base64[array[-1]:array[-1] + chunk_size] + "',\n"
     result += " " * 8 + "}\n"
     with open("img.py", mode="w") as f:
         f.write(result)
@@ -42,7 +45,6 @@ def decode_image(folder="img/", img=None):
 
 
 if __name__ == "__main__":
-
     # try:
     #     from img import Img
     # except ModuleNotFoundError:
