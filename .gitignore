@@ -1,7 +1,6 @@
 .github/
 .git/
 venv/
-venvClient/
 .idea/
 web/rewlis/.idea/
 .run/
