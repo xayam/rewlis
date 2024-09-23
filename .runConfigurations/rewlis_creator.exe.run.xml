@@ -14,7 +14,7 @@
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/Lib/site-packages/PyInstaller/__main__.py" />
-    <option name="PARAMETERS" value="--clean -F -w --icon=res/img/icon.ico --distpath=./dist --add-data=./venv/Lib/site-packages/vosk;vosk --add-data=./venv/Lib/site-packages/tensorflow_text/python/metrics/*.so;tensorflow_text/python/metrics --add-data=./venv/Lib/site-packages/tensorflow_text/python/ops/*.so;tensorflow_text/python/ops --name=rewlis-creator rewlis_creator.py" />
+    <option name="PARAMETERS" value="--clean -F -w --icon=res/img/icon.ico --distpath=./dist --add-data=./venv/Lib/site-packages/vosk;vosk --add-data=./venv/Lib/site-packages/tensorflow_text/python/metrics/*.so;tensorflow_text/python/metrics --add-data=./venv/Lib/site-packages/tensorflow_text/python/ops/*.so;tensorflow_text/python/ops --hidden-import=&quot;sklearn.metrics._pairwise_distances_reduction._datasets_pair&quot; --hidden-import=&quot;sklearn.metrics._pairwise_distances_reduction._middle_term_computer&quot; --name=rewlis-creator rewlis_creator.py" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
