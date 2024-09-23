@@ -5,10 +5,12 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow_text import SentencepieceTokenizer
 import sklearn.metrics.pairwise
-from PIL import Image
+# from PIL import Image
 
 
-module_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
+module_url = \
+   'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
+# module_url = 'https://tfhub.dev/google/universal-sentence-encoder/4'
 print("Loading multilingual model...")
 model = hub.load(module_url)
 
@@ -79,12 +81,12 @@ def get_sim_v21(labels_1, labels_2):
     sim = 1 - np.arccos(
         sklearn.metrics.pairwise.cosine_similarity(embeddings_1,
                                                    embeddings_2)) / np.pi
-    for i in range(len(sim)):
-        for j in range(len(sim[i])):
-            if sim[i][j] < 0.63:
-                sim[i][j] = 0
-            else:
-                sim[i][j] = 100
+    # for i in range(len(sim)):
+    #     for j in range(len(sim[i])):
+    #         if sim[i][j] < 0.63:
+    #             sim[i][j] = 0
+    #         else:
+    #             sim[i][j] = 100
     L_end = []
     length = 0
     for i in labels_1:
@@ -149,7 +151,7 @@ def find_shortest_path(prev_point_graph, end_point):
     return shortest_path
 
 
-if __name__ == "__main__":
+def main():
     graph = [
         [1, 1, 6, 3, 7, 5, 1, 7, 4, 200],
         [1, 3, 8, 1, 3, 7, 3, 6, 7, 2],
@@ -164,3 +166,11 @@ if __name__ == "__main__":
     ]
     distance, prev_point = find_shortest_paths(graph, (0, 0))
     print(find_shortest_path(prev_point, (9, 9)))
+
+if __name__ == "__main__":
+    # main()
+    result = get_sim_v21(
+        ["Я иду тебя искать","Я пришел к тебе"],
+        ["москва слезам не верит", "учиться в школе"]
+    )
+    print(result)
