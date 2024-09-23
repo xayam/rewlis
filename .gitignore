@@ -2,12 +2,10 @@
 .git/
 venv/
 .idea/
-web/rewlis/.idea/
 .run/
 __pycache__/
 build/
 dist/
-web/
 *.zip
 *.exe
 recognize/
