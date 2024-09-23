@@ -25,7 +25,7 @@ class Storage:
                 "Gecko/20100101 Firefox/96.0",
             "Content-type": "application/x-www-form-urlencoded"
         }
-        if self.model.target == TARGET_WINDOWS:  # and self.controller is not None:
+        if self.model.target == TARGET_WINDOWS:
             from rewlis.model.img import Img
             if not os.path.exists("res"):
                 os.mkdir("res")
@@ -41,9 +41,12 @@ class Storage:
             if os.path.isfile(f"{self.data}/" + i) and (i[-4:] == ".jpg"):
                 cover = f"{self.data}/{i}"
                 self.storage_books[cover] = f"{self.data}/{i[:-4]}/"
-                self.model.log.debug(f"self.storage_books[cover]={self.storage_books[cover]}")
+                self.model.log.debug(
+                    f"self.storage_books[cover]={self.storage_books[cover]}"
+                )
                 self.model.syncs[self.storage_books[cover]] = \
-                    Sync(model=self.model, current_path=self.storage_books[cover])
+                    Sync(model=self.model,
+                         current_path=self.storage_books[cover])
 
     def storage_list(self):
         self.model.log.debug("Enter to function storage_list()")
