@@ -8,7 +8,7 @@ a = Analysis(
     ['rewlis_client.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('./res/img', 'res/img')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
