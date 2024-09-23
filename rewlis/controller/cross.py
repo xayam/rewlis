@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow_text import SentencepieceTokenizer
-import sklearn.metrics.pairwise
+from sklearn.metrics import pairwise
 from PIL import Image
 
 
@@ -52,7 +52,7 @@ def get_sim_v2(book, data):
     embeddings_2 = embed_text(labels_2)
 
     sim = 1 - np.arccos(
-        sklearn.metrics.pairwise.cosine_similarity(embeddings_1,
+        pairwise.cosine_similarity(embeddings_1,
                                                    embeddings_2)) / np.pi
     for i in range(len(sim)):
         for j in range(len(sim[i])):
@@ -79,7 +79,7 @@ def get_sim_v21(labels_1, labels_2):
     embeddings_2 = embed_text(labels_2)
 
     sim = 1 - np.arccos(
-        sklearn.metrics.pairwise.cosine_similarity(embeddings_1,
+        pairwise.cosine_similarity(embeddings_1,
                                                    embeddings_2)) / np.pi
     # for i in range(len(sim)):
     #     for j in range(len(sim[i])):
