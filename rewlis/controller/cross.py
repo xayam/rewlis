@@ -5,7 +5,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow_text import SentencepieceTokenizer
 import sklearn.metrics.pairwise
-# from PIL import Image
+from PIL import Image
 
 
 module_url = \

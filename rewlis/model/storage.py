@@ -25,14 +25,16 @@ class Storage:
                 "Gecko/20100101 Firefox/96.0",
             "Content-type": "application/x-www-form-urlencoded"
         }
-        if self.model.target == TARGET_WINDOWS:  # and self.controller is not None:
-            from rewlis.model.img import Img
-            if not os.path.exists("res"):
-                os.mkdir("res")
-            decode_image(folder="res/img/", img=Img())
+        # if self.model.target == TARGET_WINDOWS:  # and self.controller is not None:
+        #     from rewlis.model.img import Img
+        #     if not os.path.exists("res"):
+        #         os.mkdir("res")
+        #     decode_image(folder="res/img/", img=Img())
 
     def list(self):
         if self.controller is None:
+            return
+        if self.controller.app == APP_CREATOR:
             return
         self.storage_list()
         for i in os.listdir(self.data):
