@@ -1,6 +1,7 @@
 .github/
 .git/
 venv/
+venv39/
 .idea/
 .run/
 __pycache__/
