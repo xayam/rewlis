@@ -43,9 +43,9 @@ def decode_image(folder="img/", img=None):
 
 if __name__ == "__main__":
 
-    try:
-        from img import Img
-    except ModuleNotFoundError:
-        encode_image()
-        from img import Img
-    decode_image(folder="../../res/img/", img=Img())
+    # try:
+    #     from img import Img
+    # except ModuleNotFoundError:
+    encode_image()
+    # from img import Img
+    # decode_image(folder="../../res/img/", img=Img())
