@@ -1,3 +1,5 @@
+import traceback
+
 from rewlis.entity import *
 from rewlis.app import App
 
@@ -14,5 +16,5 @@ except Exception as e:
     application.model.log.debug(
         APP + "Error: " +
         type(e).__name__ + ": " +
-        e.__str__()
+        e.__str__() + "\n" + traceback.format_exc()
     )

@@ -34,4 +34,4 @@ class Controller:
         Clock.schedule_once(self._clock, 0)
 
     def _clock(self, _):
-        self.terminal.write(self.message + "\n")
+        self.terminal.write(str(self.message) + "\n")

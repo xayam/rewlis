@@ -1,3 +1,5 @@
+# Client
+
 kivy
 ffpyplayer
 requests
@@ -6,11 +8,14 @@ pyinstaller-hooks-contrib==2022.13
 chardet
 numpy
 Pillow
-scikit-learn
-sox
-vosk
-gensim
 pandas
 regex
 mutagen
-tensorflow_text==2.10.0
+
+# Creator
+
+# scikit-learn
+# sox
+# vosk
+# gensim
+# tensorflow_text==2.10.0
