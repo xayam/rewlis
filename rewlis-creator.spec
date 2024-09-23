@@ -8,7 +8,7 @@ a = Analysis(
     ['rewlis_creator.py'],
     pathex=[],
     binaries=[],
-    datas=[('./venv/Lib/site-packages/vosk', 'vosk'), ('./venv/Lib/site-packages/tensorflow_text', 'tensorflow_text')],
+    datas=[('./venv/Lib/site-packages/vosk', 'vosk'), ('./venv/Lib/site-packages/tensorflow_text/python/ops/*.so', 'tensorflow_text/python/ops')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
