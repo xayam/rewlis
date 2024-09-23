@@ -2,6 +2,7 @@
 
 kivy
 ffpyplayer
+mutagen
 requests
 # pyinstaller==5.6.2
 # pyinstaller-hooks-contrib==2022.13
@@ -9,7 +10,6 @@ pyinstaller
 pyinstaller-hooks-contrib
 Pillow
 regex
-mutagen
 
 # Creator
 
