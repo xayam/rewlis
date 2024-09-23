@@ -1,10 +1,11 @@
 import heapq
 import re
 import numpy as np
+
+from sklearn.metrics import pairwise
 import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow_text import SentencepieceTokenizer
-from sklearn.metrics import pairwise
 from PIL import Image
 
 

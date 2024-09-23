@@ -8,7 +8,7 @@ requests
 # pyinstaller-hooks-contrib==2022.13
 pyinstaller
 pyinstaller-hooks-contrib
-Pillow
+pillow
 regex
 
 # Creator
