@@ -40,16 +40,23 @@ class RecognizerClass:
         buffer = "  "
         index = 0
         sizes_index = 0
+        self.cprint("point 0")
         for result in results:
+            self.cprint("point 1")
             for res in result:
+                self.cprint("point 2")
                 r = json.loads(res)
-                if r.__contains__("result"):
+                try:
                     for i in range(len(r["result"])):
+                        self.cprint("point 3")
                         r["result"][i]["end"] += sizes_index
                         r["result"][i]["start"] += sizes_index
+                except KeyError:
+                    pass
                 buffer += json.dumps(r) + ",\n"
             sizes_index += sizes[index]
             index += 1
+        self.cprint("point 4")
         result = '{\n"fragments": [\n'
         result += buffer[:-2]
         result += "]}"
