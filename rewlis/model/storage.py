@@ -34,7 +34,7 @@ class Storage:
     def list(self):
         if self.controller is None:
             return
-        if self.controller.app == APP_CREATOR:
+        if self.controller.app[TARGET] == APP_CREATOR:
             return
         self.storage_list()
         for i in os.listdir(self.data):
@@ -49,8 +49,6 @@ class Storage:
                          current_path=self.storage_books[cover])
 
     def storage_list(self):
-        if self.controller.app == APP_CREATOR:
-            return
         self.model.log.debug("Enter to function storage_list()")
         try:
             direct_link = self.model.conf.LIST_URL
