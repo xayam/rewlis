@@ -68,6 +68,7 @@ class Creator:
         return rus_txt, eng_txt
 
     def audio_process(self, cprint, book):
+        mp3rus, mp3eng = [], []
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
                                   self.config.RUS_FLAC):
