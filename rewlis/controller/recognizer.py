@@ -47,7 +47,7 @@ class RecognizerClass:
                     for i in range(len(r["result"])):
                         r["result"][i]["end"] += sizes_index
                         r["result"][i]["start"] += sizes_index
-                buffer += json.dumps(r) + ",\n"
+                buffer += json.dumps(r, ensure_ascii=False) + ",\n"
             sizes_index += sizes[index]
             index += 1
         result = '{\n"fragments": [\n'
