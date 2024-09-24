@@ -20,7 +20,7 @@ class AudioClass:
     def create_mp3(self):
         if os.path.exists(self.MP3):
             return
-        # self.cprint("Create mp3...")
+        self.cprint("Create mp3...")
         cbn = sox.Combiner()
         cbn.convert(samplerate=16000, n_channels=1)
         cbn.build(self.audio_list, self.MP3, 'concatenate')
