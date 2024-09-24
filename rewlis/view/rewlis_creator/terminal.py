@@ -22,7 +22,7 @@ class Terminal(TextInput):
             foreground_color=(1., 1., 1., 1.),
             **kwargs
         )
-        self.stdout = sys.stdout
+        self.stdout = sys.__stdout__
         self.is_focusable = True
         self.message = None
 
