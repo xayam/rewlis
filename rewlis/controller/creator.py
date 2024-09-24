@@ -106,6 +106,7 @@ class Creator:
                 with open(f"{self.data}/{book}/rus.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(rus_html)
+            cprint("get similarity...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(rus_html, R_word)
             sync_rus = sync.Sync(cprint=cprint,
@@ -137,6 +138,7 @@ class Creator:
                 with open(f"{self.data}/{book}/eng.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(eng_html)
+            cprint("get similarity...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(eng_html, R_word)
             sync_eng = sync.Sync(cprint=cprint,
