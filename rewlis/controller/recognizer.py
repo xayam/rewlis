@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import wave
 import mutagen.mp3
 
@@ -30,33 +29,25 @@ class RecognizerClass:
             return True
         results = []
         futures = []
-        sizes = [mutagen.mp3.MP3(mp3[2]).info.length for mp3 in self.audio_list]
+        sizes1 = [mutagen.mp3.MP3(mp3[2]).info.length for mp3 in self.audio_list]
+        shift = 0
+        sizes = []
+        for s in sizes1:
+            sizes.append(s + shift)
+            shift += s
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            for args in self.WAV:
-                futures.append(executor.submit(self.recognize, args))
+            for i in range(len(self.WAV)):
+                futures.append(executor.submit(
+                    self.recognize, self.WAV[i], sizes[i]))
             executor.shutdown()
             for future in futures:
                 results.append(future.result())
         buffer = "  "
-        index = 0
-        sizes_index = 0
         self.cprint("point 0")
         for result in results:
             self.cprint("point 1")
-            for res in result:
-                self.cprint("point 2")
-                r = json.loads(res)
-                try:
-                    for i in range(len(r["result"])):
-                        self.cprint("point 3")
-                        r["result"][i]["end"] += sizes_index
-                        r["result"][i]["start"] += sizes_index
-                except KeyError:
-                    pass
-                buffer += json.dumps(r) + ",\n"
-            sizes_index += sizes[index]
-            index += 1
-        self.cprint("point 4")
+            buffer += ",\n".join(result)
+        self.cprint("point 2")
         result = '{\n"fragments": [\n'
         result += buffer[:-2]
         result += "]}"
@@ -65,7 +56,7 @@ class RecognizerClass:
         self.cprint(f"Created file '{self.MAPJSON}'")
         return True
 
-    def recognize(self, wav):
+    def recognize(self, wav, size):
         wf = wave.open(wav, "rb")
         self.cprint("Loading recognize model...")
         model = Model(self.MODEL_PATH)
@@ -77,8 +68,22 @@ class RecognizerClass:
             if len(data) == 0:
                 break
             if rec.AcceptWaveform(data):
-                buffer = rec.Result()
+                buffer = self.update_buffer(buffer=rec.Result(), size=size)
                 result.append(buffer)
                 self.cprint(buffer)
-        result.append(rec.FinalResult())
+        result.append(
+            self.update_buffer(buffer=rec.FinalResult(), size=size)
+        )
         return result
+
+    @staticmethod
+    def update_buffer(buffer, size):
+        r = json.loads(buffer)
+        try:
+            for i in range(len(r["result"])):
+                r["result"][i]["end"] += size
+                r["result"][i]["start"] += size
+        except KeyError:
+            pass
+        buffer = json.dumps(buffer)
+        return buffer
