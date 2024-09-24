@@ -34,7 +34,7 @@ class Storage:
     def list(self):
         if self.controller is None:
             return
-        if self.model.target == APP_CREATOR:
+        if self.controller.app[APP_NAME] == APP_CREATOR:
             return
         self.storage_list()
         for i in os.listdir(self.data):

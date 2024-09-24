@@ -9,9 +9,12 @@ class AudioClass:
         self.WAV = f"{output}/{language}.wav"
         self.FLAC = f"{output}/{language}.flac"
         self.audio_list = audio_list
-        self.create_mp3()
-        self.create_wav()
-        self.create_flac()
+        if self.audio_list:
+            self.create_mp3()
+            self.create_wav()
+            self.create_flac()
+        else:
+            self.cprint("Error: mp3 files not found")
 
     def create_mp3(self):
         if os.path.exists(self.MP3):
