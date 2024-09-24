@@ -37,7 +37,7 @@ class RecognizerClass:
             executor.shutdown()
             for future in futures:
                 results.append(future.result())
-        buffer = ""
+        buffer = "  "
         index = 0
         sizes_index = 0
         for result in results:
