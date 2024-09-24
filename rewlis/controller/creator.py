@@ -1,5 +1,7 @@
 import json
 import os
+import threading
+
 from PIL import ImageDraw
 
 from rewlis.model.model import Model
@@ -94,18 +96,22 @@ class Creator:
                 os.remove(d)
 
     def recognize_process(self, cprint, book):
-        recognizer_eng = recognizer.RecognizerClass(
-            cprint=cprint,
-            model_path=f"recognize/eng",
-            output=f"{self.data}/{book}",
-            language="eng", config=self.config)
-        recognizer_eng.create_map()
-        recognizer_rus = recognizer.RecognizerClass(
-            cprint=cprint,
-            model_path=f"recognize/rus",
-            output=f"{self.data}/{book}",
-            language="rus", config=self.config)
-        recognizer_rus.create_map()
+        t1 = threading.Thread(
+            target=recognizer.RecognizerClass,
+            args=(cprint,
+                  f"recognize/rus",
+                  f"{self.data}/{book}",
+                  "rus", self.config)
+        )
+        t1.start()
+        t2 = threading.Thread(
+            target=recognizer.RecognizerClass,
+            args=(cprint,
+                  f"recognize/eng",
+                  f"{self.data}/{book}",
+                  "eng", self.config)
+        )
+        t2.start()
 
     def rus_process(self, cprint, book, rus_txt):
         if not os.path.exists(f"{self.data}/{book}/{self.config.RUS_SYNC}"):

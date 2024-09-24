@@ -14,6 +14,7 @@ class RecognizerClass:
             self.MAPJSON = f"{output}/{config.ENG_MAP}"
             self.WAV = f"{output}/{config.ENG_WAV}"
         self.MODEL_PATH = model_path
+        self.create_map()
 
     def create_map(self):
         if os.path.exists(self.MAPJSON):
