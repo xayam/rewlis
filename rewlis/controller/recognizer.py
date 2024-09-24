@@ -36,5 +36,5 @@ class RecognizerClass:
         ss += rec.FinalResult() + "]}"
         with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
             ff.write(ss)
-        self.cprint(f"Create file {self.MAPJSON}")
+        self.cprint(f"Create file '{self.MAPJSON}'")
         return True
