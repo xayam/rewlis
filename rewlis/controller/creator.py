@@ -68,30 +68,25 @@ class Creator:
         return rus_txt, eng_txt
 
     def audio_process(self, cprint, book):
-        mp3rus, mp3eng = [], []
+        mp3rus = [(f"{self.data}/{book}", x,
+                   f"{self.data}/{book}/mp3rus/{x}")
+                  for x in os.listdir(f"{self.data}/{book}/mp3rus")
+                  if x[-4:] == ".mp3"]
+        mp3eng = [(f"{self.data}/{book}", x,
+                   f"{self.data}/{book}/mp3eng/{x}")
+                  for x in os.listdir(f"{self.data}/{book}/mp3eng")
+                  if x[-4:] == ".mp3"]
+        cprint(mp3rus)
+        cprint(mp3eng)
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
-                                  self.config.RUS_FLAC):
-                mp3rus = [(f"{self.data}/{book}", x,
-                           f"{self.data}/{book}/mp3rus/{x}")
-                          for x in os.listdir(f"{self.data}/{book}/mp3rus")
-                          if x[-4:] == ".mp3"]
-                cprint(mp3rus)
-                executor.submit(audio.AudioClass,
-                                cprint, mp3rus,
-                                os.getcwd() + f"/{self.data}/{book}", "rus"
-                                )
-            if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
-                                  self.config.ENG_FLAC):
-                mp3eng = [(f"{self.data}/{book}", x,
-                           f"{self.data}/{book}/mp3eng/{x}")
-                          for x in os.listdir(f"{self.data}/{book}/mp3eng")
-                          if x[-4:] == ".mp3"]
-                cprint(mp3eng)
-                executor.submit(audio.AudioClass,
-                                cprint, mp3eng,
-                                os.getcwd() + f"/{self.data}/{book}", "eng"
-                                )
+            executor.submit(audio.AudioClass,
+                            cprint, mp3rus,
+                            os.getcwd() + f"/{self.data}/{book}", "rus"
+                           )
+            executor.submit(audio.AudioClass,
+                            cprint, mp3eng,
+                            os.getcwd() + f"/{self.data}/{book}", "eng"
+                            )
             executor.shutdown()
         return mp3rus, mp3eng
 

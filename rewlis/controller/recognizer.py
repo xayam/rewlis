@@ -8,11 +8,12 @@ from vosk import Model, KaldiRecognizer
 
 
 class RecognizerClass:
-    def __init__(self, cprint, model_path, output, language, config, mp3):
+    def __init__(self, cprint, model_path, output, language, config, mp3_list):
         self.chunk = None
         self.cprint = cprint
         self.language = language
-        self.audio_list = mp3
+        self.audio_list = mp3_list
+        self.cprint(mp3_list)
         if self.language == "rus":
             self.MAPJSON = f"{output}/{config.RUS_MAP}"
         else:
@@ -27,9 +28,11 @@ class RecognizerClass:
         if os.path.exists(self.MAPJSON):
             self.cprint(f"Find file '{self.MAPJSON}'")
             return True
+        self.cprint("Start recognize...")
         results = []
         futures = []
-        sizes1 = [mutagen.mp3.MP3(mp3[2]).info.length for mp3 in self.audio_list]
+        sizes1 = [mutagen.mp3.MP3(mp3_list[2]).info.length
+                  for mp3_list in self.audio_list]
         shift = 0
         sizes = []
         for s in sizes1:

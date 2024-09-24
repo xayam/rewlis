@@ -47,6 +47,5 @@ class Menu(AnchorLayout):
         t = threading.Thread(
             target=self.controller.creator.process,
             args=(self.controller.terminal.cprint,),
-            daemon=True,
         )
         t.start()
