@@ -60,6 +60,7 @@ class RecognizerClass:
 
     def recognize(self, wav):
         wf = wave.open(wav, "rb")
+        self.cprint("Loading recognize model...")
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
