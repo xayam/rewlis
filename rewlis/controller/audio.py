@@ -1,3 +1,5 @@
+import threading
+
 import sox
 import os
 
@@ -12,9 +14,10 @@ class AudioClass:
                     for i in self.audio_list]
         self.FLAC = f"{output}/{self.language}.flac"
         if self.audio_list:
-            self.create_mp3()
-            self.create_wav()
-            self.create_flac()
+            t1 = threading.Thread(target=self.create_wav)
+            t1.start()
+            t2 = threading.Thread(target=self.create_mp3_flac)
+            t2.start()
         else:
             self.cprint("Error: mp3 files not found")
             raise Exception("Error: mp3 files not found")
@@ -45,3 +48,7 @@ class AudioClass:
         cbn = sox.Transformer()
         cbn.convert(samplerate=16000, n_channels=1)
         cbn.build(self.MP3, self.FLAC)
+
+    def create_mp3_flac(self):
+        self.create_mp3()
+        self.create_flac()
