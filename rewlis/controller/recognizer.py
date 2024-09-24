@@ -17,7 +17,7 @@ class RecognizerClass:
 
     def create_map(self):
         if os.path.exists(self.MAPJSON):
-            self.cprint("Find file self.MAPJSON")
+            self.cprint(f"Find file '{self.MAPJSON}'")
             return True
         wf = wave.open(self.WAV, "rb")
         model = Model(self.MODEL_PATH)

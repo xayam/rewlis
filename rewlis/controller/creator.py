@@ -29,20 +29,22 @@ class Creator:
     def process(self, cprint):
         book = self.controller.current_book
         if book is None:
+            cprint("End create book")
             return
         if not os.path.isdir(f"{self.data}/{book}"):
+            cprint("End create book")
             return
         if os.path.exists(f"{self.data}/{book}/{self.config.VALID}"):
             with open(f"{self.data}/{book}/{self.config.VALID}",
                       mode="r", encoding="UTF-8") as f:
                 valid = f.read()
             if valid == "True":
-                cprint(f"Book {book} is valid, continue...")
+                cprint(f"Book {book} is valid")
                 return
         if not os.path.exists(f"{self.data}/{book}/{self.config.RUS_TXT}"):
             cprint(
-                f"Файла {self.data}/{book}/{self.config.RUS_TXT}" +
-                " не существует"
+                f"File '{self.data}/{book}/{self.config.RUS_TXT}'" +
+                " not exists"
             )
             return
         with open(f"{self.data}/{book}/{self.config.RUS_TXT}",
@@ -50,8 +52,8 @@ class Creator:
             rus_txt = rus.read()
         if not os.path.exists(f"{self.data}/{book}/{self.config.ENG_TXT}"):
             cprint(
-                f"Файла {self.data}/{book}/{self.config.ENG_TXT}" +
-                " не существует"
+                f"File '{self.data}/{book}/{self.config.ENG_TXT}'" +
+                " not exists"
             )
             return
         with open(f"{self.data}/{book}/{self.config.ENG_TXT}",
@@ -106,7 +108,7 @@ class Creator:
                 with open(f"{self.data}/{book}/rus.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(rus_html)
-            cprint("get similarity...")
+            cprint("Get similarity...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(rus_html, R_word)
             sync_rus = sync.Sync(cprint=cprint,
@@ -138,7 +140,7 @@ class Creator:
                 with open(f"{self.data}/{book}/eng.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(eng_html)
-            cprint("get similarity...")
+            cprint("Get similarity...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(eng_html, R_word)
             sync_eng = sync.Sync(cprint=cprint,
@@ -313,7 +315,9 @@ class Creator:
 
         with open(f"{self.data}/{book}/{self.config.VALID}",
                   mode="w", encoding="UTF-8") as f:
+            cprint(f"Book '{book}' is valid")
             f.write("True")
+        cprint("End create book")
 
 
 def c_print(_):
