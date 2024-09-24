@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import wave
 from multiprocessing.dummy import Pool
 from vosk import Model, KaldiRecognizer
@@ -12,10 +13,10 @@ class RecognizerClass:
         self.language = language
         if self.language == "rus":
             self.MAPJSON = f"{output}/{config.RUS_MAP}"
-            self.WAV = f"{output}/{config.RUS_WAV}"
         else:
             self.MAPJSON = f"{output}/{config.ENG_MAP}"
-            self.WAV = f"{output}/{config.ENG_WAV}"
+        self.WAV = [i for i in os.listdir(f"{output}/wav{self.language}")
+                    if i.endswith(".wav")]
         self.MODEL_PATH = model_path
         self.create_map()
 
@@ -25,12 +26,9 @@ class RecognizerClass:
             return True
         n = 4
         p = Pool(n)
-        wf = wave.open(self.WAV, "rb")
-        self.chunk = wf.getnframes() // n
-        tasks = [wf.getnframes() // n] * (n - 1) + [wf.getnframes() % n]
-        results = p.map(self.recognize, tasks)
-        wf.close()
+        results = p.map(self.recognize, self.WAV)
         self.cprint(results)
+        sys.exit()
         # result = '{\n"fragments": [\n'
         # result += ",\n"
         # result += "]}"
@@ -39,23 +37,16 @@ class RecognizerClass:
         # self.cprint(f"Create file '{self.MAPJSON}'")
         return True
 
-    def recognize(self, uid):
-        wf = wave.open(self.WAV[uid], "rb")
+    def recognize(self, wav):
+        wf = wave.open(wav, "rb")
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
-        wf.setpos(uid * self.chunk)
-        count = self.chunk // 4000
-        last = self.chunk % 4000
         result = []
         while True:
-            if count == 1:
-                data = wf.readframes(last)
-            else:
-                data = wf.readframes(4000)
-            if (len(data) == 0) or (count == 0):
+            data = wf.readframes(4000)
+            if len(data) == 0:
                 break
-            count -= 1
             if rec.AcceptWaveform(data):
                 buffer = rec.Result()
                 result.append(buffer)
