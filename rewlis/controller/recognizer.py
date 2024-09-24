@@ -55,7 +55,7 @@ class RecognizerClass:
         result += "]}"
         with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
             ff.write(result)
-        self.cprint(f"Create file '{self.MAPJSON}'")
+        self.cprint(f"Created file '{self.MAPJSON}'")
         return True
 
     def recognize(self, wav):
