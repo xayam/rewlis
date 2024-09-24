@@ -20,15 +20,15 @@ class Conf:
     ICON_ICO = "res/img/icon.ico"
     ICON_PNG = "res/img/icon.png"
 
-    GITHUB_SYNCBOOKER = "https://github.com/xayam/syncbooker"
+    GITHUB_REWLIS = "https://github.com/xayam/rewlis"
     UPDATE_URL = "https://github.com/xayam/syncbookerkivy/" + \
                  "releases/download/SyncBookerKivy_v1.0/"
     # Copy here
     # UPDATE_URL = "https://cloud.mail.ru/public/rdBB/KHvCjQdaT/Android/"
     LIST_FILE = "list.zip"
     LIST_URL = UPDATE_URL + LIST_FILE
-    SYNCBOOKER_CHAT = "https://t.me/syncbooker_chat"
-    SYNCBOOKER_TELEGRAM = "@syncbooker_chat"
+    CHAT_REWLIS = "https://t.me/rewlis"
+    TELEGRAM_REWLIS = "@rewlis"
     EMAIL = "xayam@yandex.ru"
 
     MP3RUS = "mp3rus"
