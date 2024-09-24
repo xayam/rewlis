@@ -43,14 +43,13 @@ class RecognizerClass:
         for result in results:
             for res in result:
                 r = json.loads(res)
-                if dict(r).__contains__("result"):
+                if r.__contains__("result"):
                     for i in range(len(r["result"])):
                         r["result"][i]["end"] += sizes_index
                         r["result"][i]["start"] += sizes_index
                 buffer += json.dumps(r) + ",\n"
             sizes_index += sizes[index]
             index += 1
-
         result = '{\n"fragments": [\n'
         result += buffer
         result += "]}"
