@@ -26,8 +26,11 @@ class Creator:
             os.mkdir(self.data)
         self.folder_of_books = os.listdir(self.data)
 
-    def process(self, cprint):
-        book = self.controller.current_book
+    def process(self, cprint, current=None):
+        if current is not None:
+            book = "London_Jack_-_Martin_Eden"
+        else:
+            book = self.controller.current_book
         if book is None:
             cprint("End create book")
             return
@@ -328,4 +331,4 @@ if __name__ == "__main__":
     models = Model()
     create = Creator(model=models)
     create.init()
-    create.process(cprint=c_print)
+    create.process(cprint=c_print, current=1)
