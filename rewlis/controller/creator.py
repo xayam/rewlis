@@ -201,7 +201,7 @@ class Creator:
 
     def process(self, cprint, current=None):
         book = self.init_process(cprint=cprint, current=current)
-        rus_txt, eng_txt, book = self.check_process(cprint=cprint, book=book)
+        rus_txt, eng_txt = self.check_process(cprint=cprint, book=book)
         self.audio_process(cprint=cprint, book=book)
         self.recognize_process(cprint=cprint, book=book)
         sync2 = self.rus_process(cprint=cprint, book=book, rus_txt=rus_txt)
