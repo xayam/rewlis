@@ -148,7 +148,6 @@ class Creator:
             with open(f"{self.data}/{book}/{self.config.RUS_ORIG}",
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html)
-
         return sync2
 
     def eng_process(self, cprint, book, eng_txt):
@@ -192,7 +191,6 @@ class Creator:
             with open(f"{self.data}/{book}/{self.config.ENG_ORIG}",
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html2)
-
         return sync1
 
     def process(self, cprint, current=None):
