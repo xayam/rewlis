@@ -1,3 +1,4 @@
+import concurrent.futures
 import threading
 
 import sox
@@ -15,20 +16,16 @@ class AudioClass:
                     for i in self.audio_list]
         self.FLAC = f"{self.output}/{self.language}.flac"
         if self.audio_list:
-            t = threading.Thread(target=self.process)
-            t.start()
-            t.join()
+            self.process()
         else:
             self.cprint("Error: mp3 files not found")
             raise Exception("Error: mp3 files not found")
 
     def process(self):
-        t1 = threading.Thread(target=self.create_wav)
-        t1.start()
-        t2 = threading.Thread(target=self.create_mp3_flac)
-        t2.start()
-        t1.join()
-        t2.join()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            executor.submit(self.create_wav)
+            executor.submit(self.create_mp3_flac)
+            executor.shutdown()
 
     def create_mp3(self):
         if os.path.exists(self.MP3):
@@ -38,7 +35,6 @@ class AudioClass:
         cbn.convert(samplerate=16000, n_channels=1)
         list_input = [f"{i[0]}/mp3{self.language}/{i[1]}"
                       for i in self.audio_list]
-        # self.cprint(list_input)
         cbn.build(list_input, self.MP3, 'concatenate')
 
     def create_wav(self):

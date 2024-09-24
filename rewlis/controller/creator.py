@@ -1,3 +1,4 @@
+import concurrent.futures
 import json
 import os
 import threading
@@ -68,50 +69,40 @@ class Creator:
         return rus_txt, eng_txt
 
     def audio_process(self, cprint, book):
-        if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
-                              self.config.RUS_FLAC):
-            mp3rus = [(f"{self.data}/{book}", x)
-                      for x in os.listdir(f"{self.data}/{book}/mp3rus")
-                      if x[-4:] == ".mp3"]
-            cprint(mp3rus)
-            audio.AudioClass(cprint=cprint,
-                             audio_list=mp3rus,
-                             output=os.getcwd() + f"/{self.data}/{book}",
-                             language="rus")
-        if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
-                              self.config.ENG_FLAC):
-            mp3eng = [(f"{self.data}/{book}", x)
-                      for x in os.listdir(f"{self.data}/{book}/mp3eng")
-                      if x[-4:] == ".mp3"]
-            cprint(mp3eng)
-            audio.AudioClass(cprint=cprint,
-                             audio_list=mp3eng,
-                             output=os.getcwd() + f"/{self.data}/{book}",
-                             language="eng")
-
-        del_me = [f"{self.data}/{book}/{x}.bat"
-                  for x in ["audio", "wav", "flac"]]
-        for d in del_me:
-            if os.path.exists(d):
-                os.remove(d)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
+                                  self.config.RUS_FLAC):
+                mp3rus = [(f"{self.data}/{book}", x)
+                          for x in os.listdir(f"{self.data}/{book}/mp3rus")
+                          if x[-4:] == ".mp3"]
+                cprint(mp3rus)
+                executor.submit(audio.AudioClass,
+                                cprint, mp3rus,
+                                os.getcwd() + f"/{self.data}/{book}", "rus"
+                                )
+            if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
+                                  self.config.ENG_FLAC):
+                mp3eng = [(f"{self.data}/{book}", x)
+                          for x in os.listdir(f"{self.data}/{book}/mp3eng")
+                          if x[-4:] == ".mp3"]
+                cprint(mp3eng)
+                executor.submit(audio.AudioClass,
+                                cprint, mp3eng,
+                                os.getcwd() + f"/{self.data}/{book}", "eng"
+                                )
+            executor.shutdown()
 
     def recognize_process(self, cprint, book):
-        t1 = threading.Thread(
-            target=recognizer.RecognizerClass,
-            args=(cprint,
-                  f"recognize/rus",
-                  f"{self.data}/{book}",
-                  "rus", self.config)
-        )
-        t1.start()
-        t2 = threading.Thread(
-            target=recognizer.RecognizerClass,
-            args=(cprint,
-                  f"recognize/eng",
-                  f"{self.data}/{book}",
-                  "eng", self.config)
-        )
-        t2.start()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            executor.submit(recognizer.RecognizerClass,
+                            cprint, f"recognize/rus",
+                            f"{self.data}/{book}", "rus", self.config
+            )
+            executor.submit(recognizer.RecognizerClass,
+                            cprint, f"recognize/eng",
+                            f"{self.data}/{book}", "eng", self.config
+            )
+            executor.shutdown()
 
     def rus_process(self, cprint, book, rus_txt):
         if not os.path.exists(f"{self.data}/{book}/{self.config.RUS_SYNC}"):
