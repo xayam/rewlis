@@ -1,7 +1,6 @@
 import concurrent.futures
 import json
 import os
-import threading
 
 from PIL import ImageDraw
 
@@ -72,7 +71,8 @@ class Creator:
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
                                   self.config.RUS_FLAC):
-                mp3rus = [(f"{self.data}/{book}", x)
+                mp3rus = [(f"{self.data}/{book}", x,
+                           f"{self.data}/{book}/mp3rus/{x}")
                           for x in os.listdir(f"{self.data}/{book}/mp3rus")
                           if x[-4:] == ".mp3"]
                 cprint(mp3rus)
@@ -82,7 +82,8 @@ class Creator:
                                 )
             if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
                                   self.config.ENG_FLAC):
-                mp3eng = [(f"{self.data}/{book}", x)
+                mp3eng = [(f"{self.data}/{book}", x,
+                           f"{self.data}/{book}/mp3eng/{x}")
                           for x in os.listdir(f"{self.data}/{book}/mp3eng")
                           if x[-4:] == ".mp3"]
                 cprint(mp3eng)
@@ -91,16 +92,17 @@ class Creator:
                                 os.getcwd() + f"/{self.data}/{book}", "eng"
                                 )
             executor.shutdown()
+        return mp3rus, mp3eng
 
-    def recognize_process(self, cprint, book):
+    def recognize_process(self, cprint, book, mp3rus, mp3eng):
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             executor.submit(recognizer.RecognizerClass,
                             cprint, f"recognize/rus",
-                            f"{self.data}/{book}", "rus", self.config
+                            f"{self.data}/{book}", "rus", self.config, mp3rus
             )
             executor.submit(recognizer.RecognizerClass,
                             cprint, f"recognize/eng",
-                            f"{self.data}/{book}", "eng", self.config
+                            f"{self.data}/{book}", "eng", self.config, mp3eng
             )
             executor.shutdown()
 
@@ -193,8 +195,9 @@ class Creator:
     def process(self, cprint, current=None):
         book = self.init_process(cprint=cprint, current=current)
         rus_txt, eng_txt = self.check_process(cprint=cprint, book=book)
-        self.audio_process(cprint=cprint, book=book)
-        self.recognize_process(cprint=cprint, book=book)
+        mp3rus, mp3eng = self.audio_process(cprint=cprint, book=book)
+        self.recognize_process(cprint=cprint, book=book,
+                               mp3rus=mp3rus, mp3eng=mp3eng)
         sync2 = self.rus_process(cprint=cprint, book=book, rus_txt=rus_txt)
         sync1 = self.eng_process(cprint=cprint, book=book, eng_txt=eng_txt)
         sync_rus = sync.Sync(
