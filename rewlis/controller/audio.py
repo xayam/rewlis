@@ -15,6 +15,7 @@ class AudioClass:
             self.create_flac()
         else:
             self.cprint("Error: mp3 files not found")
+            raise Exception("Error: mp3 files not found")
 
     def create_mp3(self):
         if os.path.exists(self.MP3):
