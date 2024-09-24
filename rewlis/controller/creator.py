@@ -70,7 +70,7 @@ class Creator:
     def audio_process(self, cprint, book):
         if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
                               self.config.RUS_FLAC):
-            mp3rus = [f"{self.data}/{book}/mp3rus/{x}"
+            mp3rus = [(f"{self.data}/{book}", x)
                       for x in os.listdir(f"{self.data}/{book}/mp3rus")
                       if x[-4:] == ".mp3"]
             cprint(mp3rus)
@@ -80,7 +80,7 @@ class Creator:
                              language="rus")
         if not os.path.exists(os.getcwd() + f"/{self.data}/{book}/" +
                               self.config.ENG_FLAC):
-            mp3eng = [f"{self.data}/{book}/mp3eng/{x}"
+            mp3eng = [(f"{self.data}/{book}", x)
                       for x in os.listdir(f"{self.data}/{book}/mp3eng")
                       if x[-4:] == ".mp3"]
             cprint(mp3eng)

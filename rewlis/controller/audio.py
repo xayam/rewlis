@@ -5,10 +5,12 @@ import os
 class AudioClass:
     def __init__(self, cprint, audio_list, output, language):
         self.cprint = cprint
-        self.MP3 = f"{output}/{language}.mp3"
-        self.WAV = f"{output}/{language}.wav"
-        self.FLAC = f"{output}/{language}.flac"
         self.audio_list = audio_list
+        self.language = language
+        self.MP3 = f"{output}/{self.language}.mp3"
+        self.WAV = [f"{output}/wav{self.language}/{i[1][-4:]}.wav"
+                    for i in self.audio_list]
+        self.FLAC = f"{output}/{self.language}.flac"
         if self.audio_list:
             self.create_mp3()
             self.create_wav()
@@ -23,15 +25,18 @@ class AudioClass:
         self.cprint("Create mp3...")
         cbn = sox.Combiner()
         cbn.convert(samplerate=16000, n_channels=1)
-        cbn.build(self.audio_list, self.MP3, 'concatenate')
+        list_input = [f"{i[0]}/mp3{self.language}/{i[1]}"
+                      for i in self.audio_list]
+        cbn.build(list_input, self.MP3, 'concatenate')
 
     def create_wav(self):
-        if os.path.exists(self.WAV):
-            return
         self.cprint("Converting mp3 to wav...")
         cbn = sox.Transformer()
         cbn.convert(samplerate=16000, n_channels=1)
-        cbn.build(self.MP3, self.WAV)
+        for i in range(self.audio_list):
+            if os.path.exists(self.WAV[i]):
+                continue
+            cbn.build(self.MP3, self.WAV[i])
 
     def create_flac(self):
         if os.path.exists(self.FLAC):

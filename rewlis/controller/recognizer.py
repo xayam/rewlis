@@ -1,5 +1,7 @@
+import json
 import os
 import wave
+from multiprocessing.dummy import Pool
 from vosk import Model, KaldiRecognizer
 
 
@@ -14,13 +16,19 @@ class RecognizerClass:
             self.MAPJSON = f"{output}/{config.ENG_MAP}"
             self.WAV = f"{output}/{config.ENG_WAV}"
         self.MODEL_PATH = model_path
-        self.create_map()
+        # self.create_map()
 
     def create_map(self):
         if os.path.exists(self.MAPJSON):
             self.cprint(f"Find file '{self.MAPJSON}'")
             return True
+        n = 4
+        p = Pool(n)
         wf = wave.open(self.WAV, "rb")
+        tasks = [wf.getnframes() // n] * (n - 1) + [wf.getnframes() % n]
+        results = p.map(self.recognize, tasks)
+
+
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
@@ -38,3 +46,21 @@ class RecognizerClass:
             ff.write(ss)
         self.cprint(f"Create file '{self.MAPJSON}'")
         return True
+
+    def recognize(self, line):
+        uid, fn = line.split()
+        wf = wave.open(fn, "rb")
+        model = Model(self.MODEL_PATH)
+        rec = KaldiRecognizer(model, wf.getframerate())
+
+        text = ""
+        while True:
+            data = wf.readframes(1000)
+            if len(data) == 0:
+                break
+            if rec.AcceptWaveform(data):
+                jres = json.loads(rec.Result())
+                text = text + " " + jres["text"]
+        jres = json.loads(rec.FinalResult())
+        text = text + " " + jres["text"]
+        return uid + text
