@@ -38,7 +38,7 @@ class Terminal(TextInput):
 
     def cprint(self, *args):
         self.message = " ".join(map(str, args))
-        Clock.schedule_once(self._clock, 0)
+        Clock.schedule_once(self._clock, 0.1)
 
     def _clock(self, _):
         if self.message is not None:
