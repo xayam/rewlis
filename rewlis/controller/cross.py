@@ -83,12 +83,12 @@ def get_sim_v21(labels_1, labels_2):
 
     sim = 1 - np.arccos(
         pairwise.cosine_similarity(embeddings_1, embeddings_2)) / np.pi
-    # for i in range(len(sim)):
-    #     for j in range(len(sim[i])):
-    #         if sim[i][j] < 0.63:
-    #             sim[i][j] = 0
-    #         else:
-    #             sim[i][j] = 100
+    for i in range(len(sim)):
+        for j in range(len(sim[i])):
+            if sim[i][j] < 0.63:
+                sim[i][j] = 0
+            else:
+                sim[i][j] = 100
     L_end = []
     length = 0
     for i in labels_1:
