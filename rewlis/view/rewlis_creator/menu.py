@@ -46,6 +46,5 @@ class Menu(AnchorLayout):
         print("Running process of create sync-book...")
         t = threading.Thread(
             target=self.controller.creator.process,
-            args=(self.controller.terminal.cprint,),
         )
         t.start()
