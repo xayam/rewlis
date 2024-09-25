@@ -24,6 +24,7 @@ class KivyCreator(KivyApp):
         self.app = self.model.app
         self.controller = self.model.controller
         sys.stdout = Terminal(model=self.model)
+        sys.stderr = sys.stdout
         self.controller.terminal = sys.stdout
         self.controller.app = self
         self.controller.creator = Creator(model=self.model,
