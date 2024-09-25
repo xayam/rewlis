@@ -27,7 +27,7 @@ class KivyCreator(KivyApp):
         self.controller.terminal = sys.stdout
         self.controller.app = self
         self.controller.creator = Creator(model=self.model,
-                                          cprint=self.controller.terminal.cprint)
+                                          cprint=sys.stdout.cprint)
         self.controller.creator.init()
         self.init()
         Config.set('kivy', 'window_icon', self.model.conf.ICON_PNG)

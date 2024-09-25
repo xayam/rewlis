@@ -36,10 +36,10 @@ class Terminal(TextInput):
     def flush(self):
         pass
 
-    def cprint(self, message):
-        self.message = message
+    def cprint(self, *args):
+        self.message = " ".join(map(str, args))
         Clock.schedule_once(self._clock, 0)
 
     def _clock(self, _):
         if self.message is not None:
-            self.write(str(self.message) + "\n")
+            self.write(self.message + "\n")

@@ -1,6 +1,7 @@
 import concurrent.futures
 import json
 import os
+import sys
 
 from PIL import ImageDraw
 
@@ -30,92 +31,93 @@ class Creator:
         self.folder_of_books = os.listdir(self.data)
 
     def init_process(self):
-        book = self.controller.current_book
-        if book is None:
+        self.book = self.controller.current_book
+        if self.book is None:
             message = "End create book"
             self.cprint(message)
             raise Exception(message)
-        if not os.path.isdir(f"{self.data}/{book}"):
+        if not os.path.isdir(f"{self.data}/{self.book}"):
             message = "End create book"
             self.cprint(message)
             raise Exception(message)
-        return book
 
-    def check_process(self, book):
-        if os.path.exists(f"{self.data}/{book}/{self.config.VALID}"):
-            with open(f"{self.data}/{book}/{self.config.VALID}",
+    def check_process(self):
+        if os.path.exists(f"{self.data}/{self.book}/{self.config.VALID}"):
+            with open(f"{self.data}/{self.book}/{self.config.VALID}",
                       mode="r", encoding="UTF-8") as f:
                 valid = f.read()
             if valid == "True":
-                self.cprint(f"Book {book} is valid")
+                self.cprint(f"self.book {self.book} is valid")
                 return
-        if not os.path.exists(f"{self.data}/{book}/{self.config.RUS_TXT}"):
-            message = f"File '{self.data}/{book}/{self.config.RUS_TXT}' not exists"
+        if not os.path.exists(f"{self.data}/{self.book}/{self.config.RUS_TXT}"):
+            message = f"File '{self.data}/{self.book}/{self.config.RUS_TXT}' not exists"
             self.cprint(message)
             raise Exception(message)
-        with open(f"{self.data}/{book}/{self.config.RUS_TXT}",
+        with open(f"{self.data}/{self.book}/{self.config.RUS_TXT}",
                   mode="r", encoding="UTF-8") as rus:
             rus_txt = rus.read()
-        if not os.path.exists(f"{self.data}/{book}/{self.config.ENG_TXT}"):
-            message = f"File '{self.data}/{book}/{self.config.ENG_TXT}' not exists"
+        if not os.path.exists(f"{self.data}/{self.book}/{self.config.ENG_TXT}"):
+            message = f"File '{self.data}/{self.book}/{self.config.ENG_TXT}' not exists"
             self.cprint(message)
             raise Exception(message)
-        with open(f"{self.data}/{book}/{self.config.ENG_TXT}",
+        with open(f"{self.data}/{self.book}/{self.config.ENG_TXT}",
                   mode="r", encoding="UTF-8") as eng:
             eng_txt = eng.read()
         return rus_txt, eng_txt
 
-    def audio_process(self, book):
-        mp3rus = [(f"{self.data}/{book}", x,
-                   f"{self.data}/{book}/mp3rus/{x}")
-                  for x in os.listdir(f"{self.data}/{book}/mp3rus")
+    def audio_process(self):
+        mp3rus = [(f"{self.data}/{self.book}", x,
+                   f"{self.data}/{self.book}/mp3rus/{x}")
+                  for x in os.listdir(f"{self.data}/{self.book}/mp3rus")
                   if x[-4:] == ".mp3"]
-        mp3eng = [(f"{self.data}/{book}", x,
-                   f"{self.data}/{book}/mp3eng/{x}")
-                  for x in os.listdir(f"{self.data}/{book}/mp3eng")
+        mp3eng = [(f"{self.data}/{self.book}", x,
+                   f"{self.data}/{self.book}/mp3eng/{x}")
+                  for x in os.listdir(f"{self.data}/{self.book}/mp3eng")
                   if x[-4:] == ".mp3"]
-        self.cprint(mp3rus)
-        self.cprint(mp3eng)
+        self.cprint(str(self.book))
+        self.cprint(str(mp3rus))
+        self.cprint(str(mp3eng))
+        sys.exit()
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(audio.AudioClass,
+            executor.submit(audio.AudioClass.__init__,
                             self.cprint, mp3rus,
-                            os.getcwd() + f"/{self.data}/{book}", "rus"
+                            os.getcwd() + f"/{self.data}/{self.book}", "rus"
                             )
-            executor.submit(audio.AudioClass,
+            executor.submit(audio.AudioClass.__init__,
                             self.cprint, mp3eng,
-                            os.getcwd() + f"/{self.data}/{book}", "eng"
+                            os.getcwd() + f"/{self.data}/{self.book}", "eng"
                             )
             executor.shutdown()
         return mp3rus, mp3eng
 
-    def recognize_process(self, book, mp3rus, mp3eng):
+    def recognize_process(self, mp3rus, mp3eng):
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(recognizer.RecognizerClass,
+            executor.submit(recognizer.RecognizerClass.__init__,
                             self.cprint, f"recognize/rus",
-                            f"{self.data}/{book}", "rus", self.config, mp3rus
+                            f"{self.data}/{self.book}", "rus", self.config, mp3rus
                             )
-            executor.submit(recognizer.RecognizerClass,
+            executor.submit(recognizer.RecognizerClass.__init__,
                             self.cprint, f"recognize/eng",
-                            f"{self.data}/{book}", "eng", self.config, mp3eng
+                            f"{self.data}/{self.book}", "eng", self.config, mp3eng
                             )
             executor.shutdown()
 
-    def rus_process(self, book, rus_txt):
-        if not os.path.exists(f"{self.data}/{book}/{self.config.RUS_SYNC}"):
-            with open(f"{self.data}/{book}/rus.map.json",
+    def rus_process(self, rus_txt):
+        if not os.path.exists(f"{self.data}/{self.book}/{self.config.RUS_SYNC}"):
+            with open(f"{self.data}/{self.book}/rus.map.json",
                       mode="r", encoding="UTF-8") as map_json:
                 R_start, R_end, R_word = r_map(json.load(map_json))
             rus_html = text2html(text=rus_txt.lower(),
                                  pattern=r'([а-я0-9a-z]+)([^а-я0-9a-z]+)')
-            if not os.path.exists(f"{self.data}/{book}/rus.html"):
-                with open(f"{self.data}/{book}/rus.html",
+            if not os.path.exists(f"{self.data}/{self.book}/rus.html"):
+                with open(f"{self.data}/{self.book}/rus.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(rus_html)
             self.cprint("Get similarity...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(rus_html, R_word)
             sync_rus = sync.Sync(cprint=self.cprint,
-                                 output=f"{self.data}/{book}",
+                                 output=f"{self.data}/{self.book}",
                                  language="rus")
             two_sync = sync_rus.create_sync(
                 synchronize, L_start, L_end, L_word, R_start, R_end, R_word)
@@ -125,40 +127,40 @@ class Creator:
             for i in two_sync:
                 synchronize[i[POS]][i[TIME]] = 255
             img = Image.fromarray(np.uint8(synchronize), 'L')
-            img.save(f"{self.data}/{book}/rus2.sync.png")
+            img.save(f"{self.data}/{self.book}/rus2.sync.png")
             sync2 = two_sync
         else:
             self.cprint("Load file config.RUS_SYNC")
-            with open(f"{self.data}/{book}/{self.config.RUS_SYNC}",
+            with open(f"{self.data}/{self.book}/{self.config.RUS_SYNC}",
                       mode="r") as fsync:
                 sync2 = json.load(fsync)
 
-        if not os.path.exists(f"{self.data}/{book}/{self.config.RUS_ORIG}"):
+        if not os.path.exists(f"{self.data}/{self.book}/{self.config.RUS_ORIG}"):
             orig_html = text2html(
                 text=rus_txt.lower(),
                 pattern=r'(([а-я0-9a-z]+[^а-я0-9a-z]+){4})',
                 replacepattern=r'<p>\1</p>')
-            with open(f"{self.data}/{book}/{self.config.RUS_ORIG}",
+            with open(f"{self.data}/{self.book}/{self.config.RUS_ORIG}",
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html)
         return sync2
 
-    def eng_process(self, book, eng_txt):
-        if not os.path.exists(f"{self.data}/{book}/{self.config.ENG_SYNC}"):
-            with open(f"{self.data}/{book}/eng.map.json",
+    def eng_process(self, eng_txt):
+        if not os.path.exists(f"{self.data}/{self.book}/{self.config.ENG_SYNC}"):
+            with open(f"{self.data}/{self.book}/eng.map.json",
                       mode="r", encoding="UTF-8") as map_json:
                 R_start, R_end, R_word = r_map(json.load(map_json))
             eng_html = text2html(text=eng_txt.lower(),
                                  pattern=r'([а-я0-9a-z]+)([^а-я0-9a-z]+)')
-            if not os.path.exists(f"{self.data}/{book}/eng.html"):
-                with open(f"{self.data}/{book}/eng.html",
+            if not os.path.exists(f"{self.data}/{self.book}/eng.html"):
+                with open(f"{self.data}/{self.book}/eng.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(eng_html)
             self.cprint("Get similarity...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(eng_html, R_word)
             sync_eng = sync.Sync(cprint=self.cprint,
-                                 output=f"{self.data}/{book}",
+                                 output=f"{self.data}/{self.book}",
                                  language="eng")
             two_sync = sync_eng.create_sync(synchronize, L_start, L_end,
                                             L_word, R_start, R_end, R_word)
@@ -168,54 +170,53 @@ class Creator:
             for i in two_sync:
                 synchronize[i[POS]][i[TIME]] = 255
             img = Image.fromarray(np.uint8(synchronize), 'L')
-            img.save(f"{self.data}/{book}/eng2.sync.png")
+            img.save(f"{self.data}/{self.book}/eng2.sync.png")
             sync1 = two_sync
         else:
             self.cprint("Load file config.ENG_SYNC")
-            with open(f"{self.data}/{book}/{self.config.ENG_SYNC}",
+            with open(f"{self.data}/{self.book}/{self.config.ENG_SYNC}",
                       mode="r") as fsync:
                 sync1 = json.load(fsync)
 
-        if not os.path.exists(f"{self.data}/{book}/{self.config.ENG_ORIG}"):
+        if not os.path.exists(f"{self.data}/{self.book}/{self.config.ENG_ORIG}"):
             orig_html2 = text2html(
                 text=eng_txt.lower(),
                 pattern=r'(([а-я0-9a-z]+[^а-я0-9a-z]+){4})',
                 replacepattern=r'<p>\1</p>')
-            with open(f"{self.data}/{book}/{self.config.ENG_ORIG}",
+            with open(f"{self.data}/{self.book}/{self.config.ENG_ORIG}",
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html2)
         return sync1
 
     def process(self):
-        book = self.init_process()
-        rus_txt, eng_txt = self.check_process(book=book)
-        mp3rus, mp3eng = self.audio_process(book=book)
-        self.recognize_process(book=book,
-                               mp3rus=mp3rus, mp3eng=mp3eng)
-        sync2 = self.rus_process(book=book, rus_txt=rus_txt)
-        sync1 = self.eng_process(book=book, eng_txt=eng_txt)
+        self.init_process()
+        rus_txt, eng_txt = self.check_process()
+        mp3rus, mp3eng = self.audio_process()
+        self.recognize_process(mp3rus=mp3rus, mp3eng=mp3eng)
+        sync2 = self.rus_process(rus_txt=rus_txt)
+        sync1 = self.eng_process(eng_txt=eng_txt)
         sync_rus = sync.Sync(
             cprint=self.cprint,
-            output=f"{self.data}/{book}", language="rus")
-        two_sync = self.two_process(book=book, sync_rus=sync_rus)
-        self.micro_process(book=book, sync_rus=sync_rus,
+            output=f"{self.data}/{self.book}", language="rus")
+        two_sync = self.two_process(sync_rus=sync_rus)
+        self.micro_process(sync_rus=sync_rus,
                            two_sync=two_sync, sync1=sync1, sync2=sync2,
                            rus_txt=rus_txt, eng_txt=eng_txt)
-        self.valid_process(book=book)
+        self.valid_process()
 
-    def two_process(self, book, sync_rus):
-        if not os.path.exists(f"{self.data}/{book}/two.json"):
+    def two_process(self, sync_rus):
+        if not os.path.exists(f"{self.data}/{self.book}/two.json"):
             self.cprint("Not find file two.json, creating...")
             synchronize, L_word, R_word, L_end, R_end = \
-                cross.get_sim_v2(book, self.data)
+                cross.get_sim_v2(self.book, self.data)
             synchronize = find_max_path_v2(synchronize)
             img = Image.fromarray(np.uint8(synchronize * 255), 'L')
-            img.save(f"{self.data}/{book}/two.png")
+            img.save(f"{self.data}/{self.book}/two.png")
 
-            res_min_max = filtered_main_diag(f"{self.data}/{book}/two.png")
+            res_min_max = filtered_main_diag(f"{self.data}/{self.book}/two.png")
             synchronize = np.asarray(np.uint8(res_min_max * 100))
             res_min_max = Image.fromarray(np.uint8(res_min_max * 255))
-            res_min_max.save(f"{self.data}/{book}/two2.png")
+            res_min_max.save(f"{self.data}/{self.book}/two2.png")
             two_sync = sync_rus.create_sync_v2(
                 synchronize, L_word, R_word, L_end, R_end,
                 len(L_word) - 1, len(R_word) - 1, append=False)
@@ -225,7 +226,7 @@ class Creator:
             for i in two_sync:
                 synchronize[i[L_a]][i[L_b]] = 255
             img = Image.fromarray(np.uint8(synchronize), 'L')
-            img.save(f"{self.data}/{book}/two3.png")
+            img.save(f"{self.data}/{self.book}/two3.png")
 
             img1 = np.zeros_like(synchronize)
             img2 = Image.fromarray(img1)
@@ -238,7 +239,7 @@ class Creator:
                          fill="white", width=0)
                 a = two_sync[i][L_a]
                 b = two_sync[i][L_b]
-            img2.save(f"{self.data}/{book}/adapter.png")
+            img2.save(f"{self.data}/{self.book}/adapter.png")
             for i in range(len(synchronize)):
                 for j in range(len(synchronize[i])):
                     img1[i][j] = int(img2.getpixel((j, i)) / 2.55)
@@ -256,22 +257,22 @@ class Creator:
             for i in two_sync:
                 synchronize[i[L_a]][i[L_b]] = 255
             img = Image.fromarray(np.uint8(synchronize), 'L')
-            img.save(f"{self.data}/{book}/adapter2.png")
+            img.save(f"{self.data}/{self.book}/adapter2.png")
 
             json_string = json.dumps(two_sync)
-            with open(f"{self.data}/{book}/two.json", mode="w") as fsync:
+            with open(f"{self.data}/{self.book}/two.json", mode="w") as fsync:
                 fsync.write(json_string)
         else:
             self.cprint("Find file two.json")
-            with open(f"{self.data}/{book}/two.json", mode="r") as fsync:
+            with open(f"{self.data}/{self.book}/two.json", mode="r") as fsync:
                 two_sync = json.load(fsync)
         return two_sync
 
-    def micro_process(self, book, sync_rus,
+    def micro_process(self, sync_rus,
                       two_sync, sync1, sync2, rus_txt, eng_txt):
         micro = []
         if not os.path.exists(
-                f"{self.data}/{book}/{self.config.MICRO_JSON}"
+                f"{self.data}/{self.book}/{self.config.MICRO_JSON}"
         ):
             for i in two_sync:
                 phraza_1 = i[2]
@@ -306,13 +307,13 @@ class Creator:
             micro[-1][-1][L_POS] = len(rus_txt) - 1
             micro[-1][-1][R_POS] = len(eng_txt) - 1
             json_string = json.dumps(micro)
-            with open(f"{self.data}/{book}/{self.config.MICRO_JSON}",
+            with open(f"{self.data}/{self.book}/{self.config.MICRO_JSON}",
                       mode="w") as f:
                 f.write(json_string)
 
         micro2 = []
         self.cprint("Load file micro.json")
-        with open(f"{self.data}/{book}/{self.config.MICRO_JSON}",
+        with open(f"{self.data}/{self.book}/{self.config.MICRO_JSON}",
                   mode="r") as f:
             m = json.load(f)
         for i in range(len(m)):
@@ -320,27 +321,27 @@ class Creator:
                 micro2.append(m[i][j])
         json_string = json.dumps(micro2)
         self.cprint("Save to micro2.json")
-        with open(f"{self.data}/{book}/micro2.json", mode="w") as f:
+        with open(f"{self.data}/{self.book}/micro2.json", mode="w") as f:
             f.write(json_string)
 
-        if not os.path.exists(f"{self.data}/{book}/eng2rus.json"):
+        if not os.path.exists(f"{self.data}/{self.book}/eng2rus.json"):
             eng2rus = eng_to_rus(micro2, R_POS, L_POS, sync1, sync2)
             json_string = json.dumps(eng2rus)
             self.cprint("Save to eng2rus.json")
-            with open(f"{self.data}/{book}/eng2rus.json", mode="w") as f:
+            with open(f"{self.data}/{self.book}/eng2rus.json", mode="w") as f:
                 f.write(json_string)
 
-        if not os.path.exists(f"{self.data}/{book}/rus2eng.json"):
+        if not os.path.exists(f"{self.data}/{self.book}/rus2eng.json"):
             rus2eng = eng_to_rus(micro2, L_POS, R_POS, sync2, sync1)
             json_string = json.dumps(rus2eng)
             self.cprint("Save to rus2eng.json")
-            with open(f"{self.data}/{book}/rus2eng.json", mode="w") as f:
+            with open(f"{self.data}/{self.book}/rus2eng.json", mode="w") as f:
                 f.write(json_string)
 
-    def valid_process(self, book):
-        with open(f"{self.data}/{book}/{self.config.VALID}",
+    def valid_process(self):
+        with open(f"{self.data}/{self.book}/{self.config.VALID}",
                   mode="w", encoding="UTF-8") as f:
-            self.cprint(f"Book '{book}' is valid")
+            self.cprint(f"Book '{self.book}' is valid")
             f.write("True")
         self.cprint("End create book")
 

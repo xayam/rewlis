@@ -29,11 +29,12 @@ class AudioClass:
     def create_mp3(self):
         if os.path.exists(self.MP3):
             return
-        self.cprint(f"Create '{self.MP3}'...")
         cbn = sox.Combiner()
         cbn.convert(samplerate=16000, n_channels=1)
-        list_input = [f"{i[0]}/mp3{self.language}/{i[1]}"
-                      for i in self.audio_list]
+        list_input = [f"{i[2]}" for i in self.audio_list]
+        self.cprint(f"Create '{self.audio_list}'...")
+        # for i in list_input:
+        #     self.cprint(f"Create '{i}'...")
         cbn.build(list_input, self.MP3, 'concatenate')
 
     def create_wav(self):
