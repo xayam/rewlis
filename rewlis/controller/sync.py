@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import time
 
 import numpy as np
@@ -12,7 +13,7 @@ class Sync:
     def __init__(self, cprint, output, language):
         self.cprint = cprint
         self.output = output
-        np.set_printoptions(threshold=int(np.inf))
+        np.set_printoptions(threshold=sys.maxsize)
         self.MAPJSON = f"{self.output}/{language}.map.json"
         self.SYNCJSON = f"{self.output}/{language}.sync.json"
         self.TWOSYNC = f"{self.output}/two.json"
