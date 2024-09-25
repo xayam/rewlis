@@ -128,7 +128,7 @@ class Creator:
             img.save(f"{self.data}/{self.book}/rus2.sync.png")
             sync2 = two_sync
         else:
-            self.cprint("Load file config.RUS_SYNC")
+            self.cprint(f"Load file {self.config.RUS_SYNC}")
             with open(f"{self.data}/{self.book}/{self.config.RUS_SYNC}",
                       mode="r") as fsync:
                 sync2 = json.load(fsync)
@@ -171,7 +171,7 @@ class Creator:
             img.save(f"{self.data}/{self.book}/eng2.sync.png")
             sync1 = two_sync
         else:
-            self.cprint("Load file config.ENG_SYNC")
+            self.cprint(f"Load file {self.config.ENG_SYNC}")
             with open(f"{self.data}/{self.book}/{self.config.ENG_SYNC}",
                       mode="r") as fsync:
                 sync1 = json.load(fsync)
@@ -197,6 +197,7 @@ class Creator:
             cprint=self.cprint,
             output=f"{self.data}/{self.book}", language="rus")
         two_sync = self.two_process(sync_rus=sync_rus)
+        self.cprint("Out two_process")
         self.micro_process(sync_rus=sync_rus,
                            two_sync=two_sync, sync1=sync1, sync2=sync2,
                            rus_txt=rus_txt, eng_txt=eng_txt)
@@ -270,7 +271,7 @@ class Creator:
     def micro_process(self, sync_rus,
                       two_sync, sync1, sync2, rus_txt, eng_txt):
         micro = []
-        self.cprint(f"Creating {self.config.MICRO_JSON}...")
+        self.cprint(f"Input micro_process...")
         if not os.path.exists(
                 f"{self.data}/{self.book}/{self.config.MICRO_JSON}"
         ):
