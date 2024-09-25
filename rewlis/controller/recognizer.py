@@ -89,4 +89,6 @@ class RecognizerClass:
         except KeyError:
             pass
         buffer = json.dumps(buffer).encode(errors="ignore").decode('unicode-escape')
-        return buffer[1:-1]
+        buffer = buffer[1:] if buffer[0] == '"' else buffer
+        buffer = buffer[:-1] if buffer[-1] == '"' else buffer
+        return buffer

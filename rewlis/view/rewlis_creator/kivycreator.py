@@ -23,14 +23,13 @@ class KivyCreator(KivyApp):
         self.model = model
         self.app = self.model.app
         self.controller = self.model.controller
-        self.init()
         sys.stdout = Terminal(model=self.model)
         self.controller.terminal = sys.stdout
         self.controller.app = self
         self.controller.creator = Creator(model=self.model,
                                           cprint=self.controller.terminal.cprint)
         self.controller.creator.init()
-
+        self.init()
         Config.set('kivy', 'window_icon', self.model.conf.ICON_PNG)
 
     def init(self):

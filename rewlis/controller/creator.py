@@ -29,11 +29,8 @@ class Creator:
             os.mkdir(self.data)
         self.folder_of_books = os.listdir(self.data)
 
-    def init_process(self, current):
-        if current is not None:
-            book = "London_Jack_-_Martin_Eden"
-        else:
-            book = self.controller.current_book
+    def init_process(self):
+        book = self.controller.current_book
         if book is None:
             message = "End create book"
             self.cprint(message)
@@ -189,8 +186,8 @@ class Creator:
                 f.write(orig_html2)
         return sync1
 
-    def process(self, current=None):
-        book = self.init_process(current=current)
+    def process(self):
+        book = self.init_process()
         rus_txt, eng_txt = self.check_process(book=book)
         mp3rus, mp3eng = self.audio_process(book=book)
         self.recognize_process(book=book,
@@ -348,12 +345,5 @@ class Creator:
         self.cprint("End create book")
 
 
-def c_print(_):
-    pass
-
-
 if __name__ == "__main__":
-    models = Model()
-    create = Creator(model=models, cprint=c_print)
-    create.init()
-    create.process(current=1)
+    pass
