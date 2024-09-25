@@ -343,9 +343,8 @@ class Creator:
     def valid_process(self):
         with open(f"{self.data}/{self.book}/{self.config.VALID}",
                   mode="w", encoding="UTF-8") as f:
-            self.cprint(f"Book '{self.book}' is valid")
             f.write("True")
-        self.cprint("End create book")
+        self.cprint(f"Book '{self.book}' is valid")
 
 
 if __name__ == "__main__":
