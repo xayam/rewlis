@@ -46,11 +46,8 @@ class RecognizerClass:
             for future in futures:
                 results.append(future.result())
         buffer = ""
-        self.cprint("point 0")
         for result in results:
-            self.cprint("point 1")
             buffer = buffer + ",\n" + ",\n".join(result)
-        self.cprint("point 2")
         result = '{\n"fragments": [\n'
         result += buffer[2:]
         result += "]}"
