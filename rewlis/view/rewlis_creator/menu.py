@@ -13,6 +13,7 @@ class Menu(AnchorLayout):
                               size=(95, 1),
                               anchor_y="top",
                               **kwargs)
+        self.idle = None
         self.gridlayout = None
         self.scrollview = None
         self.controller = controller
@@ -50,6 +51,7 @@ class Menu(AnchorLayout):
             target=self.controller.creator.process,
         )
         t.start()
-        t.join()
+
+    def unblock(self):
         self.controller.panel.disabled = False
         self.disabled = False

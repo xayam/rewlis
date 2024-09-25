@@ -1,9 +1,9 @@
 import concurrent.futures
 import json
 import os
-import sys
 
 from PIL import ImageDraw
+from kivy.clock import Clock
 
 from rewlis.model.model import Model
 from rewlis.controller.eps import *
@@ -201,6 +201,7 @@ class Creator:
                            two_sync=two_sync, sync1=sync1, sync2=sync2,
                            rus_txt=rus_txt, eng_txt=eng_txt)
         self.valid_process()
+        Clock.schedule_once(self.controller.menu.unblock, 0)
 
     def two_process(self, sync_rus):
         if not os.path.exists(f"{self.data}/{self.book}/two.json"):

@@ -41,4 +41,3 @@ class Terminal(TextInput):
     def _clock(self, message):
         if message is not None:
             self.write(message + "\n")
-            Clock.tick_draw()
