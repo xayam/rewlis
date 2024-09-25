@@ -259,11 +259,13 @@ class Creator:
 
             json_string = json.dumps(two_sync).\
                 encode(errors="ignore").decode('unicode-escape')
-            with open(f"{self.data}/{self.book}/two.json", mode="w") as fsync:
+            with open(f"{self.data}/{self.book}/two.json",
+                      mode="w", encoding="UTF-8") as fsync:
                 fsync.write(json_string)
         else:
             self.cprint("Find file two.json")
-            with open(f"{self.data}/{self.book}/two.json", mode="r") as fsync:
+            with open(f"{self.data}/{self.book}/two.json",
+                      mode="r", encoding="UTF-8") as fsync:
                 two_sync = json.load(fsync)
         return two_sync
 
@@ -273,6 +275,7 @@ class Creator:
         if not os.path.exists(
                 f"{self.data}/{self.book}/{self.config.MICRO_JSON}"
         ):
+            self.cprint(f"Creating {self.config.MICRO_JSON}...")
             for i in two_sync:
                 phraza_1 = i[2]
                 phraza_2 = i[3]
