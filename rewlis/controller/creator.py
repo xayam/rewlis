@@ -74,10 +74,8 @@ class Creator:
                    f"{self.data}/{self.book}/mp3eng/{x}")
                   for x in os.listdir(f"{self.data}/{self.book}/mp3eng")
                   if x[-4:] == ".mp3"]
-        self.cprint(str(self.book))
-        self.cprint(str(mp3rus))
-        self.cprint(str(mp3eng))
-        sys.exit()
+        self.cprint(mp3rus)
+        self.cprint(mp3eng)
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             executor.submit(audio.AudioClass.__init__,
                             self.cprint, mp3rus,

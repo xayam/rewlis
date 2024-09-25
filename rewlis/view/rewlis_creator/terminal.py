@@ -22,24 +22,22 @@ class Terminal(TextInput):
             foreground_color=(1., 1., 1., 1.),
             **kwargs
         )
-        self.stdout = sys.stdout
         self.is_focusable = True
-        self.message = None
 
 
     def write(self, *args):
         message = " ".join(map(str, args))
         self.text = self.text + message
-        self.stdout.write(message)
-        self.stdout.flush()
+        sys.__stdout__.write(message)
+        sys.__stdout__.flush()
 
     def flush(self):
         pass
 
     def cprint(self, *args):
-        self.message = " ".join(map(str, args))
-        Clock.schedule_once(self._clock, 0.1)
+        message = " ".join(map(str, args))
+        Clock.schedule_once(lambda dt: self._clock(message=message), 0)
 
-    def _clock(self, _):
-        if self.message is not None:
-            self.write(self.message + "\n")
+    def _clock(self, message):
+        if message is not None:
+            self.write(message + "\n")
