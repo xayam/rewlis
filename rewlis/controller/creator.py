@@ -257,7 +257,8 @@ class Creator:
             img = Image.fromarray(np.uint8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/adapter2.png")
 
-            json_string = json.dumps(two_sync)
+            json_string = json.dumps(two_sync).\
+                encode(errors="ignore").decode('unicode-escape')
             with open(f"{self.data}/{self.book}/two.json", mode="w") as fsync:
                 fsync.write(json_string)
         else:
@@ -275,6 +276,7 @@ class Creator:
             for i in two_sync:
                 phraza_1 = i[2]
                 phraza_2 = i[3]
+                self.cprint(phraza_1, "<||>", phraza_2)
                 if phraza_1.strip() == '' or phraza_2.strip() == '':
                     phraza_1 = 'и '
                     phraza_2 = 'and '
