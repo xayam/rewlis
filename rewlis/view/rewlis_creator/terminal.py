@@ -27,7 +27,8 @@ class Terminal(TextInput):
         self.message = None
 
 
-    def write(self, message):
+    def write(self, *args):
+        message = " ".join(map(str, args))
         self.text = self.text + message
         self.stdout.write(message)
         self.stdout.flush()
