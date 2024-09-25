@@ -257,25 +257,23 @@ class Creator:
             img = Image.fromarray(np.uint8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/adapter2.png")
 
-            json_string = json.dumps(two_sync).\
-                encode(errors="ignore").decode('unicode-escape')
             with open(f"{self.data}/{self.book}/two.json",
-                      mode="w", encoding="UTF-8") as fsync:
-                fsync.write(json_string)
+                      mode="w") as fsync:
+                json.dump(two_sync, fsync)
         else:
             self.cprint("Find file two.json")
             with open(f"{self.data}/{self.book}/two.json",
-                      mode="r", encoding="UTF-8") as fsync:
+                      mode="r") as fsync:
                 two_sync = json.load(fsync)
         return two_sync
 
     def micro_process(self, sync_rus,
                       two_sync, sync1, sync2, rus_txt, eng_txt):
         micro = []
+        self.cprint(f"Creating {self.config.MICRO_JSON}...")
         if not os.path.exists(
                 f"{self.data}/{self.book}/{self.config.MICRO_JSON}"
         ):
-            self.cprint(f"Creating {self.config.MICRO_JSON}...")
             for i in two_sync:
                 phraza_1 = i[2]
                 phraza_2 = i[3]
@@ -309,10 +307,9 @@ class Creator:
                     micro[index][k][R_POS] = R_sync - R_delta
             micro[-1][-1][L_POS] = len(rus_txt) - 1
             micro[-1][-1][R_POS] = len(eng_txt) - 1
-            json_string = json.dumps(micro)
             with open(f"{self.data}/{self.book}/{self.config.MICRO_JSON}",
                       mode="w") as f:
-                f.write(json_string)
+                json.dump(micro, f)
 
         micro2 = []
         self.cprint("Load file micro.json")
