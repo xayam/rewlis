@@ -264,7 +264,6 @@ def eng_to_rus(micro, curr, curr_other, sync, sync_other):
     for i in range(len(sync)):
         flag = False
         pos = sync[i][TIME_START]
-        print(f"[MYDEBUG] ENG_TO_RUS pos={pos}")
         for j in range(len(micro)):
             if micro[j][curr] > sync[i][POS_START]:
                 for z in range(len(sync_other)):

@@ -272,7 +272,7 @@ class Creator:
                       two_sync, sync1, sync2, rus_txt, eng_txt):
         micro = []
         self.cprint(f"Input micro_process...")
-        self.cprint(two_sync)
+        # self.cprint(two_sync)
         if not os.path.exists(
                 f"{self.data}/{self.book}/{self.config.MICRO_JSON}"
         ):
