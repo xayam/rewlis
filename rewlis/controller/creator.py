@@ -77,11 +77,11 @@ class Creator:
         self.cprint(mp3rus)
         self.cprint(mp3eng)
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(audio.AudioClass.__init__,
+            executor.submit(audio.AudioClass,
                             self.cprint, mp3rus,
                             os.getcwd() + f"/{self.data}/{self.book}", "rus"
                             )
-            executor.submit(audio.AudioClass.__init__,
+            executor.submit(audio.AudioClass,
                             self.cprint, mp3eng,
                             os.getcwd() + f"/{self.data}/{self.book}", "eng"
                             )
@@ -90,11 +90,11 @@ class Creator:
 
     def recognize_process(self, mp3rus, mp3eng):
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(recognizer.RecognizerClass.__init__,
+            executor.submit(recognizer.RecognizerClass,
                             self.cprint, f"recognize/rus",
                             f"{self.data}/{self.book}", "rus", self.config, mp3rus
                             )
-            executor.submit(recognizer.RecognizerClass.__init__,
+            executor.submit(recognizer.RecognizerClass,
                             self.cprint, f"recognize/eng",
                             f"{self.data}/{self.book}", "eng", self.config, mp3eng
                             )
