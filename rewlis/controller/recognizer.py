@@ -88,5 +88,5 @@ class RecognizerClass:
                 r["result"][i]["start"] += size
         except KeyError:
             pass
-        buffer = json.dumps(buffer)
-        return buffer
+        buffer = json.dumps(buffer).encode(errors="ignore").decode('unicode-escape')
+        return buffer[1:-1]

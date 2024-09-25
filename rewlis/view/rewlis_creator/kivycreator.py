@@ -23,14 +23,17 @@ class KivyCreator(KivyApp):
         self.model = model
         self.app = self.model.app
         self.controller = self.model.controller
-        self.controller.app = self
-        self.controller.creator = Creator(model=self.model)
-        self.controller.creator.init()
+        self.init()
         sys.stdout = Terminal(model=self.model)
         self.controller.terminal = sys.stdout
+        self.controller.app = self
+        self.controller.creator = Creator(model=self.model,
+                                          cprint=self.controller.terminal.cprint)
+        self.controller.creator.init()
+
         Config.set('kivy', 'window_icon', self.model.conf.ICON_PNG)
 
-    def build(self):
+    def init(self):
         self.icon = self.model.conf.ICON_ICO
         self.title = "Rewlis Creator"
         self.controller.menu = Menu(controller=self.controller).init()
@@ -45,6 +48,8 @@ class KivyCreator(KivyApp):
         self.layout2.add_widget(sys.stdout)
         self.layout.add_widget(self.layout2)
         self.controller.container = self.layout
+
+    def build(self):
         return self.controller.container
 
     def on_start(self):
