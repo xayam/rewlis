@@ -38,6 +38,7 @@ class Conf:
     ENG_ANNOT = "eng.annot.txt"
     RUS_SYNC = "rus.sync.json"
     ENG_SYNC = "eng.sync.json"
+    MICRO_JSON = "micro.json"
     MICRO = "micro2.json"
     ENG2RUS = "eng2rus.json"
     RUS2ENG = "rus2eng.json"
