@@ -197,7 +197,6 @@ class Creator:
             cprint=self.cprint,
             output=f"{self.data}/{self.book}", language="rus")
         two_sync = self.two_process(sync_rus=sync_rus)
-        self.cprint("Out two_process")
         self.micro_process(sync_rus=sync_rus,
                            two_sync=two_sync, sync1=sync1, sync2=sync2,
                            rus_txt=rus_txt, eng_txt=eng_txt)
@@ -271,8 +270,7 @@ class Creator:
     def micro_process(self, sync_rus,
                       two_sync, sync1, sync2, rus_txt, eng_txt):
         micro = []
-        self.cprint(f"Input micro_process...")
-        # self.cprint(two_sync)
+        self.cprint(f"Enter to function self.micro_process()...")
         if not os.path.exists(
                 f"{self.data}/{self.book}/{self.config.MICRO_JSON}"
         ):
