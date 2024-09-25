@@ -45,14 +45,14 @@ class RecognizerClass:
             executor.shutdown()
             for future in futures:
                 results.append(future.result())
-        buffer = "  "
+        buffer = ""
         self.cprint("point 0")
         for result in results:
             self.cprint("point 1")
-            buffer += ",\n".join(result)
+            buffer = buffer + ",\n" + ",\n".join(result)
         self.cprint("point 2")
         result = '{\n"fragments": [\n'
-        result += buffer[:-2]
+        result += buffer[2:]
         result += "]}"
         with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
             ff.write(result)
