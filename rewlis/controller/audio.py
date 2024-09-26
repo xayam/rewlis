@@ -1,7 +1,6 @@
-import concurrent.futures
-
-import sox
 import os
+import sox
+import concurrent.futures
 
 
 class AudioClass:
@@ -28,6 +27,7 @@ class AudioClass:
 
     def create_mp3(self):
         if os.path.exists(self.MP3):
+            self.cprint(f"File exists '{self.MP3}'...")
             return
         cbn = sox.Combiner()
         cbn.convert(samplerate=16000, n_channels=1)
@@ -41,6 +41,7 @@ class AudioClass:
         cbn.convert(samplerate=16000, n_channels=1)
         for i in range(len(self.audio_list)):
             if os.path.exists(self.WAV[i]):
+                self.cprint(f"File exists '{self.WAV[i]}'...")
                 continue
             self.cprint(f"Create '{self.WAV[i]}'...")
             cbn.build(
@@ -50,6 +51,7 @@ class AudioClass:
 
     def create_flac(self):
         if os.path.exists(self.FLAC):
+            self.cprint(f"File exists '{self.FLAC}'...")
             return
         self.cprint(f"Create '{self.FLAC}'...")
         cbn = sox.Transformer()

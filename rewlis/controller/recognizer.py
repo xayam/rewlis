@@ -47,10 +47,10 @@ class RecognizerClass:
             executor.shutdown()
             for i in futures:
                 results.append(futures[i].result())
-        buffer = ""
-        for result in results:
-            buffer = buffer + ",\n" + ",\n".join(result)
-        self.cprint("'", buffer, "'")
+            buffer = ""
+            for result in results:
+                buffer = buffer + ",\n" + ",\n".join(result)
+            self.cprint("'", results, "'")
         result = '{\n"fragments": [\n'
         result += buffer[2:]
         result += "]}"
