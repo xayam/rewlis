@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import wave
 import mutagen.mp3
 
@@ -13,7 +14,7 @@ class RecognizerClass:
         self.cprint = cprint
         self.language = language
         self.audio_list = mp3_list
-        self.cprint(mp3_list)
+        self.cprint([i[2] for i in self.audio_list])
         if self.language == "rus":
             self.MAPJSON = f"{output}/{config.RUS_MAP}"
         else:
@@ -30,7 +31,7 @@ class RecognizerClass:
             return True
         self.cprint("Start recognize...")
         results = []
-        futures = []
+        futures = {}
         sizes1 = [mutagen.mp3.MP3(mp3_list[2]).info.length
                   for mp3_list in self.audio_list]
         shift = 0
@@ -38,16 +39,18 @@ class RecognizerClass:
         for s in sizes1:
             sizes.append(shift)
             shift += s
+        self.cprint(sizes)
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            for i in range(len(self.WAV)):
-                futures.append(executor.submit(
-                    self.recognize, self.WAV[i], sizes[i]))
+            for i in range(len(self.audio_list)):
+                futures[i] = executor.submit(
+                    self.recognize, self.WAV[i], sizes[i])
             executor.shutdown()
-            for future in futures:
-                results.append(future.result())
+            for i in futures:
+                results.append(futures[i].result())
         buffer = ""
         for result in results:
             buffer = buffer + ",\n" + ",\n".join(result)
+        self.cprint("'", buffer, "'")
         result = '{\n"fragments": [\n'
         result += buffer[2:]
         result += "]}"
@@ -79,13 +82,10 @@ class RecognizerClass:
     @staticmethod
     def update_buffer(buffer, size):
         r = json.loads(buffer)
-        try:
-            for i in range(len(r["result"])):
-                r["result"][i]["end"] += size
-                r["result"][i]["start"] += size
-        except KeyError:
-            pass
-        buffer = json.dumps(buffer).encode(errors="ignore").decode('unicode-escape')
+        for i in range(len(r["result"])):
+            r["result"][i]["end"] += size
+            r["result"][i]["start"] += size
+        buffer = json.dumps(r).encode(errors="ignore").decode('unicode-escape')
         buffer = buffer[1:] if buffer[0] == '"' else buffer
         buffer = buffer[:-1] if buffer[-1] == '"' else buffer
         return buffer
