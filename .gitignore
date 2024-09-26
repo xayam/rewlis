@@ -18,7 +18,7 @@ rewlis/model/img.py
 data/
 
 datacreate/*
-!datacreate/Author_Name_-_Book_Name
+!datacreate/Author_Name_-_Book_Template
 
 options.json
 logcat.txt
