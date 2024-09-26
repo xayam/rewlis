@@ -36,7 +36,7 @@ class RecognizerClass:
         shift = 0
         sizes = []
         for s in sizes1:
-            sizes.append(s + shift)
+            sizes.append(shift)
             shift += s
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             for i in range(len(self.WAV)):
