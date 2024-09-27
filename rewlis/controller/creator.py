@@ -4,9 +4,7 @@ import os
 import traceback
 
 from PIL import ImageDraw
-from kivy.clock import Clock
 
-from rewlis.model.model import Model
 from rewlis.controller.eps import *
 import rewlis.controller.audio as audio
 import rewlis.controller.recognizer as recognizer
@@ -18,6 +16,7 @@ from rewlis.utils import *
 class Creator:
 
     def __init__(self, model, cprint):
+        self.book = None
         self.folder_of_books = None
         self.data = None
         self.model = model
@@ -32,7 +31,6 @@ class Creator:
         self.folder_of_books = os.listdir(self.data)
 
     def init_process(self):
-        self.book = self.controller.current_book
         if self.book is None:
             message = "End create book"
             self.cprint(message)
@@ -80,10 +78,10 @@ class Creator:
                   if x[-4:] == ".mp3"]
         audio_rus = audio.Audio(self.cprint, mp3rus,
                                 os.getcwd() + f"/{self.data}/{self.book}",
-                                     "rus")
+                                "rus")
         audio_eng = audio.Audio(self.cprint, mp3eng,
                                 os.getcwd() + f"/{self.data}/{self.book}",
-                                     "eng")
+                                "eng")
         futures = {}
         results = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
@@ -209,15 +207,15 @@ class Creator:
         return results[0]["sync"], results[1]["sync"]
 
     def process(self):
-        folders = [f"{self.data}/book"
+        folders = [f"{self.data}/{book}"
                    for book in self.folder_of_books
                    if book != "Author_Name_-_Book_Template"]
         for book in folders:
-            self.controller.current_book = book
+            self.book = book
+            self.cprint(f"Selected book '{self.book}'")
             try:
                 if self.init_process():
                     continue
-                self.cprint(f"Selected book '{self.book}'")
                 rus_txt, eng_txt = self.check_process()
                 self.audio_process()
                 self.recognize_process()
