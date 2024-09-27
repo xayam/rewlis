@@ -1,6 +1,7 @@
 import os
 
 import mutagen.mp3
+from mutagen.easyid3 import EasyID3
 import psutil
 import sox
 import concurrent.futures
@@ -88,6 +89,10 @@ class AudioClass:
             tfm.trim(chunks[i], chunks[i + 1])
             tfm.compand()
             tfm.build_file(self.MP3, self.CHUNK[i])
+            track = EasyID3(self.CHUNK[i])
+            for key in track.keys():
+                track[key] = ""
+            track.save()
         return {
             "raise": False,
             "exception": None
