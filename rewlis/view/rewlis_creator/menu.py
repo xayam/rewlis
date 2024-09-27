@@ -30,11 +30,6 @@ class Menu(AnchorLayout):
                      background_color=(1., 1., 0., 1.),
                      on_release=self.run_process)
         self.gridlayout.add_widget(btn)
-        btn = Button(text="PREVIEW",
-                     size_hint=(1, None),
-                     size=(1, 95),
-                     background_color=(1., 1., 0., 1.))
-        self.gridlayout.add_widget(btn)
         btn = Button(text="SHARE",
                      size_hint=(1, None),
                      size=(1, 95),
@@ -45,13 +40,7 @@ class Menu(AnchorLayout):
 
     def run_process(self, _):
         print("Running process of create sync-book...")
-        self.controller.panel.disabled = True
-        self.disabled = True
         t = threading.Thread(
             target=self.controller.creator.process,
         )
         t.start()
-
-    def unblock(self, _):
-        self.controller.panel.disabled = False
-        self.disabled = False

@@ -1,6 +1,7 @@
 import concurrent.futures
 import json
 import os
+import traceback
 
 from PIL import ImageDraw
 from kivy.clock import Clock
@@ -194,23 +195,31 @@ class Creator:
         return sync1
 
     def process(self):
-        if self.init_process():
-            Clock.schedule_once(self.controller.menu.unblock, 0)
-            return
-        rus_txt, eng_txt = self.check_process()
-        self.audio_process()
-        self.recognize_process()
-        sync2 = self.rus_process(rus_txt=rus_txt)
-        sync1 = self.eng_process(eng_txt=eng_txt)
-        sync_rus = sync.Sync(
-            cprint=self.cprint,
-            output=f"{self.data}/{self.book}", language="rus")
-        two_sync = self.two_process(sync_rus=sync_rus)
-        self.micro_process(sync_rus=sync_rus,
-                           two_sync=two_sync, sync1=sync1, sync2=sync2,
-                           rus_txt=rus_txt, eng_txt=eng_txt)
-        self.valid_process()
-        Clock.schedule_once(self.controller.menu.unblock, 0)
+        folders = [f"{self.data}/book" for book in self.folder_of_books]
+        for book in folders:
+            self.controller.current_book = book
+            try:
+                if self.init_process():
+                    continue
+                print(f"Selected book '{self.book}'")
+                rus_txt, eng_txt = self.check_process()
+                self.audio_process()
+                self.recognize_process()
+                sync2 = self.rus_process(rus_txt=rus_txt)
+                sync1 = self.eng_process(eng_txt=eng_txt)
+                sync_rus = sync.Sync(
+                    cprint=self.cprint,
+                    output=f"{self.data}/{self.book}", language="rus")
+                two_sync = self.two_process(sync_rus=sync_rus)
+                self.micro_process(sync_rus=sync_rus,
+                                   two_sync=two_sync, sync1=sync1, sync2=sync2,
+                                   rus_txt=rus_txt, eng_txt=eng_txt)
+                self.valid_process()
+            except Exception as e:
+                self.cprint(
+                    type(e).__name__ + ": " +
+                    e.__str__() + "\n" + traceback.format_exc())
+                return
 
     def two_process(self, sync_rus):
         if not os.path.exists(f"{self.data}/{self.book}/two.json"):
