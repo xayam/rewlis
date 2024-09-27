@@ -52,11 +52,16 @@ class Audio:
         if os.path.exists(self.MP3):
             self.cprint(f"File exists '{self.MP3}'...")
         else:
-            cbn = sox.Combiner()
-            cbn.convert(samplerate=16000, n_channels=1)
             list_input = [f"{i[2]}" for i in self.audio_list]
             self.cprint(f"Create '{self.MP3}'...")
-            cbn.build(list_input, self.MP3, 'concatenate')
+            if len(list_input) == 1:
+                cbn = sox.Transformer()
+                cbn.convert(samplerate=16000, n_channels=1)
+                cbn.build(list_input[0], self.MP3)
+            else:
+                cbn = sox.Combiner()
+                cbn.convert(samplerate=16000, n_channels=1)
+                cbn.build(list_input, self.MP3, 'concatenate')
             track = EasyID3(self.MP3)
             for key in track.keys():
                 track[key] = ""
@@ -67,9 +72,6 @@ class Audio:
         }
 
     def create_chunk(self):
-        # if os.path.exists(self.MP3):
-        #     self.cprint(f"File exists '{self.MP3}'...")
-        # else:
         length = mutagen.mp3.MP3(self.MP3).info.length
         chunk_len = length // self.max_workers - 1
         last = length % self.max_workers

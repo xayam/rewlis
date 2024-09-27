@@ -196,7 +196,7 @@ class Creator:
         return results[0]["sync"], results[1]["sync"]
 
     def process(self):
-        folders = [f"{self.data}/{book}"
+        folders = [book
                    for book in self.folder_of_books
                    if book != "Author_Name_-_Book_Template"]
         for book in folders:
