@@ -10,7 +10,8 @@ class Panel(AnchorLayout):
 
     def __init__(self, controller, **kwargs):
         AnchorLayout.__init__(self,
-                              size_hint=(0.33, 1),
+                              size_hint=(None, 1),
+                              size=(400, 1),
                               **kwargs)
         self.gridlayout = None
         self.scrollview = None
