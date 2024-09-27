@@ -15,8 +15,8 @@ rewlis/model/__pycache__/
 rewlis/view/__pycache__/
 rewlis/controller/__pycache__/
 rewlis/model/img.py
-sox/*
-!sox/__init__.py
+soxaudio/*
+!soxaudio/__init__.py
 data/*
 !data/__init__.py
 datacreate/*

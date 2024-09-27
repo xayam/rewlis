@@ -2,6 +2,7 @@ import sys
 
 from kivy.config import Config
 from kivy.app import App as KivyApp
+from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 
 from rewlis.controller.creator import Creator
@@ -46,6 +47,7 @@ class KivyCreator(KivyApp):
         self.layout2.add_widget(self.controller.project)
         self.layout2.add_widget(sys.stdout)
         self.layout.add_widget(self.layout2)
+        Window.bind(on_request_close=self.end_func)
         self.controller.container = self.layout
 
     def build(self):
@@ -53,3 +55,7 @@ class KivyCreator(KivyApp):
 
     def on_start(self):
         pass
+
+    def end_func(self, *args):
+        self.stop()
+        Window.close()
