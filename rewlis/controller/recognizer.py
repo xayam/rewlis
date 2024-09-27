@@ -43,8 +43,9 @@ class RecognizerClass:
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             for i in range(len(self.audio_list)):
                 futures[i] = executor.submit(
-                    self.recognize, self.WAV[i], sizes[i])
-                self.cprint(f"Running recognize process {self.language.upper()}{i}...")
+                    self.recognize, self.WAV[i], sizes[i], i
+                )
+
             executor.shutdown()
             for i in futures:
                 results.append(futures[i].result())
@@ -60,13 +61,14 @@ class RecognizerClass:
         self.cprint(f"Created file '{self.MAPJSON}'")
         return True
 
-    def recognize(self, wav, size):
+    def recognize(self, wav, size, i):
         wf = wave.open(wav, "rb")
         self.cprint("Running recognize model...")
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
         result = []
+        self.cprint(f"Running recognize process {self.language.upper()}{i}...")
         while True:
             data = wf.readframes(4000)
             if len(data) == 0:
