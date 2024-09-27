@@ -15,8 +15,7 @@ class AudioClass:
         self.language = language
         self.max_workers = psutil.cpu_count(logical=False)
         self.MP3 = f"{self.output}/{self.language}.mp3"
-        self.WAV = [f"{self.output}/wav{self.language}/{i[1][:-4]}.wav"
-                    for i in self.audio_list]
+        self.WAV = None
         self.FLAC = f"{self.output}/{self.language}.flac"
 
     def process(self):
@@ -74,8 +73,9 @@ class AudioClass:
         shift = 0
         for i in range(len(chunk_sizes)):
             chunks.append(shift)
-            shift = chunk_sizes[i]
+            shift += chunk_sizes[i]
         chunks.append(length)
+        self.cprint(chunks)
         self.CHUNK = [
             f"{self.output}/chunk{self.language}" +
             f"/chunk-{str(i).rjust(3, '0')}.mp3"
@@ -98,6 +98,10 @@ class AudioClass:
         self.cprint("Converting mp3 to wav...")
         cbn = sox.Transformer()
         cbn.convert(samplerate=16000, n_channels=1)
+        self.WAV = [
+            f"{self.output}/wav{self.language}" +
+            f"/chunk-{str(i).rjust(3, '0')}.wav"
+            for i in self.CHUNK]
         for i in range(len(self.CHUNK)):
             if os.path.exists(self.WAV[i]):
                 self.cprint(f"File exists '{self.WAV[i]}'...")
