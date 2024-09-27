@@ -195,6 +195,7 @@ class Creator:
 
     def process(self):
         if self.init_process():
+            Clock.schedule_once(self.controller.menu.unblock, 0)
             return
         rus_txt, eng_txt = self.check_process()
         self.audio_process()
