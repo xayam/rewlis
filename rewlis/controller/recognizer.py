@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import wave
 import mutagen.mp3
 
@@ -9,12 +8,10 @@ from vosk import Model, KaldiRecognizer
 
 
 class RecognizerClass:
-    def __init__(self, cprint, model_path, output, language, config, mp3_list):
+    def __init__(self, cprint, model_path, output, language, config):
         self.chunk = None
         self.cprint = cprint
         self.language = language
-        self.audio_list = mp3_list
-        self.cprint([i[2] for i in self.audio_list])
         if self.language == "rus":
             self.MAPJSON = f"{output}/{config.RUS_MAP}"
         else:
@@ -22,6 +19,10 @@ class RecognizerClass:
         self.WAV = [f"{output}/wav{self.language}/{i}"
                     for i in os.listdir(f"{output}/wav{self.language}")
                     if i.endswith(".wav")]
+        self.mp3_list = [f"{output}/chunk{self.language}/{i}"
+                         for i in os.listdir(f"{output}/chunk{self.language}")
+                         if i.endswith(".mp3")]
+        self.cprint(self.WAV)
         self.MODEL_PATH = model_path
         self.create_map()
 
@@ -32,16 +33,15 @@ class RecognizerClass:
         self.cprint(f"Starting recognize {self.language.upper()}...")
         results = []
         futures = {}
-        sizes1 = [mutagen.mp3.MP3(mp3_list[2]).info.length
-                  for mp3_list in self.audio_list]
+        sizes1 = [mutagen.mp3.MP3(m).info.length
+                  for m in self.mp3_list]
         shift = 0
         sizes = []
         for s in sizes1:
             sizes.append(shift)
             shift += s
-        self.cprint(sizes)
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            for i in range(len(self.audio_list)):
+            for i in range(len(self.mp3_list)):
                 futures[i] = executor.submit(
                     self.recognize, self.WAV[i], sizes[i], i
                 )

@@ -91,9 +91,8 @@ class Creator:
         for result in results:
             if result["raise"]:
                 raise result["exception"]
-        return mp3rus, mp3eng
 
-    def recognize_process(self, mp3rus, mp3eng):
+    def recognize_process(self):
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             executor.submit(recognizer.RecognizerClass,
                             self.cprint, f"recognize/rus",
@@ -194,8 +193,8 @@ class Creator:
     def process(self):
         self.init_process()
         rus_txt, eng_txt = self.check_process()
-        mp3rus, mp3eng = self.audio_process()
-        self.recognize_process(mp3rus=mp3rus, mp3eng=mp3eng)
+        self.audio_process()
+        self.recognize_process()
         sync2 = self.rus_process(rus_txt=rus_txt)
         sync1 = self.eng_process(eng_txt=eng_txt)
         sync_rus = sync.Sync(

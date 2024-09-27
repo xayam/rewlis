@@ -71,11 +71,10 @@ class AudioClass:
         chunk_sizes = [chunk_len] * (self.max_workers - 1) + [last]
         chunks = []
         shift = 0
-        for i in range(len(chunk_sizes)):
+        for c in chunk_sizes:
             chunks.append(shift)
-            shift += chunk_sizes[i]
+            shift += c
         chunks.append(length)
-        self.cprint(chunks)
         self.CHUNK = [
             f"{self.output}/chunk{self.language}" +
             f"/chunk-{str(i).rjust(3, '0')}.mp3"
