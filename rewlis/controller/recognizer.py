@@ -45,14 +45,15 @@ class RecognizerClass:
                 futures[i] = executor.submit(
                     self.recognize, self.WAV[i], sizes[i])
             executor.shutdown()
+            self.cprint("'", futures, "'")
             for i in futures:
                 results.append(futures[i].result())
-            buffer = ""
-            for result in results:
-                buffer = buffer + ",\n" + ",\n".join(result)
-            self.cprint("'", results, "'")
+        self.cprint("'", results, "'")
+        buffer = ""
+        for result in results:
+            buffer = buffer + ",\n" + ",\n".join(result)
         result = '{\n"fragments": [\n'
-        result += buffer[2:]
+        result += buffer
         result += "]}"
         with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
             ff.write(result)
@@ -82,10 +83,14 @@ class RecognizerClass:
     @staticmethod
     def update_buffer(buffer, size):
         r = json.loads(buffer)
-        for i in range(len(r["result"])):
-            r["result"][i]["end"] += size
-            r["result"][i]["start"] += size
+        r2 = buffer
+        try:
+            for i in range(len(r["result"])):
+                r["result"][i]["end"] += size
+                r["result"][i]["start"] += size
+        except KeyError:
+            return r2
         buffer = json.dumps(r).encode(errors="ignore").decode('unicode-escape')
-        buffer = buffer[1:] if buffer[0] == '"' else buffer
-        buffer = buffer[:-1] if buffer[-1] == '"' else buffer
+        # buffer = buffer[1:] if buffer[0] == '"' else buffer
+        # buffer = buffer[:-1] if buffer[-1] == '"' else buffer
         return buffer
