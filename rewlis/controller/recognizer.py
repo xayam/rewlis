@@ -29,7 +29,7 @@ class RecognizerClass:
         if os.path.exists(self.MAPJSON):
             self.cprint(f"Find file '{self.MAPJSON}'")
             return True
-        self.cprint("Start recognize...")
+        self.cprint(f"Starting recognize {self.language.upper()}...")
         results = []
         futures = {}
         sizes1 = [mutagen.mp3.MP3(mp3_list[2]).info.length
