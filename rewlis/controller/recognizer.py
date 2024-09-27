@@ -61,12 +61,12 @@ class RecognizerClass:
 
     def recognize(self, wav, size, i):
         wf = wave.open(wav, "rb")
-        self.cprint("Running recognize model...")
+        self.cprint(f"Running recognize {self.language.upper()}-model...")
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
         result = []
-        self.cprint(f"Running recognize process {self.language.upper()}{i}...")
+        self.cprint(f"Running recognize process {self.language.upper()}-{i}...")
         while True:
             data = wf.readframes(4000)
             if len(data) == 0:
@@ -74,11 +74,10 @@ class RecognizerClass:
             if rec.AcceptWaveform(data):
                 buffer = self.update_buffer(buffer=rec.Result(), size=size)
                 result.append(buffer)
-                # self.cprint(buffer)
         result.append(
             self.update_buffer(buffer=rec.FinalResult(), size=size)
         )
-        self.cprint(f"End recognize process {self.language.upper()}{i}")
+        self.cprint(f"End recognize process {self.language.upper()}-{i}")
         return result
 
     @staticmethod
