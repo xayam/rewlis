@@ -7,7 +7,7 @@ import sox
 import concurrent.futures
 
 
-class AudioClass:
+class Audio:
     def __init__(self, cprint, audio_list, output, language):
         self.CHUNK = None
         self.cprint = cprint

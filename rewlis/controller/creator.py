@@ -77,11 +77,11 @@ class Creator:
                    f"{self.data}/{self.book}/mp3eng/{x}")
                   for x in os.listdir(f"{self.data}/{self.book}/mp3eng")
                   if x[-4:] == ".mp3"]
-        audio_rus = audio.AudioClass(self.cprint, mp3rus,
-                                     os.getcwd() + f"/{self.data}/{self.book}",
+        audio_rus = audio.Audio(self.cprint, mp3rus,
+                                os.getcwd() + f"/{self.data}/{self.book}",
                                      "rus")
-        audio_eng = audio.AudioClass(self.cprint, mp3eng,
-                                     os.getcwd() + f"/{self.data}/{self.book}",
+        audio_eng = audio.Audio(self.cprint, mp3eng,
+                                os.getcwd() + f"/{self.data}/{self.book}",
                                      "eng")
         futures = {}
         results = []
@@ -97,11 +97,11 @@ class Creator:
 
     def recognize_process(self):
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(recognizer.RecognizerClass,
+            executor.submit(recognizer.Recognizer,
                             self.cprint, f"recognize/rus",
                             f"{self.data}/{self.book}", "rus", self.config
                             )
-            executor.submit(recognizer.RecognizerClass,
+            executor.submit(recognizer.Recognizer,
                             self.cprint, f"recognize/eng",
                             f"{self.data}/{self.book}", "eng", self.config
                             )

@@ -7,7 +7,7 @@ import concurrent.futures
 from vosk import Model, KaldiRecognizer
 
 
-class RecognizerClass:
+class Recognizer:
     def __init__(self, cprint, model_path, output, language, config):
         self.chunk = None
         self.cprint = cprint
