@@ -83,13 +83,12 @@ class RecognizerClass:
     @staticmethod
     def update_buffer(buffer, size):
         r = json.loads(buffer)
-        r2 = buffer
         try:
             for i in range(len(r["result"])):
                 r["result"][i]["end"] += size
                 r["result"][i]["start"] += size
         except KeyError:
-            return r2
+            return buffer
         buffer = json.dumps(r).encode(errors="ignore").decode('unicode-escape')
         # buffer = buffer[1:] if buffer[0] == '"' else buffer
         # buffer = buffer[:-1] if buffer[-1] == '"' else buffer
