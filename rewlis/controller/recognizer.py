@@ -53,7 +53,7 @@ class RecognizerClass:
         for result in results:
             buffer = buffer + ",\n" + ",\n".join(result)
         result = '{\n"fragments": [\n'
-        result += buffer
+        result += buffer[2:]
         result += "]}"
         with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
             ff.write(result)
