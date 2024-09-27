@@ -48,7 +48,6 @@ class RecognizerClass:
             executor.shutdown()
             for i in futures:
                 results.append(futures[i].result())
-                self.cprint(f"Stop recognize process {self.language.upper()}{i}")
         buffer = ""
         for result in results:
             buffer = buffer + ",\n" + ",\n".join(result)
@@ -79,6 +78,7 @@ class RecognizerClass:
         result.append(
             self.update_buffer(buffer=rec.FinalResult(), size=size)
         )
+        self.cprint(f"End recognize process {self.language.upper()}{i}")
         return result
 
     @staticmethod
