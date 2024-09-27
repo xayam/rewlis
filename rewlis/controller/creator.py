@@ -96,11 +96,11 @@ class Creator:
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             executor.submit(recognizer.RecognizerClass,
                             self.cprint, f"recognize/rus",
-                            f"{self.data}/{self.book}", "rus", self.config, mp3rus
+                            f"{self.data}/{self.book}", "rus", self.config
                             )
             executor.submit(recognizer.RecognizerClass,
                             self.cprint, f"recognize/eng",
-                            f"{self.data}/{self.book}", "eng", self.config, mp3eng
+                            f"{self.data}/{self.book}", "eng", self.config
                             )
             executor.shutdown()
 
