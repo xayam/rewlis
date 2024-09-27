@@ -66,7 +66,7 @@ class AudioClass:
         # if os.path.exists(self.MP3):
         #     self.cprint(f"File exists '{self.MP3}'...")
         # else:
-        length = mutagen.mp3.MP3(self.MP3).info.lengt
+        length = mutagen.mp3.MP3(self.MP3).info.length
         chunk_len = length // self.max_workers - 1
         last = length % self.max_workers
         chunk_sizes = [chunk_len] * (self.max_workers - 1) + [last]
