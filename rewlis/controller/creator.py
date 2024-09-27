@@ -149,7 +149,7 @@ class Creator:
             with open(f"{self.data}/{self.book}/{self.config.RUS_ORIG}",
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html)
-        return sync2
+        return {"raise": False, "exception": None, "sync": sync2}
 
     def eng_process(self, eng_txt):
         if not os.path.exists(f"{self.data}/{self.book}/{self.config.ENG_SYNC}"):
@@ -192,21 +192,37 @@ class Creator:
             with open(f"{self.data}/{self.book}/{self.config.ENG_ORIG}",
                       mode="w", encoding="UTF-8") as f:
                 f.write(orig_html2)
-        return sync1
+        return {"raise": False, "exception": None, "sync": sync1}
+
+    def rus_eng_process(self, rus_txt, eng_txt):
+        futures = {}
+        results = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            futures["rus"] = executor.submit(self.rus_process, rus_txt)
+            futures["eng"] = executor.submit(self.eng_process, eng_txt)
+            executor.shutdown()
+            for lang in futures:
+                results.append(futures[lang].result())
+        for result in results:
+            if result["raise"]:
+                raise result["exception"]
+        return results[0]["sync"], results[1]["sync"]
 
     def process(self):
-        folders = [f"{self.data}/book" for book in self.folder_of_books]
+        folders = [f"{self.data}/book"
+                   for book in self.folder_of_books
+                   if book != "Author_Name_-_Book_Template"]
         for book in folders:
             self.controller.current_book = book
             try:
                 if self.init_process():
                     continue
-                print(f"Selected book '{self.book}'")
+                self.cprint(f"Selected book '{self.book}'")
                 rus_txt, eng_txt = self.check_process()
                 self.audio_process()
                 self.recognize_process()
-                sync2 = self.rus_process(rus_txt=rus_txt)
-                sync1 = self.eng_process(eng_txt=eng_txt)
+                sync2, sync1 = self.rus_eng_process(
+                    rus_txt=rus_txt, eng_txt=eng_txt)
                 sync_rus = sync.Sync(
                     cprint=self.cprint,
                     output=f"{self.data}/{self.book}", language="rus")

@@ -44,7 +44,7 @@ class KivyCreator(KivyApp):
                                  size_hint=(1, 1))
         self.layout.add_widget(self.controller.menu)
         self.layout.add_widget(self.controller.panel)
-        self.layout2.add_widget(self.controller.project)
+        # self.layout2.add_widget(self.controller.project)
         self.layout2.add_widget(sys.stdout)
         self.layout.add_widget(self.layout2)
         Window.bind(on_request_close=self.end_func)

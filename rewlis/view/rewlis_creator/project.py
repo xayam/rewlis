@@ -29,8 +29,8 @@ class Project(BoxLayout):
 
 
     def init(self):
-        self.layout = BoxLayout(orientation="vertical",
-                                size_hint=(1, 1))
+        # self.layout = BoxLayout(orientation="vertical",
+        #                         size_hint=(1, 1))
         # for w in self.cbs:
         #     self.layout.add_widget(self.cbs[w])
         # self.add_widget(self.layout)
