@@ -57,12 +57,13 @@ class Sync:
                                  L_start[L + a],
                                  L_end[L + a],
                                  L + a])
-                    self.cprint(L_word[L + a], "|||", R_word[R + b])
+                    # self.cprint(L_word[L + a], "|||", R_word[R + b])
                 if (a == -1) or (b == -1):
                     break
                 L = L + a + 1
                 R = R + b + 1
                 self.cprint(
+                    "|||",
                     f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, " +
                     f"TIME_START={sync[-1][TIME_START]}")
                 self.cprint(maxtime)
@@ -106,14 +107,14 @@ class Sync:
                               R_word[R + b],
                               L + a,
                               R + b])
-                self.cprint(sync1[-1][L_POS], "::", sync1[-1][R_POS])
-                self.cprint(sync1[-1][L_WORDS])
-                self.cprint(sync1[-1][R_WORDS])
+                # self.cprint(sync1[-1][L_POS], sync1[-1][R_POS])
+                # self.cprint(sync1[-1][L_WORDS])
+                # self.cprint(sync1[-1][R_WORDS])
             if (a == -1) or (b == -1):
                 break
             L = L + a + 1
             R = R + b + 1
-            self.cprint(f"L={L}, R={R}")
+            self.cprint("::", f"L={L}, R={R}")
             self.cprint(maxtime)
         if append:
             sync1.append([L_len,
@@ -122,7 +123,7 @@ class Sync:
                           "",
                           L - 1,
                           R - 1])
-            self.cprint(sync1[-1][L_POS], "::", sync1[-1][R_POS])
+            self.cprint("::", sync1[-1][L_POS], sync1[-1][R_POS])
             self.cprint(sync1[-1][L_WORDS])
             self.cprint(sync1[-1][R_WORDS])
         self.cprint(f"len(L_word)={len(L_word)}")

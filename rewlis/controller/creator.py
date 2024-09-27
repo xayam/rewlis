@@ -343,7 +343,7 @@ class Creator:
         with open(f"{self.data}/{self.book}/{self.config.VALID}",
                   mode="w", encoding="UTF-8") as f:
             f.write("True")
-        self.cprint(f"Book '{self.book}' is valid")
+        self.cprint(f"Book '{self.book}' created complete")
 
 
 if __name__ == "__main__":

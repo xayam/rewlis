@@ -44,11 +44,11 @@ class RecognizerClass:
             for i in range(len(self.audio_list)):
                 futures[i] = executor.submit(
                     self.recognize, self.WAV[i], sizes[i])
+                self.cprint(f"Running recognize process {self.language.upper()}{i}...")
             executor.shutdown()
-            self.cprint("'", futures, "'")
             for i in futures:
                 results.append(futures[i].result())
-        self.cprint("'", results, "'")
+                self.cprint(f"Stop recognize process {self.language.upper()}{i}")
         buffer = ""
         for result in results:
             buffer = buffer + ",\n" + ",\n".join(result)
@@ -62,7 +62,7 @@ class RecognizerClass:
 
     def recognize(self, wav, size):
         wf = wave.open(wav, "rb")
-        self.cprint("Loading recognize model...")
+        self.cprint("Running recognize model...")
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
@@ -74,7 +74,7 @@ class RecognizerClass:
             if rec.AcceptWaveform(data):
                 buffer = self.update_buffer(buffer=rec.Result(), size=size)
                 result.append(buffer)
-                self.cprint(buffer)
+                # self.cprint(buffer)
         result.append(
             self.update_buffer(buffer=rec.FinalResult(), size=size)
         )
