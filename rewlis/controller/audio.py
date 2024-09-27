@@ -102,7 +102,7 @@ class AudioClass:
             if os.path.exists(self.WAV[i]):
                 self.cprint(f"File exists '{self.WAV[i]}'...")
                 continue
-            self.cprint(f"Create '{self.WAV[i]}'...")
+            self.cprint(f"Creating '{self.WAV[i]}'...")
             cbn.build(self.CHUNK[i], self.WAV[i])
         return {
             "raise": False,
