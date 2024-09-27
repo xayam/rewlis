@@ -18,8 +18,8 @@ class Terminal(TextInput):
             use_handles=False,
             scroll_from_swipe=False,
             selection_color=(1., 0., 0., 0.3),
-            background_color=(0., 0., 0., 1.),
-            foreground_color=(1., 1., 1., 1.),
+            background_color=(1., 1., 1., 1.),
+            foreground_color=(0., 0., 0., 1.),
             **kwargs
         )
         self.is_focusable = True
