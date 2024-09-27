@@ -65,12 +65,10 @@ class Creator:
                    f"{self.data}/{self.book}/mp3eng/{x}")
                   for x in os.listdir(f"{self.data}/{self.book}/mp3eng")
                   if x[-4:] == ".mp3"]
-        audio_rus = audio.Audio(self.cprint, mp3rus,
-                                os.getcwd() + f"/{self.data}/{self.book}",
-                                "rus")
-        audio_eng = audio.Audio(self.cprint, mp3eng,
-                                os.getcwd() + f"/{self.data}/{self.book}",
-                                "eng")
+        audio_rus = audio.Audio(cprint=self.cprint, audio_list=mp3rus,
+                                output=f"/{self.data}/{self.book}", language="rus")
+        audio_eng = audio.Audio(cprint=self.cprint, audio_list=mp3eng,
+                                output=f"/{self.data}/{self.book}", language="eng")
         futures = {}
         results = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
