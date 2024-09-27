@@ -30,17 +30,6 @@ class Creator:
             os.mkdir(self.data)
         self.folder_of_books = os.listdir(self.data)
 
-    def init_process(self):
-        if self.book is None:
-            message = "End create book"
-            self.cprint(message)
-            raise Exception(message)
-        if not os.path.isdir(f"{self.data}/{self.book}"):
-            message = "End create book"
-            self.cprint(message)
-            raise Exception(message)
-        return self.valid_process(check=True)
-
     def check_process(self):
         if os.path.exists(f"{self.data}/{self.book}/{self.config.VALID}"):
             with open(f"{self.data}/{self.book}/{self.config.VALID}",
@@ -214,7 +203,7 @@ class Creator:
             self.book = book
             self.cprint(f"Selected book '{self.book}'")
             try:
-                if self.init_process():
+                if self.valid_process(check=True):
                     continue
                 rus_txt, eng_txt = self.check_process()
                 self.audio_process()
