@@ -57,6 +57,10 @@ class AudioClass:
             list_input = [f"{i[2]}" for i in self.audio_list]
             self.cprint(f"Create '{self.MP3}'...")
             cbn.build(list_input, self.MP3, 'concatenate')
+            track = EasyID3(self.MP3)
+            for key in track.keys():
+                track[key] = ""
+            track.save()
         return {
             "raise": False,
             "exception": None
@@ -89,10 +93,6 @@ class AudioClass:
             tfm.trim(chunks[i], chunks[i + 1])
             tfm.compand()
             tfm.build_file(self.MP3, self.CHUNK[i])
-            track = EasyID3(self.CHUNK[i])
-            for key in track.keys():
-                track[key] = ""
-            track.save()
         return {
             "raise": False,
             "exception": None
