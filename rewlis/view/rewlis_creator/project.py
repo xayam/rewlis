@@ -50,4 +50,4 @@ class Project(BoxLayout):
                 self.cbs[w].checkbox.active = False
                 self.cbs[w].label.color = 1., 0., 0., 1.
 
-        print(book)
+        print(f"Selected book '{book}'")

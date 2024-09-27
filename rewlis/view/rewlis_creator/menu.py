@@ -52,6 +52,6 @@ class Menu(AnchorLayout):
         )
         t.start()
 
-    def unblock(self):
+    def unblock(self, _):
         self.controller.panel.disabled = False
         self.disabled = False

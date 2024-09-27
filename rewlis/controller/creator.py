@@ -128,7 +128,7 @@ class Creator:
             img.save(f"{self.data}/{self.book}/rus2.sync.png")
             sync2 = two_sync
         else:
-            self.cprint(f"Load file {self.config.RUS_SYNC}")
+            self.cprint(f"Loading file '{self.config.RUS_SYNC}'...")
             with open(f"{self.data}/{self.book}/{self.config.RUS_SYNC}",
                       mode="r") as fsync:
                 sync2 = json.load(fsync)
@@ -171,7 +171,7 @@ class Creator:
             img.save(f"{self.data}/{self.book}/eng2.sync.png")
             sync1 = two_sync
         else:
-            self.cprint(f"Load file {self.config.ENG_SYNC}")
+            self.cprint(f"Loading file '{self.config.ENG_SYNC}'...")
             with open(f"{self.data}/{self.book}/{self.config.ENG_SYNC}",
                       mode="r") as fsync:
                 sync1 = json.load(fsync)
@@ -262,7 +262,7 @@ class Creator:
                       mode="w") as fsync:
                 json.dump(two_sync, fsync)
         else:
-            self.cprint("Find file two.json")
+            self.cprint("Loading file 'two.json'...")
             with open(f"{self.data}/{self.book}/two.json",
                       mode="r") as fsync:
                 two_sync = json.load(fsync)
@@ -313,7 +313,7 @@ class Creator:
                 json.dump(micro, f)
 
         micro2 = []
-        self.cprint("Load file micro.json")
+        self.cprint("Loading file 'micro.json'...")
         with open(f"{self.data}/{self.book}/{self.config.MICRO_JSON}",
                   mode="r") as f:
             m = json.load(f)
@@ -321,21 +321,21 @@ class Creator:
             for j in range(len(m[i])):
                 micro2.append(m[i][j])
         json_string = json.dumps(micro2)
-        self.cprint("Save to micro2.json")
+        self.cprint("Save file 'micro2.json'")
         with open(f"{self.data}/{self.book}/micro2.json", mode="w") as f:
             f.write(json_string)
 
         if not os.path.exists(f"{self.data}/{self.book}/eng2rus.json"):
             eng2rus = eng_to_rus(micro2, R_POS, L_POS, sync1, sync2)
             json_string = json.dumps(eng2rus)
-            self.cprint("Save to eng2rus.json")
+            self.cprint("Save file 'eng2rus.json'")
             with open(f"{self.data}/{self.book}/eng2rus.json", mode="w") as f:
                 f.write(json_string)
 
         if not os.path.exists(f"{self.data}/{self.book}/rus2eng.json"):
             rus2eng = eng_to_rus(micro2, L_POS, R_POS, sync2, sync1)
             json_string = json.dumps(rus2eng)
-            self.cprint("Save to rus2eng.json")
+            self.cprint("Save file 'rus2eng.json'")
             with open(f"{self.data}/{self.book}/rus2eng.json", mode="w") as f:
                 f.write(json_string)
 
