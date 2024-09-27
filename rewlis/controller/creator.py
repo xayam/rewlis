@@ -40,6 +40,7 @@ class Creator:
             message = "End create book"
             self.cprint(message)
             raise Exception(message)
+        return self.valid_process(check=True)
 
     def check_process(self):
         if os.path.exists(f"{self.data}/{self.book}/{self.config.VALID}"):
@@ -50,14 +51,16 @@ class Creator:
                 self.cprint(f"self.book {self.book} is valid")
                 return
         if not os.path.exists(f"{self.data}/{self.book}/{self.config.RUS_TXT}"):
-            message = f"File '{self.data}/{self.book}/{self.config.RUS_TXT}' not exists"
+            message = \
+                f"File '{self.data}/{self.book}/{self.config.RUS_TXT}' not exists"
             self.cprint(message)
             raise Exception(message)
         with open(f"{self.data}/{self.book}/{self.config.RUS_TXT}",
                   mode="r", encoding="UTF-8") as rus:
             rus_txt = rus.read()
         if not os.path.exists(f"{self.data}/{self.book}/{self.config.ENG_TXT}"):
-            message = f"File '{self.data}/{self.book}/{self.config.ENG_TXT}' not exists"
+            message = \
+                f"File '{self.data}/{self.book}/{self.config.ENG_TXT}' not exists"
             self.cprint(message)
             raise Exception(message)
         with open(f"{self.data}/{self.book}/{self.config.ENG_TXT}",
@@ -191,7 +194,8 @@ class Creator:
         return sync1
 
     def process(self):
-        self.init_process()
+        if self.init_process():
+            return
         rus_txt, eng_txt = self.check_process()
         self.audio_process()
         self.recognize_process()
@@ -343,11 +347,23 @@ class Creator:
             with open(f"{self.data}/{self.book}/rus2eng.json", mode="w") as f:
                 f.write(json_string)
 
-    def valid_process(self):
-        with open(f"{self.data}/{self.book}/{self.config.VALID}",
-                  mode="w", encoding="UTF-8") as f:
-            f.write("True")
-        self.cprint(f"Book '{self.book}' created complete")
+    def valid_process(self, check=False):
+        if check:
+            valid = "False"
+            if os.path.exists(f"{self.data}/{self.book}/{self.config.VALID}"):
+                with open(f"{self.data}/{self.book}/{self.config.VALID}",
+                          mode="r", encoding="UTF-8") as f:
+                    valid = f.read()
+            if valid == "True":
+                self.cprint(f"Book '{self.book}' created complete")
+                return True
+            else:
+                return False
+        else:
+            with open(f"{self.data}/{self.book}/{self.config.VALID}",
+                      mode="w", encoding="UTF-8") as f:
+                f.write("True")
+            self.cprint(f"Book '{self.book}' created complete")
 
 
 if __name__ == "__main__":
