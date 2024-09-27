@@ -368,7 +368,7 @@ class Creator:
                           mode="r", encoding="UTF-8") as f:
                     valid = f.read()
             if valid == "True":
-                self.cprint(f"Book '{self.book}' created complete")
+                # self.cprint(f"Book '{self.book}' created complete")
                 return True
             else:
                 return False
