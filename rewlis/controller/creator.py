@@ -74,18 +74,23 @@ class Creator:
                    f"{self.data}/{self.book}/mp3eng/{x}")
                   for x in os.listdir(f"{self.data}/{self.book}/mp3eng")
                   if x[-4:] == ".mp3"]
-        # self.cprint(mp3rus)
-        # self.cprint(mp3eng)
+        audio_rus = audio.AudioClass(self.cprint, mp3rus,
+                                     os.getcwd() + f"/{self.data}/{self.book}",
+                                     "rus")
+        audio_eng = audio.AudioClass(self.cprint, mp3eng,
+                                     os.getcwd() + f"/{self.data}/{self.book}",
+                                     "eng")
+        futures = {}
+        results = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(audio.AudioClass,
-                            self.cprint, mp3rus,
-                            os.getcwd() + f"/{self.data}/{self.book}", "rus"
-                            )
-            executor.submit(audio.AudioClass,
-                            self.cprint, mp3eng,
-                            os.getcwd() + f"/{self.data}/{self.book}", "eng"
-                            )
+            futures["rus"] = executor.submit(audio_rus.process)
+            futures["eng"] = executor.submit(audio_eng.process)
             executor.shutdown()
+            for lang in futures:
+                results.append(futures[lang].result())
+        for result in results:
+            if result["raise"]:
+                raise result["exception"]
         return mp3rus, mp3eng
 
     def recognize_process(self, mp3rus, mp3eng):
