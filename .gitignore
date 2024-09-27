@@ -15,11 +15,11 @@ rewlis/model/__pycache__/
 rewlis/view/__pycache__/
 rewlis/controller/__pycache__/
 rewlis/model/img.py
+sox/
+!sox/__init__.py
 data/
-
 datacreate/*
 !datacreate/Author_Name_-_Book_Template
-
 options.json
 logcat.txt
 latest.txt
