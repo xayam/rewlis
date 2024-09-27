@@ -17,7 +17,8 @@ rewlis/controller/__pycache__/
 rewlis/model/img.py
 sox/*
 !sox/__init__.py
-data/
+data/*
+!data/__init__.py
 datacreate/*
 !datacreate/Author_Name_-_Book_Template
 options.json
