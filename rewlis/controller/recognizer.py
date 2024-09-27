@@ -61,7 +61,7 @@ class RecognizerClass:
 
     def recognize(self, wav, size, i):
         wf = wave.open(wav, "rb")
-        self.cprint(f"Running recognize {self.language.upper()}-model...")
+        self.cprint(f"Running recognize model {self.language.upper()}-{i}...")
         model = Model(self.MODEL_PATH)
         rec = KaldiRecognizer(model, wf.getframerate())
         rec.SetWords(True)
