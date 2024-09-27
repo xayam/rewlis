@@ -100,7 +100,7 @@ class AudioClass:
         cbn.convert(samplerate=16000, n_channels=1)
         self.WAV = [
             f"{self.output}/wav{self.language}" +
-            f"/chunk-{str(i).split('/')[-1].rjust(3, '0')}.wav"
+            f"/{str(i).split('/')[-1][:-4].rjust(3, '0')}.wav"
             for i in self.CHUNK]
         for i in range(len(self.CHUNK)):
             if os.path.exists(self.WAV[i]):
