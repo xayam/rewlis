@@ -45,7 +45,6 @@ class RecognizerClass:
                 futures[i] = executor.submit(
                     self.recognize, self.WAV[i], sizes[i], i
                 )
-
             executor.shutdown()
             for i in futures:
                 results.append(futures[i].result())
