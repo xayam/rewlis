@@ -24,7 +24,8 @@ class Sync:
 
     def create_sync(
             self, synchronize, L_start, L_end, L_word, R_start, R_end, R_word):
-        img = Image.fromarray(np.int8(synchronize), 'L')
+        synchronize = np.int8(synchronize)
+        img = Image.fromarray(synchronize, 'L')
         img.save(f"{self.output}/{self.language}.sync.png")
         sync = []
         L = 0
@@ -83,6 +84,7 @@ class Sync:
 
     def create_sync_v2(self, synchronize, L_word, R_word, L_end, R_end, L_len,
                        R_len, append=True, L_window=50):
+        synchronize = np.int8(synchronize)
         sync1 = []
         L = 0
         R = 0
