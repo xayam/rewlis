@@ -24,7 +24,6 @@ class Recognizer:
                          if i.endswith(".mp3")]
         self.cprint(self.WAV)
         self.MODEL_PATH = model_path
-        self.create_map()
 
     def create_map(self):
         if os.path.exists(self.MAPJSON):
@@ -77,7 +76,7 @@ class Recognizer:
         result.append(
             self.update_buffer(buffer=rec.FinalResult(), size=size)
         )
-        self.cprint(f"End recognize process {self.language.upper()}-{i}")
+        self.cprint(f"Ended recognize process {self.language.upper()}-{i}")
         return result
 
     @staticmethod

@@ -82,15 +82,19 @@ class Creator:
                 raise result["exception"]
 
     def recognize_process(self):
+        rus_recognizer = recognizer.Recognizer(
+            cprint=self.cprint, model_path=f"recognize/rus",
+            output=f"{self.data}/{self.book}",
+            language="rus", config=self.config
+        )
+        eng_recognizer = recognizer.Recognizer(
+            cprint=self.cprint, model_path=f"recognize/eng",
+            output=f"{self.data}/{self.book}",
+            language="eng", config=self.config
+        )
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(recognizer.Recognizer,
-                            self.cprint, f"recognize/rus",
-                            f"{self.data}/{self.book}", "rus", self.config
-                            )
-            executor.submit(recognizer.Recognizer,
-                            self.cprint, f"recognize/eng",
-                            f"{self.data}/{self.book}", "eng", self.config
-                            )
+            executor.submit(rus_recognizer.create_map)
+            executor.submit(eng_recognizer.create_map)
             executor.shutdown()
 
     def rus_process(self, rus_txt):
