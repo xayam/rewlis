@@ -10,13 +10,13 @@ import concurrent.futures
 class Audio:
     def __init__(self, cprint, audio_list, output, language):
         self.CHUNK = None
+        self.WAV = None
         self.cprint = cprint
         self.audio_list = audio_list
         self.output = os.getcwd().replace("\\", "/") + output
         self.language = language
         self.max_workers = psutil.cpu_count(logical=False)
         self.MP3 = f"{self.output}/{self.language}.mp3"
-        self.WAV = None
         self.FLAC = f"{self.output}/{self.language}.flac"
 
     def process(self):
