@@ -24,7 +24,7 @@ class Sync:
 
     def create_sync(
             self, synchronize, L_start, L_end, L_word, R_start, R_end, R_word):
-        img = Image.fromarray(synchronize, 'L')
+        img = Image.fromarray(np.int8(synchronize), 'L')
         img.save(f"{self.output}/{self.language}.sync.png")
         sync = []
         L = 0
