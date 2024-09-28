@@ -24,7 +24,7 @@ class Sync:
 
     def create_sync(
             self, synchronize, L_start, L_end, L_word, R_start, R_end, R_word):
-        img = Image.fromarray(np.uint8(synchronize * 2.55), 'L')
+        img = Image.fromarray(np.uint8(synchronize), 'L')
         img.save(f"{self.output}/{self.language}.sync.png")
         sync = []
         L = 0
@@ -62,11 +62,11 @@ class Sync:
                     break
                 L = L + a + 1
                 R = R + b + 1
-                self.cprint(
-                    "|||",
-                    f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, " +
-                    f"TIME_START={sync[-1][TIME_START]}")
-                self.cprint(maxtime)
+                # self.cprint(
+                #     "|||",
+                #     f"L={L}, R={R}, POS_START={sync[-1][POS_START]}, " +
+                #     f"TIME_START={sync[-1][TIME_START]}")
+                # self.cprint(maxtime)
                 # break
             json_string = json.dumps(sync)
             with open(self.SYNCJSON, mode="w") as fsync:
@@ -114,8 +114,8 @@ class Sync:
                 break
             L = L + a + 1
             R = R + b + 1
-            self.cprint("::", f"L={L}, R={R}")
-            self.cprint(maxtime)
+            # self.cprint("::", f"L={L}, R={R}")
+            # self.cprint(maxtime)
         if append:
             sync1.append([L_len,
                           R_len,
@@ -123,9 +123,9 @@ class Sync:
                           "",
                           L - 1,
                           R - 1])
-            self.cprint("::", sync1[-1][L_POS], sync1[-1][R_POS])
-            self.cprint(sync1[-1][L_WORDS])
-            self.cprint(sync1[-1][R_WORDS])
+            # self.cprint("::", sync1[-1][L_POS], sync1[-1][R_POS])
+            # self.cprint(sync1[-1][L_WORDS])
+            # self.cprint(sync1[-1][R_WORDS])
         self.cprint(f"len(L_word)={len(L_word)}")
         self.cprint(f"len(R_word)={len(R_word)}")
         self.cprint(f"len(sync)={len(sync1)}")

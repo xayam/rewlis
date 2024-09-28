@@ -112,13 +112,13 @@ class Creator:
                                  language="rus")
             two_sync = sync_rus.create_sync(
                 synchronize, L_start, L_end, L_word, R_start, R_end, R_word)
-            for i in range(len(synchronize)):
-                for j in range(len(synchronize[i])):
-                    synchronize[i][j] = 0
-            for i in two_sync:
-                synchronize[i[POS]][i[TIME]] = 255
-            img = Image.fromarray(np.uint8(synchronize), 'L')
-            img.save(f"{self.data}/{self.book}/rus2.sync.png")
+            # for i in range(len(synchronize)):
+            #     for j in range(len(synchronize[i])):
+            #         synchronize[i][j] = 0
+            # for i in two_sync:
+            #     synchronize[i[POS]][i[TIME]] = 255
+            # img = Image.fromarray(np.uint8(synchronize), 'L')
+            # img.save(f"{self.data}/{self.book}/rus2.sync.png")
             sync2 = two_sync
         else:
             self.cprint(f"Loading file '{self.config.RUS_SYNC}'...")
@@ -155,13 +155,13 @@ class Creator:
                                  language="eng")
             two_sync = sync_eng.create_sync(synchronize, L_start, L_end,
                                             L_word, R_start, R_end, R_word)
-            for i in range(len(synchronize)):
-                for j in range(len(synchronize[i])):
-                    synchronize[i][j] = 0
-            for i in two_sync:
-                synchronize[i[POS]][i[TIME]] = 255
-            img = Image.fromarray(np.uint8(synchronize), 'L')
-            img.save(f"{self.data}/{self.book}/eng2.sync.png")
+            # for i in range(len(synchronize)):
+            #     for j in range(len(synchronize[i])):
+            #         synchronize[i][j] = 0
+            # for i in two_sync:
+            #     synchronize[i[POS]][i[TIME]] = 255
+            # img = Image.fromarray(np.uint8(synchronize), 'L')
+            # img.save(f"{self.data}/{self.book}/eng2.sync.png")
             sync1 = two_sync
         else:
             self.cprint(f"Loading file '{self.config.ENG_SYNC}'...")
@@ -297,7 +297,7 @@ class Creator:
             for i in two_sync:
                 phraza_1 = i[2]
                 phraza_2 = i[3]
-                self.cprint(phraza_1, "<||>", phraza_2)
+                # self.cprint(phraza_1, "<||>", phraza_2)
                 if phraza_1.strip() == '' or phraza_2.strip() == '':
                     phraza_1 = 'и '
                     phraza_2 = 'and '
