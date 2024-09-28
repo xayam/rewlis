@@ -40,7 +40,11 @@ class Menu(AnchorLayout):
 
     def run_process(self, _):
         print("Running process of create sync-book...")
+        self.disabled = True
         t = threading.Thread(
             target=self.controller.creator.process,
         )
         t.start()
+
+    def unblock(self, _):
+        self.disabled = False

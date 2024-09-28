@@ -4,6 +4,8 @@ import wave
 import mutagen.mp3
 
 import concurrent.futures
+
+import psutil
 from vosk import Model, KaldiRecognizer
 
 
@@ -12,6 +14,7 @@ class Recognizer:
         self.chunk = None
         self.cprint = cprint
         self.language = language
+        self.max_workers = psutil.cpu_count(logical=False)
         if self.language == "rus":
             self.MAPJSON = f"{output}/{config.RUS_MAP}"
         else:
@@ -39,7 +42,8 @@ class Recognizer:
         for s in sizes1:
             sizes.append(shift)
             shift += s
-        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) \
+                as executor:
             for i in range(len(self.mp3_list)):
                 futures[i] = executor.submit(
                     self.recognize, self.WAV[i], sizes[i], i

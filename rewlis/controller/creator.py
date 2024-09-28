@@ -4,6 +4,7 @@ import os
 import traceback
 
 from PIL import ImageDraw
+from kivy.clock import Clock
 
 from rewlis.controller.eps import *
 import rewlis.controller.audio as audio
@@ -221,7 +222,8 @@ class Creator:
                 self.cprint(
                     type(e).__name__ + ": " +
                     e.__str__() + "\n" + traceback.format_exc())
-                return
+                break
+        Clock.schedule_once(self.controller.menu.unblock, 0)
 
     def two_process(self, sync_rus):
         if not os.path.exists(f"{self.data}/{self.book}/two.json"):
