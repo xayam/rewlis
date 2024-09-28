@@ -28,7 +28,7 @@ def get_sim(html, map_1):
     for i in range(len(labels_1)):
         for j in range(len(labels_2)):
             if labels_1[i].find(labels_2[j]) > -1:
-                sim[i][j] = 100
+                sim[i][j] = 255
     L_start = []
     L_end = []
     length = 0
@@ -62,7 +62,7 @@ def get_sim_v2(book, data):
             if sim[i][j] < 0.63:
                 sim[i][j] = 0
             else:
-                sim[i][j] = 100
+                sim[i][j] = 255
     L_end = []
     length = 0
     for i in labels_1:

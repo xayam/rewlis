@@ -160,7 +160,7 @@ def find_max_path_v2(array):
     buffer = []
     for i in range(len(array)):
         for j in range(len(array[i])):
-            if array[i][j] == 100:
+            if array[i][j] == 255:
                 buffer.append((distance(j, i, -len(array), len(array[i])), j, i))
                 array[i][j] = 0
     buffer.sort()
@@ -171,7 +171,7 @@ def find_max_path_v2(array):
     result = []
     for p in path:
         result.append({"a": p[1], "b": p[0]})
-        array[p[1]][p[0]] = 1
+        array[p[1]][p[0]] = 255
     return array
 
 
