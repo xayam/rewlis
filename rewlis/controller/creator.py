@@ -117,7 +117,7 @@ class Creator:
                     synchronize[i][j] = 0
             for i in two_sync:
                 synchronize[i[POS]][i[TIME]] = 255
-            img = Image.fromarray(np.uint8(synchronize), 'L')
+            img = Image.fromarray(np.int8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/rus2.sync.png")
             sync2 = two_sync
         else:
@@ -160,7 +160,7 @@ class Creator:
                     synchronize[i][j] = 0
             for i in two_sync:
                 synchronize[i[POS]][i[TIME]] = 255
-            img = Image.fromarray(np.uint8(synchronize), 'L')
+            img = Image.fromarray(np.int8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/eng2.sync.png")
             sync1 = two_sync
         else:
@@ -228,13 +228,13 @@ class Creator:
             synchronize, L_word, R_word, L_end, R_end = \
                 cross.get_sim_v2(self.book, self.data)
             synchronize = find_max_path_v2(synchronize)
-            img = Image.fromarray(np.uint8(synchronize * 255), 'L')
+            img = Image.fromarray(np.int8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/two.png")
 
             res_min_max = filtered_main_diag(f"{self.data}/{self.book}/two.png")
-            synchronize = np.asarray(np.uint8(res_min_max * 100))
-            res_min_max = Image.fromarray(np.uint8(res_min_max * 255))
-            res_min_max.save(f"{self.data}/{self.book}/two2.png")
+            synchronize = res_min_max
+            res_min_max_img = Image.fromarray(res_min_max, 'L')
+            res_min_max_img.save(f"{self.data}/{self.book}/two2.png")
             two_sync = sync_rus.create_sync_v2(
                 synchronize, L_word, R_word, L_end, R_end,
                 len(L_word) - 1, len(R_word) - 1, append=False)
@@ -243,7 +243,7 @@ class Creator:
                     synchronize[i][j] = 0
             for i in two_sync:
                 synchronize[i[L_a]][i[L_b]] = 255
-            img = Image.fromarray(np.uint8(synchronize), 'L')
+            img = Image.fromarray(np.int8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/two3.png")
 
             img1 = np.zeros_like(synchronize)
@@ -260,9 +260,9 @@ class Creator:
             img2.save(f"{self.data}/{self.book}/adapter.png")
             for i in range(len(synchronize)):
                 for j in range(len(synchronize[i])):
-                    img1[i][j] = int(img2.getpixel((j, i)) / 2.55)
+                    img1[i][j] = int(img2.getpixel((j, i)))
             synchronize = np.asarray(img1)
-            self.cprint("Recreate two_sync...")
+            self.cprint("Recreating two_sync...")
             two_sync = sync_rus.create_sync_v2(
                 synchronize, L_word, R_word, L_end, R_end,
                 len(L_word) - 1, len(R_word) - 1,
@@ -274,7 +274,7 @@ class Creator:
                     synchronize[i][j] = 0
             for i in two_sync:
                 synchronize[i[L_a]][i[L_b]] = 255
-            img = Image.fromarray(np.uint8(synchronize), 'L')
+            img = Image.fromarray(np.int8(synchronize), 'L')
             img.save(f"{self.data}/{self.book}/adapter2.png")
 
             with open(f"{self.data}/{self.book}/two.json",
@@ -305,12 +305,11 @@ class Creator:
                                     phraza_1)
                 words2 = re.findall(r"[а-я0-9a-z]+[^а-я0-9a-z]+",
                                     phraza_2)
-                synchronize, L_word, R_word, L_end, R_end = \
+                L_word, R_word, L_end, R_end = \
                     cross.get_sim_v21(words1, words2)
                 assert len(L_word) == len(R_word)
                 two = sync_rus.create_sync_v3(
-                    synchronize, L_word, R_word, L_end, R_end,
-                    len(L_word), len(R_word), i)
+                    L_word, R_word, L_end, R_end, len(L_word))
                 micro.append(two)
             index = -1
             micro2 = micro[:]
@@ -366,7 +365,6 @@ class Creator:
                           mode="r", encoding="UTF-8") as f:
                     valid = f.read()
             if valid == "True":
-                # self.cprint(f"Book '{self.book}' created complete")
                 return True
             else:
                 return False
@@ -374,7 +372,7 @@ class Creator:
             with open(f"{self.data}/{self.book}/{self.config.VALID}",
                       mode="w", encoding="UTF-8") as f:
                 f.write("True")
-            self.cprint(f"Book '{self.book}' created complete")
+            self.cprint(f"Book '{self.book}' create complete")
 
 
 if __name__ == "__main__":

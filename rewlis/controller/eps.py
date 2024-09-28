@@ -10,7 +10,7 @@ def count_of_eps(inp, a, b):
     result = 0
     for d in delta:
         try:
-            if inp[d[0]][d[1]] == 255:
+            if inp[d[0]][d[1]] >= 100:
                 result += 1
         except IndexError:
             pass
@@ -23,11 +23,14 @@ def filtered_main_diag(filename):
     res = np.zeros_like(img)
     for i in range(len(img)):
         for j in range(len(img[i])):
-            if img[i, j] == 255:
-                res[i, j] = count_of_eps(img, i, j)
+            # if img[i, j] >= 200:
+            res[i, j] = count_of_eps(img, i, j)
     res_min_max = min_max_scaler.fit_transform(res)
+    # res_min_max = res
     for i in range(len(res_min_max)):
         for j in range(len(res_min_max[i])):
             if res_min_max[i, j] < 0.7:
                 res_min_max[i, j] = 0
+            else:
+                res_min_max[i, j] = 255
     return res_min_max

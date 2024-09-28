@@ -53,7 +53,7 @@ class Audio:
             self.cprint(f"File exists '{self.MP3}'...")
         else:
             list_input = [f"{i[2]}" for i in self.audio_list]
-            self.cprint(f"Create '{self.MP3}'...")
+            self.cprint(f"Creating '{self.MP3}'...")
             if len(list_input) == 1:
                 cbn = sox.Transformer()
                 cbn.convert(samplerate=16000, n_channels=1)
@@ -123,7 +123,7 @@ class Audio:
         if os.path.exists(self.FLAC):
             self.cprint(f"File exists '{self.FLAC}'...")
         else:
-            self.cprint(f"Create '{self.FLAC}'...")
+            self.cprint(f"Creating '{self.FLAC}'...")
             cbn = sox.Transformer()
             cbn.convert(samplerate=16000, n_channels=1)
             cbn.build(self.MP3, self.FLAC)

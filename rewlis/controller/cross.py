@@ -28,7 +28,7 @@ def get_sim(html, map_1):
     for i in range(len(labels_1)):
         for j in range(len(labels_2)):
             if labels_1[i].find(labels_2[j]) > -1:
-                sim[i][j] = 100
+                sim[i][j] = 255
     L_start = []
     L_end = []
     length = 0
@@ -37,7 +37,7 @@ def get_sim(html, map_1):
         length += len(i)
         L_end.append(length)
 
-    # sim = np.asarray(sim, dtype=np.int64)
+    sim = np.int8(sim)
 
     return sim, labels_1, L_start, L_end
 
@@ -62,7 +62,7 @@ def get_sim_v2(book, data):
             if sim[i][j] < 0.63:
                 sim[i][j] = 0
             else:
-                sim[i][j] = 100
+                sim[i][j] = 255
     L_end = []
     length = 0
     for i in labels_1:
@@ -78,17 +78,6 @@ def get_sim_v2(book, data):
 
 
 def get_sim_v21(labels_1, labels_2):
-    embeddings_1 = embed_text(labels_1)
-    embeddings_2 = embed_text(labels_2)
-
-    sim = 1 - np.arccos(
-        pairwise.cosine_similarity(embeddings_1, embeddings_2)) / np.pi
-    for i in range(len(sim)):
-        for j in range(len(sim[i])):
-            if sim[i][j] < 0.63:
-                sim[i][j] = 0
-            else:
-                sim[i][j] = 100
     L_end = []
     length = 0
     for i in labels_1:
@@ -99,8 +88,7 @@ def get_sim_v21(labels_1, labels_2):
     for i in labels_2:
         length += len(i)
         R_end.append(length)
-
-    return sim, labels_1, labels_2, L_end, R_end
+    return labels_1, labels_2, L_end, R_end
 
 
 def find_shortest_paths(graph_1, start_point):
