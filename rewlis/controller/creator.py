@@ -262,7 +262,7 @@ class Creator:
                 for j in range(len(synchronize[i])):
                     img1[i][j] = int(img2.getpixel((j, i)) / 2.55)
             synchronize = np.asarray(img1)
-            self.cprint("Recreate two_sync...")
+            self.cprint("Recreating two_sync...")
             two_sync = sync_rus.create_sync_v2(
                 synchronize, L_word, R_word, L_end, R_end,
                 len(L_word) - 1, len(R_word) - 1,
@@ -366,7 +366,6 @@ class Creator:
                           mode="r", encoding="UTF-8") as f:
                     valid = f.read()
             if valid == "True":
-                # self.cprint(f"Book '{self.book}' created complete")
                 return True
             else:
                 return False
@@ -374,7 +373,7 @@ class Creator:
             with open(f"{self.data}/{self.book}/{self.config.VALID}",
                       mode="w", encoding="UTF-8") as f:
                 f.write("True")
-            self.cprint(f"Book '{self.book}' created complete")
+            self.cprint(f"Book '{self.book}' create complete")
 
 
 if __name__ == "__main__":
