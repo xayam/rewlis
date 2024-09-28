@@ -39,7 +39,10 @@ class Menu(AnchorLayout):
         return self
 
     def run_process(self, _):
-        print("Running process of create sync-book...")
+        print(
+            "Running process of create sync books " +
+            "with two language (Russian and English)..."
+        )
         self.disabled = True
         t = threading.Thread(
             target=self.controller.creator.process,
