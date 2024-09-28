@@ -104,7 +104,7 @@ class Creator:
                 with open(f"{self.data}/{self.book}/rus.html",
                           mode="w", encoding="UTF-8") as f:
                     f.write(rus_html)
-            self.cprint("Get similarity rus book...")
+            self.cprint(f"Getting similarity text and audio book '{self.book}'...")
             synchronize, L_word, L_start, L_end = \
                 cross.get_sim(rus_html, R_word)
             sync_rus = sync.Sync(cprint=self.cprint,
