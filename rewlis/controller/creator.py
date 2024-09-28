@@ -31,13 +31,6 @@ class Creator:
         self.folder_of_books = os.listdir(self.data)
 
     def check_process(self):
-        if os.path.exists(f"{self.data}/{self.book}/{self.config.VALID}"):
-            with open(f"{self.data}/{self.book}/{self.config.VALID}",
-                      mode="r", encoding="UTF-8") as f:
-                valid = f.read()
-            if valid == "True":
-                self.cprint(f"self.book {self.book} is valid")
-                return
         if not os.path.exists(f"{self.data}/{self.book}/{self.config.RUS_TXT}"):
             message = \
                 f"File '{self.data}/{self.book}/{self.config.RUS_TXT}' not exists"
@@ -211,14 +204,18 @@ class Creator:
                 self.audio_process()
                 self.recognize_process()
                 sync2, sync1 = self.rus_eng_process(
-                    rus_txt=rus_txt, eng_txt=eng_txt)
+                    rus_txt=rus_txt, eng_txt=eng_txt
+                )
                 sync_rus = sync.Sync(
                     cprint=self.cprint,
-                    output=f"{self.data}/{self.book}", language="rus")
+                    output=f"{self.data}/{self.book}", language="rus"
+                )
                 two_sync = self.two_process(sync_rus=sync_rus)
-                self.micro_process(sync_rus=sync_rus,
-                                   two_sync=two_sync, sync1=sync1, sync2=sync2,
-                                   rus_txt=rus_txt, eng_txt=eng_txt)
+                self.micro_process(
+                    sync_rus=sync_rus,
+                    two_sync=two_sync, sync1=sync1, sync2=sync2,
+                    rus_txt=rus_txt, eng_txt=eng_txt
+                )
                 self.valid_process()
             except Exception as e:
                 self.cprint(
