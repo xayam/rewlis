@@ -262,7 +262,7 @@ class Creator:
                 for j in range(len(synchronize[i])):
                     img1[i][j] = int(img2.getpixel((j, i)))
             synchronize = np.asarray(img1)
-            self.cprint("Recreating two_sync...")
+            self.cprint("Recreate two_sync...")
             two_sync = sync_rus.create_sync_v2(
                 synchronize, L_word, R_word, L_end, R_end,
                 len(L_word) - 1, len(R_word) - 1,
