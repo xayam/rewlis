@@ -233,7 +233,7 @@ class Creator:
 
             res_min_max = filtered_main_diag(f"{self.data}/{self.book}/two.png")
             synchronize = res_min_max
-            res_min_max_img = Image.fromarray(res_min_max, 'L')
+            res_min_max_img = Image.fromarray(res_min_max)
             res_min_max_img.save(f"{self.data}/{self.book}/two2.png")
             two_sync = sync_rus.create_sync_v2(
                 synchronize, L_word, R_word, L_end, R_end,

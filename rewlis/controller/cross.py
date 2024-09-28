@@ -37,7 +37,7 @@ def get_sim(html, map_1):
         length += len(i)
         L_end.append(length)
 
-    sim = np.int8(sim)
+    # sim = np.asarray(sim, dtype=np.int64)
 
     return sim, labels_1, L_start, L_end
 
