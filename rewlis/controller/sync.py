@@ -132,7 +132,7 @@ class Sync:
         return sync1
 
     @staticmethod
-    def create_sync_v3(L_word, R_word, L_end, R_end, L_len):
+    def create_sync_v3(synchronize, L_word, R_word, L_end, R_end, L_len, R_len, two):
         sync1 = []
         for i in range(L_len):
             sync1.append([L_end[i],

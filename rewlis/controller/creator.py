@@ -305,11 +305,12 @@ class Creator:
                                     phraza_1)
                 words2 = re.findall(r"[а-я0-9a-z]+[^а-я0-9a-z]+",
                                     phraza_2)
-                L_word, R_word, L_end, R_end = \
+                synchronize, L_word, R_word, L_end, R_end = \
                     cross.get_sim_v21(words1, words2)
                 assert len(L_word) == len(R_word)
                 two = sync_rus.create_sync_v3(
-                    L_word, R_word, L_end, R_end, len(L_word))
+                    synchronize, L_word, R_word, L_end, R_end,
+                    len(L_word), len(R_word), i)
                 micro.append(two)
             index = -1
             micro2 = micro[:]
@@ -365,6 +366,7 @@ class Creator:
                           mode="r", encoding="UTF-8") as f:
                     valid = f.read()
             if valid == "True":
+                # self.cprint(f"Book '{self.book}' created complete")
                 return True
             else:
                 return False
@@ -372,7 +374,7 @@ class Creator:
             with open(f"{self.data}/{self.book}/{self.config.VALID}",
                       mode="w", encoding="UTF-8") as f:
                 f.write("True")
-            self.cprint(f"Book '{self.book}' create complete")
+            self.cprint(f"Book '{self.book}' created complete")
 
 
 if __name__ == "__main__":

@@ -78,6 +78,17 @@ def get_sim_v2(book, data):
 
 
 def get_sim_v21(labels_1, labels_2):
+    embeddings_1 = embed_text(labels_1)
+    embeddings_2 = embed_text(labels_2)
+
+    sim = 1 - np.arccos(
+        pairwise.cosine_similarity(embeddings_1, embeddings_2)) / np.pi
+    for i in range(len(sim)):
+        for j in range(len(sim[i])):
+            if sim[i][j] < 0.63:
+                sim[i][j] = 0
+            else:
+                sim[i][j] = 100
     L_end = []
     length = 0
     for i in labels_1:
@@ -88,7 +99,8 @@ def get_sim_v21(labels_1, labels_2):
     for i in labels_2:
         length += len(i)
         R_end.append(length)
-    return labels_1, labels_2, L_end, R_end
+
+    return sim, labels_1, labels_2, L_end, R_end
 
 
 def find_shortest_paths(graph_1, start_point):
