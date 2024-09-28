@@ -78,7 +78,7 @@ class Sync:
         self.cprint(f"len(L_word)={len(L_word)}")
         self.cprint(f"len(R_word)={len(R_word)}")
         self.cprint(f"len(sync)={len(sync)}")
-        return  sync
+        return sync
 
 
     def create_sync_v2(self, synchronize, L_word, R_word, L_end, R_end, L_len,
