@@ -33,7 +33,7 @@ class Sync:
         R_window = int(L_window * (len(R_word) / len(L_word)))
         maxtime = {"max_time": 0, "L": L, "R": R}
         if not os.path.exists(self.SYNCJSON):
-            self.cprint(f"Not find file {self.SYNCJSON}, creating...")
+            self.cprint(f"Not find file '{self.SYNCJSON}', creating...")
             while (L < len(L_word)) and (R < len(R_word)):
                 # scores = process.cdist(L_chunk, R_chunk, scorer=fuzz.ratio,
                 #                        dtype=np.uint8, score_cutoff=100)
