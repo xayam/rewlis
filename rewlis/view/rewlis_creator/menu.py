@@ -33,7 +33,8 @@ class Menu(AnchorLayout):
         btn = Button(text="SHARE",
                      size_hint=(1, None),
                      size=(1, 95),
-                     background_color=(1., 1., 0., 1.))
+                     background_color=(1., 1., 0., 1.),
+                     on_release=self.share_process)
         self.gridlayout.add_widget(btn)
         self.add_widget(self.gridlayout)
         return self
@@ -46,6 +47,14 @@ class Menu(AnchorLayout):
         self.disabled = True
         t = threading.Thread(
             target=self.controller.creator.process,
+        )
+        t.start()
+
+    def share_process(self, _):
+        print("Running share-process...")
+        self.disabled = True
+        t = threading.Thread(
+            target=self.controller.creator.share,
         )
         t.start()
 

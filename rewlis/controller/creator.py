@@ -379,6 +379,10 @@ class Creator:
                 f.write("True")
             self.cprint(f"Book '{self.book}' create complete")
 
+    def share(self):
+        pass
+
+        Clock.schedule_once(self.controller.menu.unblock, 0)
 
 if __name__ == "__main__":
     pass
