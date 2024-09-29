@@ -11,6 +11,7 @@
 
 # Catalog of books:
 
+- Dickens_Charles_-_A_Christmas_Carol
 - Kafka Franz The Metamorphosis
 - Kuttner Henry The Ego Machine
 - Lewis Carroll Alices Adventures in Wonderland
@@ -24,7 +25,7 @@
 # Install and run from sources (on Windows)
 
 - Download sources
-- Install python 3.8 - tested only this version
+- Install python 3.9 - tested only this version
 - Create virtual env, run command "python.exe -m venv venv"
 - Activate venv, run command "venv/Scripts/activate.bat"
 - Upgrade pip, run command "python.exe -m pip install -upgrade pip"
@@ -38,7 +39,7 @@
 - Install depends: https://python-for-android.readthedocs.io/en/latest/quickstart/ for Ubuntu 22
 - Clone git in you project on github
 - Copy git in you project on local machine (on Windows)
-- Install python 3.8 - tested only this version
+- Install python 3.9 - tested only this version
 - Create virtual env, run command "python.exe -m venv venv"
 - Activate venv, run command "venv/Scripts/activate.bat"
 - Upgrade pip, run command "python.exe -m pip install -upgrade pip"
