@@ -24,7 +24,7 @@ class Sync:
 
     def create_sync(
             self, synchronize, L_start, L_end, L_word, R_start, R_end, R_word):
-        img = Image.fromarray(np.uint8(synchronize), 'L')
+        img = Image.fromarray(np.int8(synchronize * 2.55), 'L')
         img.save(f"{self.output}/{self.language}.sync.png")
         sync = []
         L = 0
@@ -72,7 +72,7 @@ class Sync:
             with open(self.SYNCJSON, mode="w") as fsync:
                 fsync.write(json_string)
 
-        self.cprint("Find file self.SYNCJSON")
+        self.cprint(f"Found file {self.SYNCJSON}")
         with open(self.SYNCJSON, mode="r") as fsync:
             sync = json.load(fsync)
         self.cprint(f"len(L_word)={len(L_word)}")

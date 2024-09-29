@@ -30,7 +30,7 @@ class Recognizer:
 
     def create_map(self):
         if os.path.exists(self.MAPJSON):
-            self.cprint(f"Find file '{self.MAPJSON}'")
+            self.cprint(f"Found file '{self.MAPJSON}'")
             return True
         self.cprint(f"Starting recognize {self.language.upper()}...")
         results = []
