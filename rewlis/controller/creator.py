@@ -125,13 +125,13 @@ class Creator:
                 sync2 = json.load(fsync)
 
         if not os.path.exists(f"{self.data}/{self.book}/{self.config.RUS_ORIG}"):
-            orig_html = text2html(
+            orig_html_rus = text2html(
                 text=rus_txt.lower(),
                 pattern=r'(([а-я0-9a-z]+[^а-я0-9a-z]+){4})',
                 replacepattern=r'<p>\1</p>')
             with open(f"{self.data}/{self.book}/{self.config.RUS_ORIG}",
                       mode="w", encoding="UTF-8") as f:
-                f.write(orig_html)
+                f.write(orig_html_rus)
         return {"raise": False, "exception": None, "sync": sync2}
 
     def eng_process(self, eng_txt):
@@ -168,13 +168,13 @@ class Creator:
                 sync1 = json.load(fsync)
 
         if not os.path.exists(f"{self.data}/{self.book}/{self.config.ENG_ORIG}"):
-            orig_html2 = text2html(
+            orig_html_eng = text2html(
                 text=eng_txt.lower(),
                 pattern=r'(([а-я0-9a-z]+[^а-я0-9a-z]+){4})',
                 replacepattern=r'<p>\1</p>')
             with open(f"{self.data}/{self.book}/{self.config.ENG_ORIG}",
                       mode="w", encoding="UTF-8") as f:
-                f.write(orig_html2)
+                f.write(orig_html_eng)
         return {"raise": False, "exception": None, "sync": sync1}
 
     def rus_eng_process(self, rus_txt, eng_txt):
