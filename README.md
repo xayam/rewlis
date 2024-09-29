@@ -3,11 +3,10 @@
 
 # Audio player for
 
-- Realization of concept RWL (read while you listen)
-- Synchrone read book
-- Synchrone listen two books: russian or english 
-- Text book on two language: russian and english
-- Catalog audiobooks are included
+- Implementation of the RWL concept. "Read While You Listen"
+- Synchronous reading of two books: Russian or English
+- Synchronous listening of two books: Russian or English
+- Online catalog of audiobooks included
 
 # Catalog of books:
 
