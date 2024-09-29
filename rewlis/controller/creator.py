@@ -223,6 +223,7 @@ class Creator:
                     type(e).__name__ + ": " +
                     e.__str__() + "\n" + traceback.format_exc())
                 break
+        self.cprint("Process create sync books is complete")
         Clock.schedule_once(self.controller.menu.unblock, 0)
 
     def two_process(self, sync_rus):
