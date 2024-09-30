@@ -24,6 +24,8 @@ datacreate/*
 !datacreate/Author_Name_-_Book_Template
 datarobot/*
 !datarobot/__init__.py
+datarobot/input/*
+datarobot/output/*
 !datarobot/input/__init__.py
 !datarobot/output/__init__.py
 options.json
