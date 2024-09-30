@@ -25,6 +25,7 @@ datacreate/*
 datarobot/*
 !datarobot/__init__.py
 !datarobot/input2robot.py
+!datarobot/robot.json
 !datarobot/input_eng.txt
 !datarobot/input_rus.txt
 options.json
