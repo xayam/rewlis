@@ -12,8 +12,8 @@ def read(filename):
 
 def get_id_name(data):
     buffer = data.strip().split(" ")
-    ids = buffer[0]
-    name = " ".join(buffer[1:])
+    ids = buffer[0].encode().decode()
+    name = " ".join(buffer[1:]).encode().decode()
     return ids, name
 
 
