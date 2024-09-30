@@ -1,5 +1,5 @@
+import json
 import os.path
-from bs4 import BeautifulSoup
 
 input_rus = "input_rus.txt"
 input_eng = "input_eng.txt"
@@ -28,15 +28,13 @@ def main():
             key = f"input/{id_rus}.htm"
             if not os.path.exists(key):
                 continue
-            with open(key, mode="r", encoding="windows-1251") as f:
-                html_text = f.read()
-            soup = BeautifulSoup(html_text, "html.parser")
-            name_rus = soup.select('h1')[0].text.strip()
-            name_rus = name_rus.encode(encoding="windows-1251"). \
-                decode(encoding="utf-8")
             dict_result[key] = {}
             dict_result[key]["rus"] = name_rus
             dict_result[key]["eng"] = name_eng
+
+    with open("robot.json", mode="w", encoding="utf-8") as f:
+        json.dump(dict_result, f)
+
     return dict_result
 
 
