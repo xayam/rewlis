@@ -22,6 +22,8 @@ data/*
 datacreate/*
 !datacreate/__init__.py
 !datacreate/Author_Name_-_Book_Template
+datarobot/*
+!datarobot/__init__.py
 options.json
 logcat.txt
 latest.txt
