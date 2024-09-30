@@ -25,6 +25,8 @@ datacreate/*
 datarobot/*
 !datarobot/__init__.py
 !datarobot/in2out.py
+!datarobot/input_eng.txt
+!datarobot/input_rus.txt
 options.json
 logcat.txt
 latest.txt
