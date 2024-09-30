@@ -11,6 +11,8 @@ pyinstaller-hooks-contrib
 pillow
 regex
 
+beautifulsoup4
+
 # Creator
 
 psutil
