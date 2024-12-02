@@ -1,0 +1,96 @@
+import json
+import os
+import wave
+import mutagen.mp3
+
+import concurrent.futures
+
+import psutil
+from vosk import Model, KaldiRecognizer
+
+from rewlis.entity import *
+
+
+class Recognizer:
+    def __init__(self, cprint, output, language, config):
+        self.chunk = None
+        self.config = config
+        self.cprint = cprint
+        self.language = language
+        self.max_workers = psutil.cpu_count(logical=False)
+        self.MAPJSON = f"{output}/{MAP_JSON}"
+        self.WAV = [f"{output}/wav/{i}"
+                    for i in os.listdir(f"{output}/wav")
+                    if i.endswith(".wav")]
+        self.mp3_list = [f"{output}/chunk/{i}"
+                         for i in os.listdir(f"{output}/chunk")
+                         if i.endswith(".mp3")]
+        self.cprint(self.WAV)
+        self.MODEL_PATH = f"{self.config.FOLDER_CREATE}/recognize/{self.language}"
+
+    def create_map(self):
+        if os.path.exists(self.MAPJSON):
+            self.cprint(f"Found file '{self.MAPJSON}'")
+            return True
+        self.cprint(f"Starting recognize {self.language.upper()}...")
+        results = []
+        futures = {}
+        sizes1 = [mutagen.mp3.MP3(m).info.length
+                  for m in self.mp3_list]
+        shift = 0
+        sizes = []
+        for s in sizes1:
+            sizes.append(shift)
+            shift += s
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) \
+                as executor:
+            for i in range(len(self.mp3_list)):
+                futures[i] = executor.submit(
+                    self.recognize, self.WAV[i], sizes[i], i
+                )
+            executor.shutdown()
+            for i in futures:
+                results.append(futures[i].result())
+        buffer = ""
+        for result in results:
+            buffer = buffer + ",\n" + ",\n".join(result)
+        result = '{\n"fragments": [\n'
+        result += buffer[2:]
+        result += "]}"
+        with open(self.MAPJSON, mode="w", encoding="UTF-8") as ff:
+            ff.write(result)
+        self.cprint(f"Creating file '{self.MAPJSON}'...")
+        return True
+
+    def recognize(self, wav, size, i):
+        wf = wave.open(wav, "rb")
+        self.cprint(f"Running recognize model {self.language.upper()}-{i}...")
+        model = Model(self.MODEL_PATH)
+        rec = KaldiRecognizer(model, wf.getframerate())
+        rec.SetWords(True)
+        result = []
+        self.cprint(f"Running recognize process {self.language.upper()}-{i}...")
+        while True:
+            data = wf.readframes(4000)
+            if len(data) == 0:
+                break
+            if rec.AcceptWaveform(data):
+                buffer = self.update_buffer(buffer=rec.Result(), size=size)
+                result.append(buffer)
+        result.append(
+            self.update_buffer(buffer=rec.FinalResult(), size=size)
+        )
+        self.cprint(f"Ended recognize process {self.language.upper()}-{i}")
+        return result
+
+    @staticmethod
+    def update_buffer(buffer, size):
+        r = json.loads(buffer)
+        try:
+            for i in range(len(r["result"])):
+                r["result"][i]["end"] += size
+                r["result"][i]["start"] += size
+        except KeyError:
+            return buffer
+        buffer = json.dumps(r).encode(errors="ignore").decode('unicode-escape')
+        return buffer

@@ -1,0 +1,63 @@
+import threading
+
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.button import Button
+from kivy.uix.gridlayout import GridLayout
+
+
+class Menu(AnchorLayout):
+
+    def __init__(self, controller, **kwargs):
+        AnchorLayout.__init__(self,
+                              size_hint=(None, 1),
+                              size=(95, 1),
+                              anchor_y="top",
+                              **kwargs)
+        self.idle = None
+        self.gridlayout = None
+        self.scrollview = None
+        self.controller = controller
+        self.model = self.controller.model
+
+    def init(self):
+        self.gridlayout = GridLayout(cols=1,
+                                     size_hint=(1, None),
+                                     padding=[5, 5],
+                                     spacing=[1])
+        btn = Button(text="RUN",
+                     size_hint=(1, None),
+                     size=(1, 95),
+                     background_color=(1., 1., 0., 1.),
+                     on_release=self.run_process)
+        self.gridlayout.add_widget(btn)
+        btn = Button(text="SHARE",
+                     size_hint=(1, None),
+                     size=(1, 95),
+                     background_color=(1., 1., 0., 1.),
+                     on_release=self.share_process)
+        self.gridlayout.add_widget(btn)
+        self.add_widget(self.gridlayout)
+        return self
+
+    def run_process(self, _):
+        print(
+            "Running process of create sync books " +
+            "with two language (Russian and English)..."
+        )
+        self.disabled = True
+        t = threading.Thread(
+            target=self.controller.creator.process,
+        )
+        t.start()
+
+    def share_process(self, _):
+        print("Running share-process...")
+        self.disabled = True
+        t = threading.Thread(
+            target=self.controller.creator.share,
+        )
+        t.start()
+
+    def unblock(self, _):
+        self.controller.panel.check_valid()
+        self.disabled = False
