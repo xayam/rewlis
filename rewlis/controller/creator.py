@@ -137,7 +137,7 @@ class Creator:
             # for i in two_sync:
             #     synchronize[i[POS]][i[TIME]] = 255
             # img = Image.fromarray(np.uint8(synchronize), 'L')
-            # img.save(f"{self.data}/{book}/eng2.sync.png")
+            #  img.save(f"{self.data}/{book}/eng2.sync.png")
             sync1 = two_sync
         else:
             self.cprint(f"Loading file '{SYNC_JSON}'...")
